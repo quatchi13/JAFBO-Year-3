@@ -8,7 +8,7 @@ using TMPro;
 public class MakeArenaArray : MonoBehaviour
 {
     public Space2D arena;
-    public TextMeshProUGUI iAmLessSad;
+    
     public List<GameObject> prefabs = new List<GameObject> { };
     public Transform boardOrigin;
     public bool OhNo = true;
@@ -26,7 +26,7 @@ public class MakeArenaArray : MonoBehaviour
             if (OhNo)
             {
                 ArenaGenFunctions_Prototype.ArenaPrototype(arena);
-               // PrintToTextMesh();
+               
                 DisplaySpace2D();
             }
             else
@@ -35,23 +35,10 @@ public class MakeArenaArray : MonoBehaviour
                 BasicBuilderFunctions.Flood(myEntireAss, new Cell(0), new Cell(1));
                 myEntireAss.worldOrigin = new Coord(1, 1);
                 BasicBuilderFunctions.CopySpaceAToB(myEntireAss, arena, new List<Cell> { });
-             //   PrintToTextMesh();
+             
                 DisplaySpace2D();
             }
             OhNo = !OhNo;
-        }
-    }
-
-    protected void PrintToTextMesh()
-    {
-        iAmLessSad.text = "\n";
-        for(int i = 0; i < arena.height; i++)
-        {
-            for(int j = 0; j < arena.width; j++)
-            {
-                iAmLessSad.text =  iAmLessSad.text + (arena.GetCell(new Coord(j, i))) + " ";
-            }
-            iAmLessSad.text = iAmLessSad.text + "\n";
         }
     }
 
@@ -70,7 +57,6 @@ public class MakeArenaArray : MonoBehaviour
                 //iAmLessSad.text = iAmLessSad.text + (arena.GetCell(new Coord(j, i))) + " ";
 
             }
-            iAmLessSad.text = iAmLessSad.text + "\n";
         }
     }
 
