@@ -22,6 +22,7 @@ public class TileReader : MonoBehaviour
         currentTile = other.gameObject;
         if (other.CompareTag("Ground"))
         {
+            gameObject.GetComponent<PlayerInput>().SetCanMoveState(true);
             Debug.Log("Ground Tile Found");
         }
         else if (other.CompareTag("Rock"))
@@ -35,6 +36,11 @@ public class TileReader : MonoBehaviour
         else if (other.CompareTag("Tree"))
         {
             Debug.Log("Tree Tile Found");
+        }
+        else if (other.CompareTag("Boundary"))
+        {
+            Debug.Log("Boundary Tile Found");
+            gameObject.GetComponent<PlayerInput>().SetCanMoveState(false);
         }
 
     }
