@@ -7,8 +7,9 @@ public class TileReader : MonoBehaviour
 
     private GameObject currentTile;
 
-    void Start()
+    void Awake()
     {
+        transform.parent.gameObject.GetComponent<PlayerInput>().AddScanner(gameObject);
         //create tile detection box
         gameObject.AddComponent<BoxCollider>();
         gameObject.GetComponent<BoxCollider>().size = new Vector3(0.5f, 0.5f, 0.5f);
@@ -22,7 +23,8 @@ public class TileReader : MonoBehaviour
         currentTile = other.gameObject;
         if (other.CompareTag("Ground"))
         {
-            gameObject.GetComponent<PlayerInput>().SetCanMoveState(true);
+            
+            transform.parent.gameObject.GetComponent<PlayerInput>().SetCanMoveState(true);
             Debug.Log("Ground Tile Found");
         }
         else if (other.CompareTag("Rock"))

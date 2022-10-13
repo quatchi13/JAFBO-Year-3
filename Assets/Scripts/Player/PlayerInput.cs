@@ -7,6 +7,21 @@ public class PlayerInput : MonoBehaviour
 
     private int lookDir=0;
     private bool canMove = false;
+    private bool canAttack = false;
+
+    private int currentState = 0;
+    private int changedState = 0;
+
+    private Transform[] playerChildren;
+
+    List<GameObject> scanners = new List<GameObject>();
+
+    void Start() 
+    {
+        playerChildren = GetComponentsInChildren<Transform>();
+       
+        
+    }
 
     // Update is called once per frame
     void Update()
@@ -60,6 +75,60 @@ public class PlayerInput : MonoBehaviour
                 }
                 canMove = false;
             }
+
+
+        if(currentState != changedState)
+        {
+            currentState = changedState;
+            switch(currentState)
+            {
+                case 1:
+                    if(scanners.Count > 0)
+                    {
+                        for(int i = 0;  i < scanners.Count; i++)
+                            {
+                                if(scanners[i].GetComponent<TileReader>() != null || scanners[i].GetComponent<BaddieReader>() != null)
+                                {
+                                    scanners[i].SetActive(false);
+                                }
+
+                            }
+                    }
+                    transform.Find("MoveScanner").gameObject.SetActive(true);  
+                break;
+                case 2:
+                    if(scanners.Count > 0)
+                    {
+                        for(int i = 0;  i < scanners.Count; i++)
+                            {
+                                if(scanners[i].GetComponent<TileReader>() != null || scanners[i].GetComponent<BaddieReader>() != null)
+                                {
+                                    scanners[i].SetActive(false);
+                                }
+
+                            }
+                    }
+                    transform.Find("AttackScanner").gameObject.SetActive(true);  
+                break;
+                default:
+                break;
+                    
+            }
+        }
+
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                changedState = 1;
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                changedState = 2;
+            }
+    }
+
+    public void AddScanner(GameObject child)
+    {
+        scanners.Add(child);
     }
 
     public void SetCanMoveState(bool state)
@@ -70,5 +139,15 @@ public class PlayerInput : MonoBehaviour
     public bool GetCanMoveState(bool state)
     {
         return canMove;
+    }
+
+    public void SetCanAttackState(bool state)
+    {
+        canAttack = state;
+    }
+
+    public bool GetCanAttackState()
+    {
+        return canAttack;
     }
 }
