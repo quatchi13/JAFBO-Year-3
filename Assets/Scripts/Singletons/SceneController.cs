@@ -11,7 +11,7 @@ public class SceneController : MonoBehaviour
     // Update is called once per frame
     void Awake()
     {
-        if (instance = null)
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(instance);
