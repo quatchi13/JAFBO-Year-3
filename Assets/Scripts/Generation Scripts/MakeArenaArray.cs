@@ -7,11 +7,13 @@ using TMPro;
 
 public class MakeArenaArray : MonoBehaviour
 {
+    [SerializeField]
+    private FactoryChild factory;
+
     public Space2D arena;
-    
-    public List<GameObject> prefabs = new List<GameObject> { };
     public Transform boardOrigin;
     public bool OhNo = true;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -51,11 +53,37 @@ public class MakeArenaArray : MonoBehaviour
         {
             for (int j = 0; j < arena.width; j++)
             {
-
-                GameObject currentTile = Instantiate(prefabs[arena.GetCell(new Coord(j,i))], new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                currentTile.transform.SetParent(boardOrigin);
+                GameObject currentTile;
+               // GameObject currentTile = Instantiate(prefabs[arena.GetCell(new Coord(j,i))], new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
+               // currentTile.transform.SetParent(boardOrigin);
                 //iAmLessSad.text = iAmLessSad.text + (arena.GetCell(new Coord(j, i))) + " ";
 
+                
+                switch(arena.GetCell(new Coord(j, i)))
+                {
+                    case 0:
+                        currentTile = factory.GetTile("boundaries").Create(factory.boundaries, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
+                        currentTile.transform.SetParent(boardOrigin);
+                        break;
+                    case 1:
+                        currentTile = factory.GetTile("ground").Create(factory.ground, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
+                        currentTile.transform.SetParent(boardOrigin);
+                        break;
+                    case 2:
+                        currentTile = factory.GetTile("water").Create(factory.water, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
+                        currentTile.transform.SetParent(boardOrigin);
+                        break;
+                    case 3:
+                        currentTile = factory.GetTile("rock").Create(factory.rock, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
+                        currentTile.transform.SetParent(boardOrigin);
+                        break;
+                    case 4:
+                        currentTile = factory.GetTile("tree").Create(factory.tree, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
+                        currentTile.transform.SetParent(boardOrigin);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
