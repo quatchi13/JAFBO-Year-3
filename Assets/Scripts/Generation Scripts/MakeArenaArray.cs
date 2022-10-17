@@ -26,23 +26,27 @@ public class MakeArenaArray : MonoBehaviour
             if (OhNo)
             {
                 ArenaGenFunctions_Prototype.ArenaPrototype(arena);
-               
                 DisplaySpace2D();
             }
             else
             {
-                Space2D myEntireAss = new Space2D(28, 28);
-                BasicBuilderFunctions.Flood(myEntireAss, new Cell(0), new Cell(1));
-                myEntireAss.worldOrigin = new Coord(1, 1);
-                BasicBuilderFunctions.CopySpaceAToB(myEntireAss, arena, new List<Cell> { });
-             
-                DisplaySpace2D();
+                ResetSpace2D();
             }
             OhNo = !OhNo;
         }
     }
 
-    protected void DisplaySpace2D()
+    public void ResetSpace2D()
+    {
+        Space2D myEntireAss = new Space2D(28, 28);
+        BasicBuilderFunctions.Flood(myEntireAss, new Cell(0), new Cell(1));
+        myEntireAss.worldOrigin = new Coord(1, 1);
+        BasicBuilderFunctions.CopySpaceAToB(myEntireAss, arena, new List<Cell> { });
+             
+        DisplaySpace2D();
+    }
+
+    public void DisplaySpace2D()
     {
 
         Infanticide(boardOrigin.transform);
