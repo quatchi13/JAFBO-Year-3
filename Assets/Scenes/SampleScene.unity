@@ -726,6 +726,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arenaRef: {fileID: 2083311534}
+  saveFile: Example
+  loadFile: Example
 --- !u!1001 &4936677940753362196
 PrefabInstance:
   m_ObjectHideFlags: 0

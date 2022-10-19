@@ -11,6 +11,10 @@ public class SaveLoadTerrain : MonoBehaviour
 
     public MakeArenaArray arenaRef;
 
+    public string saveFile;
+
+    public string loadFile;
+
     [DllImport("MapSaver")] public static extern void OpenFile(string address, bool isNewFile);
     [DllImport("MapSaver")] public static extern void WriteLine(string line);
     [DllImport("MapSaver")] public static extern void WriteInt(int line);
@@ -31,12 +35,12 @@ public class SaveLoadTerrain : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.PageDown))
         {
-            SaveCurrentMap(arenaRef.arena, "Example");
+            SaveCurrentMap(arenaRef.arena, saveFile);
         }
 
         if (Input.GetKeyDown(KeyCode.PageUp))
         { 
-            LoadMap(GenerateNewFilePath("Example"));
+            LoadMap(GenerateNewFilePath(loadFile));
         }
     }
 
@@ -93,6 +97,16 @@ public class SaveLoadTerrain : MonoBehaviour
             arenaRef.OhNo = false;
 
         }
+    }
+
+    public void EditorLoadMap()
+    {
+        LoadMap(GenerateNewFilePath(loadFile));
+    }
+
+    public void EditorSaveMap()
+    {
+        SaveCurrentMap(arenaRef.arena, saveFile);
     }
 
 
