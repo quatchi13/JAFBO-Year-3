@@ -14,6 +14,8 @@ public class PlayerInput : MonoBehaviour
 
     private Transform[] playerChildren;
 
+    public GameObject enemyPrefab;
+
     List<GameObject> scanners = new List<GameObject>();
 
     void Start() 
@@ -76,8 +78,28 @@ public class PlayerInput : MonoBehaviour
                 canMove = false;
             }
 
+            if (Input.GetKeyDown(KeyCode.H)){
 
-        if(currentState != changedState)
+                switch (lookDir)
+                {
+                     case 0:
+                         Instantiate(enemyPrefab, transform.position + new Vector3(1, 0, 0), transform.rotation);
+                         break;
+                     case 1:
+                         Instantiate(enemyPrefab, transform.position + new Vector3(0, 0, -1), transform.rotation);
+                         break;
+                     case 2:
+                         Instantiate(enemyPrefab, transform.position + new Vector3(-1, 0, 0), transform.rotation);
+                         break;
+                     case 3:
+                         Instantiate(enemyPrefab, transform.position + new Vector3(0, 0, 1), transform.rotation);
+                         break;
+                }
+
+            }
+
+
+            if (currentState != changedState)
         {
             currentState = changedState;
             switch(currentState)

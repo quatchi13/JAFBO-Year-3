@@ -24,17 +24,25 @@ public class EnemyManager : MonoBehaviour
 
     public void RemoveEnemy(GameObject removeEnemy)
     {
-        if (enemies.Contains(removeEnemy))
+        if (enemies.Count > 0)
         {
-            enemies.Remove(removeEnemy);
-            Debug.Log("EnemyDied:(");
+            if (enemies.Contains(removeEnemy))
+            {
+                enemies.Remove(removeEnemy);
+                Debug.Log("EnemyDied:(");
+            }
+
+            gameObject.GetComponent<EnemySubject>().Notify();
         }
     }
 
-    public int NumberOfEnemies()
+        public int NumberOfEnemies()
+        {
+            return enemies.Count;
+        }
+    public void Notify()
     {
-        return enemies.Count;
+        
     }
-
-
+   
 }

@@ -6,7 +6,7 @@ using System.Reflection;
 using System;
 using TMPro;
 
-public class FactoryChild : MonoBehaviour
+public class FactoryChild : FactoryParent
 {
     public GameObject boundaries;
     public GameObject ground;
@@ -16,6 +16,13 @@ public class FactoryChild : MonoBehaviour
 
     List<FactoryParent> tiles;
 
+    public override string Name { get { return "FactoryChild"; } }
+
+    public override GameObject Create(GameObject prefab, Vector3 position, Quaternion rotation)
+    {
+        GameObject tile = Instantiate(prefab, position, rotation);
+        return tile;
+    }
 
     // Start is called before the first frame update
     void Start()
