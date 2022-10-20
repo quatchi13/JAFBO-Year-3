@@ -42,7 +42,7 @@ public class TileReader : MonoBehaviour
         else if (other.CompareTag("Boundary"))
         {
             Debug.Log("Boundary Tile Found");
-            gameObject.GetComponent<PlayerInput>().SetCanMoveState(false);
+            transform.parent.gameObject.GetComponent<PlayerInput>().SetCanMoveState(false);
         }
 
     }
