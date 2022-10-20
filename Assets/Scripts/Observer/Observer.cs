@@ -15,5 +15,7 @@ public abstract class Subject : MonoBehaviour
 
 
     public abstract void AddObserver(Observer observer);
+
+    public abstract void RemoveObserver(Observer observer);
    
 }

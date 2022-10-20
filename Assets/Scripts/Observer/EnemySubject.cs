@@ -17,4 +17,11 @@ public class EnemySubject : Subject
     {
         observers.Add(observer);
     }
+
+    public override void RemoveObserver(Observer observerToRemove)
+    {
+        observers.Remove(observerToRemove);
+    }
+
+    
 }
