@@ -16,29 +16,40 @@ public class StatAssignment : MonoBehaviour
         HEALTH
     }
 
+    [SerializeField]
+    private int attackStat =0;
+    [SerializeField]
+    private int ultAttackStat=0;
+    [SerializeField]
+    private int magicStat=0;
+
+    [SerializeField]
+    private int ultMagicStat=0;
+
+    [SerializeField]
+    private int DefenseStat=0;
+
+    [SerializeField]
+    private int magicDefenseStat=0;
+
+    [SerializeField]
+    private int speedStat=0;
+
+    [SerializeField]
+    private int healthStat=0;
+
     
     [DllImport("FlorenceStatBlock")] public static extern int GetFlorenceStat(Stat s);
-    
-    void Start()
-    {
-        Example();
-    }
 
-    
-    void Update()
+    public void LoadStats()
     {
-        
-    }
-
-    void Example()
-    {
-        print(GetFlorenceStat(Stat.ATTACK));
-        print(GetFlorenceStat(Stat.ULT_ATTACK));
-        print(GetFlorenceStat(Stat.MAGIC));
-        print(GetFlorenceStat(Stat.ULT_MAGIC));
-        print(GetFlorenceStat(Stat.DEFENSE_ATTACK));
-        print(GetFlorenceStat(Stat.DEFENSE_MAGIC));
-        print(GetFlorenceStat(Stat.SPEED));
-        print(GetFlorenceStat(Stat.HEALTH));
+        attackStat = GetFlorenceStat(Stat.ATTACK);
+        ultAttackStat = GetFlorenceStat(Stat.ULT_ATTACK);
+        magicStat = GetFlorenceStat(Stat.MAGIC);
+        ultMagicStat = GetFlorenceStat(Stat.ULT_MAGIC);
+        DefenseStat = GetFlorenceStat(Stat.DEFENSE_ATTACK);
+        magicDefenseStat = GetFlorenceStat(Stat.DEFENSE_MAGIC);
+        speedStat = GetFlorenceStat(Stat.SPEED);
+        healthStat = GetFlorenceStat(Stat.HEALTH);
     }
 }
