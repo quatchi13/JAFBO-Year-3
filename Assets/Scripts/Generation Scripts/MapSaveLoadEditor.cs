@@ -4,14 +4,15 @@ using UnityEngine;
 using UnityEditor;
 
 
-[CustomEditor(typeof(SaveLoadTerrain))]
+
+[CustomEditor(typeof(MakeArenaArray))]
 public class MapSaveLoadEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        SaveLoadTerrain script = (SaveLoadTerrain)target;
+        MakeArenaArray script = (MakeArenaArray)target;
         if(GUILayout.Button("Save Map"))
         {
             script.EditorSaveMap();

@@ -4,20 +4,30 @@ using UnityEngine;
 using Assets.Scripts.Generation_Tools;
 using UnityEngine.UI;
 using TMPro;
+using MapSaving;
+using CommandPattern;
+
+
+
+
+
 
 public class MakeArenaArray : MonoBehaviour
 {
     [SerializeField]
     private FactoryChild factory;
+    private Invoker invoker;
 
-    public Space2D arena;
+    public ArenaData arena;
     public Transform boardOrigin;
-    public bool OhNo = true;
-    
+    public string saveFile;
+    public string loadFile;
+
     // Start is called before the first frame update
     void Start()
     {
-        arena = new Space2D(30, 30);
+        invoker = new Invoker();
+        arena = new ArenaData();
     }
 
     // Update is called once per frame
@@ -25,45 +35,74 @@ public class MakeArenaArray : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            if (OhNo)
-            {
-                ArenaGenFunctions_Prototype.ArenaPrototype(arena);
-                DisplaySpace2D();
-            }
-            else
-            {
-                ResetSpace2D();
-            }
-            OhNo = !OhNo;
+            GenerateNewTerrain();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            invoker.Undo();
+            DisplaySpace2D();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            invoker.Redo();
+            DisplaySpace2D();
+        }
+
+        if (Input.GetKeyDown(KeyCode.PageDown))
+        {
+            SaveToFile(saveFile);
+        }
+
+        if (Input.GetKeyDown(KeyCode.PageUp))
+        {
+            LoadFromFile(loadFile);
         }
     }
 
-    public void ResetSpace2D()
+    public void GenerateNewTerrain()
     {
-        Space2D myEntireAss = new Space2D(28, 28);
-        BasicBuilderFunctions.Flood(myEntireAss, new Cell(0), new Cell(1));
-        myEntireAss.worldOrigin = new Coord(1, 1);
-        BasicBuilderFunctions.CopySpaceAToB(myEntireAss, arena, new List<Cell> { });
-             
+        Space2D source = new Space2D(30, 30);
+        ArenaGenFunctions_Prototype.ArenaPrototype(source);
+
+        ICommand command = new GenerationCommand(source, arena);
+        invoker.Execute(command);
+
         DisplaySpace2D();
     }
+
+    public void LoadFromFile(string filePath)
+    {
+        Space2D source = SaveLoadTerrain.LoadMap(SaveLoadTerrain.GenerateNewFilePath(filePath));
+
+        ICommand command = new GenerationCommand(source, arena);
+        invoker.Execute(command);
+
+        DisplaySpace2D();
+    }
+
+    public void SaveToFile(string fileName)
+    {
+        print(arena.terrainValues.GetCell(new Coord(15, 10)));
+        SaveLoadTerrain.SaveCurrentMap(arena.terrainValues, fileName);
+    }
+
+    
 
     public void DisplaySpace2D()
     {
 
         Infanticide(boardOrigin.transform);
         
-        for (int i = 0; i < arena.height; i++)
+        for (int i = 0; i < arena.terrainValues.height; i++)
         {
-            for (int j = 0; j < arena.width; j++)
+            for (int j = 0; j < arena.terrainValues.width; j++)
             {
                 GameObject currentTile;
-               // GameObject currentTile = Instantiate(prefabs[arena.GetCell(new Coord(j,i))], new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-               // currentTile.transform.SetParent(boardOrigin);
-                //iAmLessSad.text = iAmLessSad.text + (arena.GetCell(new Coord(j, i))) + " ";
 
                 
-                switch(arena.GetCell(new Coord(j, i)))
+                switch(arena.terrainValues.GetCell(new Coord(j, i)))
                 {
                     case 0:
                         currentTile = factory.GetTile("boundaries").Create(factory.boundaries, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
@@ -99,4 +138,17 @@ public class MakeArenaArray : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
     }
+
+
+
+    public void EditorLoadMap()
+    {
+        LoadFromFile(loadFile);
+    }
+
+    public void EditorSaveMap()
+    {
+        SaveToFile(saveFile);
+    }
+
 }

@@ -62,6 +62,8 @@ namespace Assets.Scripts.Generation_Tools
 
                 grid.Add(newRow);
             }
+
+            worldOrigin = new Coord(0, 0);
         }
 
         public int area()
