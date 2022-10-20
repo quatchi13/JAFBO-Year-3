@@ -40,9 +40,5 @@ public class EnemyManager : MonoBehaviour
         {
             return enemies.Count;
         }
-    public void Notify()
-    {
-        
-    }
    
 }
