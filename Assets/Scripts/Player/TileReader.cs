@@ -23,20 +23,23 @@ public class TileReader : MonoBehaviour
         currentTile = other.gameObject;
         if (other.CompareTag("Ground"))
         {
-            
+            ActiveSelections.instance.AddSelectable(currentTile);
             transform.parent.gameObject.GetComponent<PlayerInput>().SetCanMoveState(true);
             Debug.Log("Ground Tile Found");
         }
         else if (other.CompareTag("Rock"))
         {
+            gameObject.GetComponent<PlayerInput>().SetCanMoveState(false);
             Debug.Log("Rock Tile Found");
         }
         else if (other.CompareTag("Water"))
         {
+            gameObject.GetComponent<PlayerInput>().SetCanMoveState(false);
             Debug.Log("Water Tile Found");
         }
         else if (other.CompareTag("Tree"))
         {
+            gameObject.GetComponent<PlayerInput>().SetCanMoveState(false);
             Debug.Log("Tree Tile Found");
         }
         else if (other.CompareTag("Boundary"))
