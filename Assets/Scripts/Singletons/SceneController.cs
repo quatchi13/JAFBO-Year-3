@@ -16,6 +16,7 @@ public class SceneController : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(instance);
         }
+        Debug.Log(Application.persistentDataPath);
     }
 
     public void NextScene()

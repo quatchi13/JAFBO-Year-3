@@ -603,6 +603,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2080772713109823425, guid: 57c79e1a229b2aa44afd0ff0c20d28c9, type: 3}
+  scanners:
+  - {fileID: 367745402}
+  - {fileID: 415191345}
 --- !u!1 &1449164417
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,8 +729,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   factory: {fileID: 2083311536}
   boardOrigin: {fileID: 2083311535}
-  saveFile: 
-  loadFile: 
+  saveFile: Example
+  loadFile: Example
 --- !u!4 &2083311535
 Transform:
   m_ObjectHideFlags: 0

@@ -9,7 +9,6 @@ public class TileReader : MonoBehaviour
 
     void Awake()
     {
-        transform.parent.gameObject.GetComponent<PlayerInput>().AddScanner(gameObject);
         //create tile detection box
         gameObject.AddComponent<BoxCollider>();
         gameObject.GetComponent<BoxCollider>().size = new Vector3(0.5f, 0.5f, 0.5f);
@@ -19,6 +18,7 @@ public class TileReader : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("yay");
         //turn into a switch statement please
         currentTile = other.gameObject;
         if (other.CompareTag("Ground"))

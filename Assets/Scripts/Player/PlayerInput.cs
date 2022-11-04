@@ -7,21 +7,16 @@ public class PlayerInput : MonoBehaviour
 
     private int lookDir=0;
     private bool canMove = false;
-    private bool canAttack = false;
-
-    private int currentState = 0;
-    private int changedState = 0;
-
-    private Transform[] playerChildren;
-
     public GameObject enemyPrefab;
-
-    List<GameObject> scanners = new List<GameObject>();
+    [SerializeField]
+    private List<GameObject> scanners = new List<GameObject>();
 
     void Start() 
     {
-        playerChildren = GetComponentsInChildren<Transform>();
-       
+        for(int i = 0; i < scanners.Count; i++)
+        {
+            scanners[i].SetActive(false);
+        }
         
     }
 
@@ -98,59 +93,25 @@ public class PlayerInput : MonoBehaviour
 
             }
 
-
-            if (currentState != changedState)
-        {
-            currentState = changedState;
-            switch(currentState)
-            {
-                case 1:
-                    if(scanners.Count > 0)
-                    {
-                        for(int i = 0;  i < scanners.Count; i++)
-                            {
-                                if(scanners[i].GetComponent<TileReader>() != null || scanners[i].GetComponent<BaddieReader>() != null)
-                                {
-                                    scanners[i].SetActive(false);
-                                }
-
-                            }
-                    }
-                    transform.Find("MoveScanner").gameObject.SetActive(true);  
-                break;
-                case 2:
-                    if(scanners.Count > 0)
-                    {
-                        for(int i = 0;  i < scanners.Count; i++)
-                            {
-                                if(scanners[i].GetComponent<TileReader>() != null || scanners[i].GetComponent<BaddieReader>() != null)
-                                {
-                                    scanners[i].SetActive(false);
-                                }
-
-                            }
-                    }
-                    transform.Find("AttackScanner").gameObject.SetActive(true);  
-                break;
-                default:
-                break;
-                    
-            }
-        }
-
             if(Input.GetKeyDown(KeyCode.Alpha1))
             {
-                changedState = 1;
+                for(int i = 0; i < scanners.Count; i++)
+                {
+                    scanners[i].SetActive(false);
+                }
+
+                scanners[0].SetActive(true);
+
             }
             else if(Input.GetKeyDown(KeyCode.Alpha2))
             {
-                changedState = 2;
-            }
-    }
+                for(int i = 0; i < scanners.Count; i++)
+                {
+                    scanners[i].SetActive(false);
+                }
 
-    public void AddScanner(GameObject child)
-    {
-        scanners.Add(child);
+                scanners[1].SetActive(true);
+            }
     }
 
     public void SetCanMoveState(bool state)
@@ -163,13 +124,4 @@ public class PlayerInput : MonoBehaviour
         return canMove;
     }
 
-    public void SetCanAttackState(bool state)
-    {
-        canAttack = state;
-    }
-
-    public bool GetCanAttackState()
-    {
-        return canAttack;
-    }
 }
