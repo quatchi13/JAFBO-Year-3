@@ -31,6 +31,7 @@ public class BaddieReader : MonoBehaviour
         {
             
               Debug.Log("Enemy Spotted");
+              ActiveSelections.instance.AddSelectable(other.gameObject);
         }
         
 

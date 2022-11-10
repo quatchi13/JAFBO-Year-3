@@ -89,6 +89,7 @@ public class PlayerInput : MonoBehaviour
 
     public void ActivateMoveMode()
     {
+        ActiveSelections.instance.ClearSelection();
                 for(int i = 0; i < scanners.Count; i++)
                 {
                     scanners[i].SetActive(false);
@@ -99,6 +100,7 @@ public class PlayerInput : MonoBehaviour
 
     public void ActivateAttackMode()
     {
+        ActiveSelections.instance.ClearSelection();
         
                 for(int i = 0; i < scanners.Count; i++)
                 {
@@ -106,7 +108,7 @@ public class PlayerInput : MonoBehaviour
                 }
 
                 scanners[1].SetActive(true);
-            
+            canMove = false;
     }
 
     public void PerformAction()
@@ -131,6 +133,13 @@ public class PlayerInput : MonoBehaviour
                 }
                 canMove = false;
             }
+        else
+        {
+            for(int i = 0; i < ActiveSelections.instance.GetSelection().Count; i++)
+            {
+                Destroy(ActiveSelections.instance.GetSelection()[i]);
+            }
+        }
         
         ActiveSelections.instance.ClearSelection();
     }

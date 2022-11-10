@@ -64,4 +64,9 @@ public class ActiveSelections : MonoBehaviour
             
         }
     }
+
+    public List<GameObject> GetSelection()
+    {
+        return selection;
+    }
 }
