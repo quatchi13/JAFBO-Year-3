@@ -9,8 +9,7 @@ public class BaddieReader : MonoBehaviour
 
     void Awake()
     {
-        transform.parent.gameObject.GetComponent<PlayerInput>().AddScanner(gameObject);
-
+       
         //create tile detection box
         currentCollider = gameObject.AddComponent<BoxCollider>();
         currentCollider.size = new Vector3(0.5f, 0.5f, 0.5f);
@@ -31,8 +30,8 @@ public class BaddieReader : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             
-            transform.parent.gameObject.GetComponent<PlayerInput>().SetCanAttackState(true);
-            Debug.Log("Enemy Spotted");
+              Debug.Log("Enemy Spotted");
+              ActiveSelections.instance.AddSelectable(other.gameObject);
         }
         
 
