@@ -28,6 +28,13 @@ public class ActiveSelections : MonoBehaviour
 
     public void AddSelectable(GameObject selectable) 
     {
+        for(int i = 0; i < selection.Count; i++)
+        {
+            if(selection[i] == selectable)
+            {
+                return;
+            }
+        }
         selection.Add(selectable);
     }
 

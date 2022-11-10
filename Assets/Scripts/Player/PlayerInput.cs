@@ -52,26 +52,7 @@ public class PlayerInput : MonoBehaviour
                 lookDir = 3;
                 //change look dir
             }
-            //confirm action
-            if (Input.GetKeyDown(KeyCode.Space) && canMove)
-            {
-                switch (lookDir)
-                {
-                    case 0:
-                        transform.position = transform.position + new Vector3(1, 0, 0);
-                        break;
-                    case 1:
-                        transform.position = transform.position + new Vector3(0, 0, -1);
-                        break;
-                    case 2:
-                        transform.position = transform.position + new Vector3(-1, 0, 0);
-                        break;
-                    case 3:
-                        transform.position = transform.position + new Vector3(0, 0, 1);
-                        break;
-                }
-                canMove = false;
-            }
+            
 
             if (Input.GetKeyDown(KeyCode.H)){
 
@@ -93,25 +74,7 @@ public class PlayerInput : MonoBehaviour
 
             }
 
-            if(Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                for(int i = 0; i < scanners.Count; i++)
-                {
-                    scanners[i].SetActive(false);
-                }
-
-                scanners[0].SetActive(true);
-
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                for(int i = 0; i < scanners.Count; i++)
-                {
-                    scanners[i].SetActive(false);
-                }
-
-                scanners[1].SetActive(true);
-            }
+            
     }
 
     public void SetCanMoveState(bool state)
@@ -122,6 +85,54 @@ public class PlayerInput : MonoBehaviour
     public bool GetCanMoveState(bool state)
     {
         return canMove;
+    }
+
+    public void ActivateMoveMode()
+    {
+                for(int i = 0; i < scanners.Count; i++)
+                {
+                    scanners[i].SetActive(false);
+                }
+
+                scanners[0].SetActive(true);
+    }
+
+    public void ActivateAttackMode()
+    {
+        
+                for(int i = 0; i < scanners.Count; i++)
+                {
+                    scanners[i].SetActive(false);
+                }
+
+                scanners[1].SetActive(true);
+            
+    }
+
+    public void PerformAction()
+    {
+        
+        if (canMove)
+            {
+                switch (lookDir)
+                {
+                    case 0:
+                        transform.position = transform.position + new Vector3(1, 0, 0);
+                        break;
+                    case 1:
+                        transform.position = transform.position + new Vector3(0, 0, -1);
+                        break;
+                    case 2:
+                        transform.position = transform.position + new Vector3(-1, 0, 0);
+                        break;
+                    case 3:
+                        transform.position = transform.position + new Vector3(0, 0, 1);
+                        break;
+                }
+                canMove = false;
+            }
+        
+        ActiveSelections.instance.ClearSelection();
     }
 
 }
