@@ -69,4 +69,13 @@ public class ActiveSelections : MonoBehaviour
     {
         return selection;
     }
+
+
+    public void DestroySelections()
+    {
+        for (int i = 0; i < selection.Count; i++)
+        {
+            Destroy(selection[i]);
+        }
+    }
 }

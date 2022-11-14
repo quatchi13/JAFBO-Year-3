@@ -1076,9 +1076,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442130559}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
-        m_MethodName: ActivateAttackMode
+      - m_Target: {fileID: 1449164424}
+        m_TargetAssemblyTypeName: TurnActionManager, Assembly-CSharp
+        m_MethodName: SetToAttackState
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1210,9 +1210,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442130559}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
-        m_MethodName: PerformAction
+      - m_Target: {fileID: 1449164424}
+        m_TargetAssemblyTypeName: TurnActionManager, Assembly-CSharp
+        m_MethodName: PerformTurnAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1379,6 +1379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e451f42bc37fb24c9ff37ccea99e648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookDir: 0
   enemyPrefab: {fileID: 2080772713109823425, guid: 57c79e1a229b2aa44afd0ff0c20d28c9, type: 3}
   scanners:
   - {fileID: 367745402}
@@ -1396,6 +1397,8 @@ GameObject:
   - component: {fileID: 1449164421}
   - component: {fileID: 1449164422}
   - component: {fileID: 1449164423}
+  - component: {fileID: 1449164425}
+  - component: {fileID: 1449164424}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1470,6 +1473,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selection: []
+--- !u!114 &1449164424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449164417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a099fd8a5d8db6478f0dc0f4827bd55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1442130559}
+--- !u!114 &1449164425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449164417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a0c89e156a3bf46b954d853db73568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1442130552}
 --- !u!1 &1657210481
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,9 +1682,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442130559}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
-        m_MethodName: ActivateMoveMode
+      - m_Target: {fileID: 1449164424}
+        m_TargetAssemblyTypeName: TurnActionManager, Assembly-CSharp
+        m_MethodName: SetToMoveState
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
