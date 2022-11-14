@@ -24,8 +24,7 @@ public class FactoryChild : FactoryParent
         return tile;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         var tileTypes = Assembly.GetAssembly(typeof(FactoryParent)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(FactoryParent)));
 
@@ -36,6 +35,12 @@ public class FactoryChild : FactoryParent
             var tempType = Activator.CreateInstance(type) as FactoryParent;
             tiles.Add(tempType);
         }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
 

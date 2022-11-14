@@ -26,8 +26,12 @@ public class MakeArenaArray : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //initializing command invoker
         invoker = new Invoker();
+        //initializing arena
         arena = new ArenaData();
+        //generate an arena
+        GenerateNewTerrain();
     }
 
     // Update is called once per frame
