@@ -9,8 +9,7 @@ public class ObjectReferencer : MonoBehaviour
     [SerializeField]
     GameObject player;
 
-<<<<<<< HEAD
-=======
+
     private void Start()
     {
         if(instance == null)
@@ -19,7 +18,7 @@ public class ObjectReferencer : MonoBehaviour
         }
     }
 
->>>>>>> StateFarm
+
     public GameObject GetPlayer()
     {
         return player;
