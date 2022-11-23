@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
 
-    private int lookDir=0;
+    public int lookDir=0;
     private bool canMove = false;
     public GameObject enemyPrefab;
     [SerializeField]
