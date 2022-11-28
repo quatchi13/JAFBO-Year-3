@@ -10,12 +10,17 @@ namespace ArenaGenerators {
     
         public static void MakeWesternArena(Space2D arena)
         {
+            //fill with dirt/sand/whatever idk 
             BasicBuilderFunctions.Flood(arena, new Cell(0), new Cell(1), 1, 1, arena.width - 1, arena.height - 1);
-            UnityEngine.Debug.Log("flooded");
+            //self-explanatory
             MakeCliff(arena);
+            //adds rails and possibly gold mines
             MakeRails(arena);
+            //old trees
             Arena_Basic.MakeSpacedOut(arena, new Cell(1), new Cell(9), 1, 8);
+            //cacti
             Arena_Basic.MakeSpacedOut(arena, new Cell(1), new Cell(10), 3, 10);
+            //:stare:
             MakeBarrelClusters(arena, new Cell(1), new Cell(11));
         }
 

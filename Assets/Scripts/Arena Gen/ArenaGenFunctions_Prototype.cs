@@ -12,7 +12,7 @@ namespace JAFprocedural
             BasicBuilderFunctions.Flood(arena, new Cell(0), new Cell(1), 1, 1, 29, 29);
 			MakeRiver(arena);
 			MakeClusters(arena);
-			MakeSpacedOut(arena, new Cell(1), new Cell(3), 3, 5);
+			MakeSpacedOut(arena, new Cell(1), new Cell(4), 3, 5);
         }
 
         public static void MakeRiver(Space2D arena)
