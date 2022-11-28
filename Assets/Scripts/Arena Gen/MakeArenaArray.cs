@@ -7,6 +7,7 @@ using TMPro;
 using MapSaving;
 using CommandPattern;
 using ArenaGenerators;
+using StatePattern;
 
 
 
@@ -17,17 +18,22 @@ public class MakeArenaArray : MonoBehaviour
     [SerializeField]
     private FactoryChild factory;
     private Invoker invoker;
+    private ArenaGenerator arenaStateContext;
 
     public ArenaData arena;
     public Transform boardOrigin;
     public string saveFile;
     public string loadFile;
 
+    public bool isWestern = false;
+    private bool prev = false;
+
     // Start is called before the first frame update
     void Start()
     {
         invoker = new Invoker();
         arena = new ArenaData();
+        arenaStateContext = new ArenaGenerator();
     }
 
     // Update is called once per frame
@@ -59,12 +65,20 @@ public class MakeArenaArray : MonoBehaviour
         {
             LoadFromFile(loadFile);
         }
+
+        if (prev != isWestern)
+        {
+            if (isWestern) SetToWestern();
+            else SetToDefault();
+
+            prev = isWestern;
+        }
     }
 
     public void GenerateNewTerrain()
     {
         Space2D source = new Space2D(30, 30);
-        ArenaGenerators.Arena_Western.MakeWesternArena(source);
+        arenaStateContext.Generate(source);
 
         ICommand command = new GenerationCommand(source, arena);
         invoker.Execute(command);
@@ -94,87 +108,8 @@ public class MakeArenaArray : MonoBehaviour
     {
 
         Infanticide(boardOrigin.transform);
+        arenaStateContext.Display(arena, factory, boardOrigin);
         
-        for (int i = 0; i < arena.terrainValues.height; i++)
-        {
-            for (int j = 0; j < arena.terrainValues.width; j++)
-            {
-                GameObject currentTile;
-
-
-                //switch (arena.terrainValues.GetCell(new Coord(j, i)))
-                //{
-                //    case 0:
-                //        currentTile = factory.GetTile("boundaries").Create(factory.boundaries, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                //        currentTile.transform.SetParent(boardOrigin);
-                //        break;
-                //    case 1:
-                //        currentTile = factory.GetTile("ground").Create(factory.ground, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                //        currentTile.transform.SetParent(boardOrigin);
-                //        break;
-                //    case 2:
-                //        currentTile = factory.GetTile("water").Create(factory.water, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                //        currentTile.transform.SetParent(boardOrigin);
-                //        break;
-                //    case 3:
-                //        currentTile = factory.GetTile("rock").Create(factory.rock, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                //        currentTile.transform.SetParent(boardOrigin);
-                //        break;
-                //    case 4:
-                //        currentTile = factory.GetTile("tree").Create(factory.tree, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                //        currentTile.transform.SetParent(boardOrigin);
-                //        break;
-                //    default:
-                //        currentTile = factory.GetTile("rock").Create(factory.rock, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                //        currentTile.transform.SetParent(boardOrigin);
-                //        break;
-                //}
-
-                switch (arena.terrainValues.GetCell(new Coord(j, i)))
-                {
-                    case 0:
-                        currentTile = factory.GetTile("boundaries").Create(factory.boundaries, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                        currentTile.transform.SetParent(boardOrigin);
-                        break;
-                    case 1:
-                        currentTile = factory.GetTile("ground").Create(factory.ground, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                        currentTile.transform.SetParent(boardOrigin);
-                        break;
-                    case (< 8):
-                        currentTile = factory.GetTile("water").Create(factory.water, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                        currentTile.transform.SetParent(boardOrigin);
-                        break;
-                    case (8):
-                        currentTile = factory.GetTile("rock").Create(factory.rock, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                        currentTile.transform.SetParent(boardOrigin);
-                        break;
-                    case (< 11):
-                        currentTile = factory.GetTile("tree").Create(factory.tree, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                        currentTile.transform.SetParent(boardOrigin);
-                        break;
-                    case (11):
-                        currentTile = factory.GetTile("rock").Create(factory.rock, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                        currentTile.transform.SetParent(boardOrigin);
-                        break;
-                    case (58):
-                        //you will need to repeat this for every individual tile on the cliff, may you rip in peace
-                        currentTile = factory.GetTile("rock").Create(factory.rock, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                        currentTile.transform.SetParent(boardOrigin);
-                        break;
-                    case (< 63):
-                        currentTile = factory.GetTile("rock").Create(factory.rock, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                        currentTile.transform.SetParent(boardOrigin);
-                        break;
-                    case (63):
-                        currentTile = factory.GetTile("rock").Create(factory.rock, new Vector3(boardOrigin.position.x + j, 0, boardOrigin.position.z - i), Quaternion.identity);
-                        currentTile.transform.SetParent(boardOrigin);
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-        }
     }
 
     protected void Infanticide(Transform parent)
@@ -197,4 +132,21 @@ public class MakeArenaArray : MonoBehaviour
         SaveToFile(saveFile);
     }
 
+
+
+    protected void SetToWestern()
+    {
+        if (arenaStateContext.agState is not WesternState)
+        {
+            arenaStateContext.agState = new WesternState();
+        }
+    }
+
+    protected void SetToDefault()
+    {
+        if (arenaStateContext.agState is not DefaultState)
+        {
+            arenaStateContext.agState = new DefaultState();
+        }
+    }
 }
