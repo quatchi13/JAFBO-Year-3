@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: 65559f38b4f7e1448bb4182efd72242a
+=======
 guid: 38a0c89e156a3bf46b954d853db73568
+>>>>>>> StateFarm
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

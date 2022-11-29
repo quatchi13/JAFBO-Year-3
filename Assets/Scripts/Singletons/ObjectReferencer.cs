@@ -9,6 +9,7 @@ public class ObjectReferencer : MonoBehaviour
     [SerializeField]
     GameObject player;
 
+
     private void Start()
     {
         if(instance == null)
@@ -16,6 +17,7 @@ public class ObjectReferencer : MonoBehaviour
             instance = this;
         }
     }
+
 
     public GameObject GetPlayer()
     {
