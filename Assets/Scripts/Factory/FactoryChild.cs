@@ -8,12 +8,29 @@ using TMPro;
 
 public class FactoryChild : FactoryParent
 {
-    public GameObject boundaries;
-    public GameObject ground;
-    public GameObject water;
+    public GameObject boundaries; //0
+    public GameObject ground;     //1
+    public GameObject hRail;      //2
+    public GameObject vRail;      //3
+    public GameObject swRail;     //4
+    public GameObject neRail;     //5
+    public GameObject nwRail;     //6
+    public GameObject seRail;     //7
+    public GameObject goldmine;   //8
+    public GameObject tree;       //9
+    public GameObject cactus;     //10
+    public GameObject barrel;     //11
+    public GameObject b1Cliff;    //58
+    public GameObject b2Cliff;    //59-62
+    public GameObject b6Cliff;    //63
+    public GameObject f1Cliff;    //64
+    public GameObject f2Cliff;    //65
+    public GameObject f3Cliff;    //66
+    public GameObject f4Cliff;    //67
+    public GameObject f5Cliff;    //68
+    public GameObject f6Cliff;    //69
     public GameObject rock;
-    public GameObject tree;
-
+    public GameObject water;
     List<FactoryParent> tiles;
 
     public override string Name { get { return "FactoryChild"; } }
