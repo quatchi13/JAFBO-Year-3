@@ -1554,7 +1554,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a0c89e156a3bf46b954d853db73568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1442130552}
 --- !u!1 &1657210481
 GameObject:
   m_ObjectHideFlags: 0
@@ -1893,6 +1892,7 @@ MonoBehaviour:
   boardOrigin: {fileID: 2083311535}
   saveFile: Example
   loadFile: Example
+  isWestern: 1
 --- !u!4 &2083311535
 Transform:
   m_ObjectHideFlags: 0
@@ -1922,9 +1922,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boundaries: {fileID: 8104359481736120900, guid: a066a35844e2f0c4b9400ee92eac86f3, type: 3}
   ground: {fileID: 6026942590343895303, guid: 1fe2a2809c64ae14081f7470387d2daf, type: 3}
-  water: {fileID: 1696834414136368513, guid: 7fec2896ef0c5a3429b422bcdc5d2abe, type: 3}
+  hRail: {fileID: 2456821407224419646, guid: 98cb50b7372e0a346b6664e9d8cdf8df, type: 3}
+  vRail: {fileID: 2246386533661239331, guid: 9cef4d985a12360458913ac99ba0cac5, type: 3}
+  swRail: {fileID: 2214928051444543100, guid: 96dd0b041eea15c44afbe65820b53245, type: 3}
+  neRail: {fileID: 5294443990937023125, guid: c935632af7e7a4b4fbccb98a74798d4c, type: 3}
+  nwRail: {fileID: 1592982144668829131, guid: daac780aaf209d04cb80d550eccd6020, type: 3}
+  seRail: {fileID: 4017300155068722605, guid: f27f1160c0b3b4247bbd43e00ed6d37f, type: 3}
+  goldmine: {fileID: 7003522110219966481, guid: 63397354d95cd0a4b9d6b9c5d84bf17f, type: 3}
+  tree: {fileID: 2030943642065498863, guid: 64203772090ffaa42b332e651f6faf94, type: 3}
+  cactus: {fileID: 328202241409378754, guid: d48cb750f0e60e0439a03cd0dc578d65, type: 3}
+  barrel: {fileID: 328202241409378754, guid: d48cb750f0e60e0439a03cd0dc578d65, type: 3}
+  b1Cliff: {fileID: 416512093485776032, guid: b25f000512e780d48b8a3b624cd0699b, type: 3}
+  b2Cliff: {fileID: 145211619387814035, guid: 81f65cc92fe78e843abd3b2eda041e3c, type: 3}
+  b6Cliff: {fileID: 1852632387081719149, guid: ed6ce311f23fea9429a45973e1789a11, type: 3}
+  f1Cliff: {fileID: 7695424326706581957, guid: 0dd82cf39291c5840bb0634740a3fb9e, type: 3}
+  f2Cliff: {fileID: 5733133146504105385, guid: b03cd86652369a042874140671810395, type: 3}
+  f3Cliff: {fileID: 7385825519294573486, guid: ba0694b165d082d4c926be845c2b10cc, type: 3}
+  f4Cliff: {fileID: 8035374729832154207, guid: 0f1e513902a0fcd4ebe71982a818fadb, type: 3}
+  f5Cliff: {fileID: 1355722859884044664, guid: bbcdc03bd7d1c35498a71fbd4c034167, type: 3}
+  f6Cliff: {fileID: 5781697531791869599, guid: 3df111ba6f4af6240b55037831ee627e, type: 3}
   rock: {fileID: 7098888989621589372, guid: 9ebe3a1841932d04e87ef0cdfc8d8aed, type: 3}
-  tree: {fileID: 7355869705170268282, guid: 60eb152a690377840894cb5d881ab909, type: 3}
+  water: {fileID: 1696834414136368513, guid: 7fec2896ef0c5a3429b422bcdc5d2abe, type: 3}
 --- !u!114 &2083311537
 MonoBehaviour:
   m_ObjectHideFlags: 0
