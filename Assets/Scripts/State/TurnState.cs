@@ -16,7 +16,7 @@ namespace StatePattern
 
         public GameAction()
         {
-            tState = null;
+            tState = new MoveState();
         }
 
         public void OnTileClick()

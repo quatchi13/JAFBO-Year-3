@@ -152,8 +152,9 @@ namespace ArenaGenerators {
                                 {
                                     if(vert.Count > 0)
                                     {
-                                        lDown.Add(vert.Last());
-                                        vert.RemoveAt(vert.Count - 1);
+                                    //lDown.Add(vert.Last());
+                                    //vert.RemoveAt(vert.Count - 1);
+                                    vert.Add(new Coord(i - 1, y + offset));
                                     }
                                 }
 
@@ -209,7 +210,7 @@ namespace ArenaGenerators {
                                             }
                                             else
                                             {
-                                                vert.Add(new Coord(i, y));
+                                                vert.Add(new Coord(i, y + j));
                                             }
 
                                             arena.SetCell(new Coord(i, y + j), new Cell(2));
