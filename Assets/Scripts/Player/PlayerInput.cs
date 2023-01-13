@@ -4,78 +4,66 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-
-    private int lookDir=0;
-    private bool canMove = false;
+    private bool canMove = true;
     public GameObject enemyPrefab;
-    [SerializeField]
-    private List<GameObject> scanners = new List<GameObject>();
+
+    private bool moveUp, moveDown,moveLeft, moveRight, canInteract = false;
 
     void Start() 
     {
-        for(int i = 0; i < scanners.Count; i++)
-        {
-            scanners[i].SetActive(false);
-        }
+        
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        //controls are subject to change/expand
-        //Look inputs 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+
+        if(canMove)
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow) && moveRight)
             {
+                ResetValidMoves();
                 transform.eulerAngles = new Vector3(0,0,0);
-                lookDir = 0;
-                //change look dir
+                transform.position = transform.position + new Vector3(1, 0, 0);
+                
             }
 
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKeyDown(KeyCode.DownArrow) && moveDown)
             {
+                ResetValidMoves();
                 transform.eulerAngles = new Vector3(0, 90, 0);
-                lookDir = 1;
-                //change look dir
+                transform.position = transform.position + new Vector3(0, 0, -1);
+                
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && moveLeft)
             {
+                ResetValidMoves();
                 transform.eulerAngles = new Vector3(0, 180, 0);
-                lookDir = 2;
-                //change look dir
+                transform.position = transform.position + new Vector3(-1, 0, 0);
+                
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow) && moveUp)
             {
+                ResetValidMoves();
                 transform.eulerAngles = new Vector3(0, 270, 0);
-                lookDir = 3;
-                //change look dir
+                transform.position = transform.position + new Vector3(0, 0, 1);
+                
             }
-            
 
-            if (Input.GetKeyDown(KeyCode.H)){
-
-                switch (lookDir)
-                {
-                     case 0:
-                         Instantiate(enemyPrefab, transform.position + new Vector3(1, 0, 0), transform.rotation);
-                         break;
-                     case 1:
-                         Instantiate(enemyPrefab, transform.position + new Vector3(0, 0, -1), transform.rotation);
-                         break;
-                     case 2:
-                         Instantiate(enemyPrefab, transform.position + new Vector3(-1, 0, 0), transform.rotation);
-                         break;
-                     case 3:
-                         Instantiate(enemyPrefab, transform.position + new Vector3(0, 0, 1), transform.rotation);
-                         break;
-                }
-
+            if (Input.GetKeyDown(KeyCode.Space) && canInteract)
+            {
+                Debug.Log ("Interaction");
             }
+        }
+        
 
             
     }
+
+    
 
     public void SetCanMoveState(bool state)
     {
@@ -87,61 +75,44 @@ public class PlayerInput : MonoBehaviour
         return canMove;
     }
 
-    public void ActivateMoveMode()
+    public void SetCanMoveInDir(int direction) 
     {
-        ActiveSelections.instance.ClearSelection();
-                for(int i = 0; i < scanners.Count; i++)
-                {
-                    scanners[i].SetActive(false);
-                }
-
-                scanners[0].SetActive(true);
-    }
-
-    public void ActivateAttackMode()
-    {
-        ActiveSelections.instance.ClearSelection();
-        
-                for(int i = 0; i < scanners.Count; i++)
-                {
-                    scanners[i].SetActive(false);
-                }
-
-                scanners[1].SetActive(true);
-            canMove = false;
-    }
-
-    public void PerformAction()
-    {
-        
-        if (canMove)
-            {
-                switch (lookDir)
-                {
-                    case 0:
-                        transform.position = transform.position + new Vector3(1, 0, 0);
-                        break;
-                    case 1:
-                        transform.position = transform.position + new Vector3(0, 0, -1);
-                        break;
-                    case 2:
-                        transform.position = transform.position + new Vector3(-1, 0, 0);
-                        break;
-                    case 3:
-                        transform.position = transform.position + new Vector3(0, 0, 1);
-                        break;
-                }
-                canMove = false;
-            }
-        else
+        switch (direction)
         {
-            for(int i = 0; i < ActiveSelections.instance.GetSelection().Count; i++)
-            {
-                Destroy(ActiveSelections.instance.GetSelection()[i]);
-            }
+            case 0:
+                moveUp = true;
+                break;
+
+            case 1:
+                moveDown = true;
+                break;
+
+            case 2:
+                moveLeft = true;
+                break;
+
+            case 3:
+                moveRight = true;
+                break;
+
         }
-        
-        ActiveSelections.instance.ClearSelection();
     }
+
+    public void ResetValidMoves()
+    {
+        moveDown = false;
+        moveLeft = false;
+        moveRight = false;
+        moveUp = false;
+    }
+
+    public void SetInteractState(bool state)
+    {
+        canInteract = true;
+    }
+
+   
+        
+        
 
 }
