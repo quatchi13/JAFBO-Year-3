@@ -775,7 +775,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e451f42bc37fb24c9ff37ccea99e648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookDir: 0
   enemyPrefab: {fileID: 2080772713109823425, guid: 57c79e1a229b2aa44afd0ff0c20d28c9, type: 3}
 --- !u!1 &1449164417
 GameObject:
@@ -790,8 +789,6 @@ GameObject:
   - component: {fileID: 1449164421}
   - component: {fileID: 1449164422}
   - component: {fileID: 1449164423}
-  - component: {fileID: 1449164425}
-  - component: {fileID: 1449164424}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
