@@ -1,19 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TileReader : MonoBehaviour
 {
+    public UnityEvent onScanEvent;
 
-    private GameObject currentTile;
+    [SerializeField]
+    private string scanTarget;
+
+    [SerializeField]
+    private string scanMode;
 
     void OnTriggerEnter(Collider other)
     {
-        currentTile = other.gameObject;
-        if (other.CompareTag("Ground"))
+        if(scanMode == "Single")
         {
-            ActiveSelections.instance.AddSelectable(currentTile);
-            transform.parent.gameObject.GetComponent<PlayerInput>().SetCanMoveState(true);
+            if (other.CompareTag(scanTarget))
+            {
+               onScanEvent.Invoke();
+            }
         }
+        else if(scanMode == "Inverse")
+        {
+            if (!other.CompareTag(scanTarget))
+            {
+               onScanEvent.Invoke();
+            }
+        }
+        
     }
 }
