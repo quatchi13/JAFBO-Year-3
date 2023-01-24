@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    private bool canMove = true;
+    [SerializeField]
+    private bool canMove;
+    [SerializeField]
+    private bool myTurn;
     public GameObject enemyPrefab;
 
     private bool moveUp, moveDown,moveLeft, moveRight, canInteract = false;
@@ -19,6 +22,10 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
 
+        if(myTurn)
+        {
+
+        
         if(canMove)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow) && moveRight)
@@ -57,6 +64,8 @@ public class PlayerInput : MonoBehaviour
             {
                 Debug.Log ("Interaction");
             }
+        }
+
         }
         
 
@@ -111,8 +120,11 @@ public class PlayerInput : MonoBehaviour
         canInteract = true;
     }
 
-   
-        
+    public void ChangeTurn()
+    {
+        myTurn = !myTurn;
+    }
+    
         
 
 }
