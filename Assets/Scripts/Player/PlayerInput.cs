@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField]
     private bool canMove;
     [SerializeField]
     private bool myTurn;
-    public GameObject enemyPrefab;
 
     private bool moveUp, moveDown,moveLeft, moveRight, canInteract = false;
 
+    private GameObject currentTarget;
     void Start() 
     {
         
@@ -66,10 +67,17 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
+        if(canInteract)
+        {
+            if(Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                Attack();
+            }
         }
         
 
             
+        }
     }
 
     
@@ -118,11 +126,22 @@ public class PlayerInput : MonoBehaviour
     public void SetInteractState(bool state)
     {
         canInteract = true;
+        
+    }
+
+    public void UpdateTarget(GameObject target)
+    {
+        currentTarget = target;
     }
 
     public void ChangeTurn()
     {
         myTurn = !myTurn;
+    }
+
+    public void Attack()
+    {
+        Destroy(currentTarget);
     }
     
         
