@@ -186,10 +186,6 @@ MonoBehaviour:
         m_CallState: 2
   scanTarget: Ground
   scanMode: Single
-  onExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  exitMode: 
 --- !u!65 &28455289
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -279,22 +275,6 @@ MonoBehaviour:
         m_CallState: 2
   scanTarget: Ground
   scanMode: Inverse
-  onExitEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1442130559}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
-        m_MethodName: SetInteractState
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  exitMode: 
 --- !u!1 &510819789
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,10 +448,6 @@ MonoBehaviour:
         m_CallState: 2
   scanTarget: Ground
   scanMode: Single
-  onExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  exitMode: 
 --- !u!1 &567392553
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,10 +524,6 @@ MonoBehaviour:
         m_CallState: 2
   scanTarget: Ground
   scanMode: Single
-  onExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  exitMode: 
 --- !u!1 &632358439
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,10 +587,6 @@ MonoBehaviour:
         m_CallState: 2
   scanTarget: Ground
   scanMode: Single
-  onExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  exitMode: 
 --- !u!65 &632358442
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -789,10 +757,6 @@ MonoBehaviour:
         m_CallState: 2
   scanTarget: Ground
   scanMode: Single
-  onExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  exitMode: 
 --- !u!65 &739429682
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1264,7 +1228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09424d6b74f78bf469f07e83e2ab1105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1011100097}
   onScanEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1282,10 +1246,6 @@ MonoBehaviour:
         m_CallState: 2
   scanTarget: Ground
   scanMode: Inverse
-  onExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  exitMode: 
 --- !u!1 &1329377974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1407,6 +1367,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMove: 1
   myTurn: 1
+--- !u!114 &1442130564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442130552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78de96bed9374446963de0647fe3fbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characters:
+  - {fileID: 1442130552}
+  - {fileID: 1011100096}
+  specialAttacking: 0
 --- !u!1 &1449164417
 GameObject:
   m_ObjectHideFlags: 0
@@ -1611,10 +1587,6 @@ MonoBehaviour:
         m_CallState: 2
   scanTarget: Ground
   scanMode: Single
-  onExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  exitMode: 
 --- !u!65 &1566136236
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1736,10 +1708,6 @@ MonoBehaviour:
         m_CallState: 2
   scanTarget: Ground
   scanMode: Single
-  onExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  exitMode: 
 --- !u!1 &1806252797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1952,10 +1920,6 @@ MonoBehaviour:
         m_CallState: 2
   scanTarget: Ground
   scanMode: Single
-  onExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  exitMode: 
 --- !u!65 &2115625482
 BoxCollider:
   m_ObjectHideFlags: 0
