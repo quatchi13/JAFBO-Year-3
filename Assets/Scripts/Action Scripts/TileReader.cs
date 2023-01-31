@@ -2,9 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using JAFprocedural;
+
+
+[System.Serializable] public class FloatEvent : UnityEvent<float> { }
+
 
 public class TileReader : MonoBehaviour
 {
+
+    public FloatEvent el0;
+
     public UnityEvent onScanEvent;
 
     [SerializeField]
@@ -13,22 +21,46 @@ public class TileReader : MonoBehaviour
     [SerializeField]
     private string scanMode;
 
+    void Start()
+    {
+        InitFloatEvent(el0);
+    }
+
     void OnTriggerEnter(Collider other)
     {
-        if(scanMode == "Single")
+        if(other.GetComponent<ArenaTileProperties>() != null)
         {
-            if (other.CompareTag(scanTarget))
+            Debug.Log("TARGET: " + other.GetComponent<ArenaTileProperties>().properties.tileIDNum);
+
+            if (scanMode == "Single")
             {
-               onScanEvent.Invoke();
+                if (other.GetComponent<ArenaTileProperties>().properties.is_walkable == true)
+                {
+                    
+                    onScanEvent.Invoke();
+
+                    el0.Invoke(other.GetComponent<ArenaTileProperties>().properties.elevation);
+                    
+                }
             }
-        }
-        else if(scanMode == "Inverse")
-        {
-            if (!other.CompareTag(scanTarget))
+            else if (scanMode == "Inverse")
             {
-               onScanEvent.Invoke();
+                if (!other.CompareTag(scanTarget))
+                {
+                    onScanEvent.Invoke();
+                }
             }
         }
         
+
+    }
+
+    void InitFloatEvent(FloatEvent fl)
+    {
+        if (fl == null)
+        {
+            fl = new FloatEvent();
+        }
     }
 }
+

@@ -7,7 +7,11 @@ public class PlayerInput : MonoBehaviour
     private bool canMove = true;
     public GameObject enemyPrefab;
 
-    private bool moveUp, moveDown,moveLeft, moveRight, canInteract = false;
+    private bool moveUp, moveDown, moveLeft, moveRight, canInteract = false;
+
+    private float elevation = 0f;
+    private float[] nextEls = new float[]{ 0f, 0f, 0f, 0f };
+    
 
     void Start() 
     {
@@ -23,34 +27,48 @@ public class PlayerInput : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.RightArrow) && moveRight)
             {
-                ResetValidMoves();
-                transform.eulerAngles = new Vector3(0,0,0);
-                transform.position = transform.position + new Vector3(1, 0, 0);
+                if (IsAppropriateElevation(nextEls[3]))
+                {
+                    ResetValidMoves();
+                    transform.eulerAngles = new Vector3(0,0,0);
+                    transform.position = transform.position + new Vector3(1, 0, 0);
+                    elevation = nextEls[3];
+                }
+                
                 
             }
 
             if (Input.GetKeyDown(KeyCode.DownArrow) && moveDown)
             {
-                ResetValidMoves();
-                transform.eulerAngles = new Vector3(0, 90, 0);
-                transform.position = transform.position + new Vector3(0, 0, -1);
-                
+                if (IsAppropriateElevation(nextEls[1]))
+                {
+                    ResetValidMoves();
+                    transform.eulerAngles = new Vector3(0, 90, 0);
+                    transform.position = transform.position + new Vector3(0, 0, -1);
+                    elevation = nextEls[1];
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow) && moveLeft)
             {
-                ResetValidMoves();
-                transform.eulerAngles = new Vector3(0, 180, 0);
-                transform.position = transform.position + new Vector3(-1, 0, 0);
-                
+                if (IsAppropriateElevation(nextEls[2]))
+                {
+                    ResetValidMoves();
+                    transform.eulerAngles = new Vector3(0, 180, 0);
+                    transform.position = transform.position + new Vector3(-1, 0, 0);
+                    elevation = nextEls[2];
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.UpArrow) && moveUp)
             {
-                ResetValidMoves();
-                transform.eulerAngles = new Vector3(0, 270, 0);
-                transform.position = transform.position + new Vector3(0, 0, 1);
-                
+                if (IsAppropriateElevation(nextEls[0]))
+                {
+                    ResetValidMoves();
+                    transform.eulerAngles = new Vector3(0, 270, 0);
+                    transform.position = transform.position + new Vector3(0, 0, 1);
+                    elevation = nextEls[0];
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && canInteract)
@@ -111,8 +129,43 @@ public class PlayerInput : MonoBehaviour
         canInteract = true;
     }
 
-   
-        
-        
 
+    public void SetNextElevation(int idx, float el)
+    {
+        nextEls[idx] = el;
+        Debug.Log(idx);
+    }
+
+    public void SetUpElevation(float e)
+    {
+        nextEls[0] = e;
+    }
+
+    public void SetDownElevation(float e)
+    {
+        nextEls[1] = e;
+    }
+
+    public void SetLeftElevation(float e)
+    {
+        nextEls[2] = e;
+    }
+
+    public void SetRightElevation(float e)
+    {
+        nextEls[3] = e;
+    }
+
+    private bool IsAppropriateElevation(float next_elevation)
+    {
+        float diff = (next_elevation - elevation);
+        if (diff < 0) diff *= -1;
+
+        if (diff > 0.5f)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

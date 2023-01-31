@@ -22,6 +22,7 @@ namespace ArenaGenerators {
             Arena_Basic.MakeSpacedOut(arena, new Cell(1), new Cell(10), 3, 10);
             //:stare:
             MakeBarrelClusters(arena, new Cell(1), new Cell(11));
+
         }
 
         public static void MakeCliff(Space2D arena)
@@ -32,14 +33,15 @@ namespace ArenaGenerators {
             int cCount = 0;
             Coord cliffStart = new Coord();
 
-            for(int y = 0; y < 2; y++)
+            cliffFormation.SetCell(new Coord(0, 0), new Cell(12));
+            cliffFormation.SetCell(new Coord(5, 0), new Cell(14));
+            for (int i = 1; i < 5; i++)
             {
-                for(int x = 0; x < 6; x++)
-                {
-                    int val = 58 + x;
-                    val += (6 * y);
-                    cliffFormation.SetCell(new Coord(x, y), new Cell(val));
-                }
+                cliffFormation.SetCell(new Coord(i, 0), new Cell(13));
+            }
+            for(int i = 0; i < 6; i++)
+            {
+                cliffFormation.SetCell(new Coord(i, 1), new Cell(i + 15));
             }
 
             int randIt = RNG.GenRand(4, 9);
@@ -95,11 +97,6 @@ namespace ArenaGenerators {
                             placedCliffs.Add(new Coord(cliffStart.x, cliffStart.y));
                         }
                     }
-                    //        else
-                    //        {
-                    //            
-
-                    //            }
                 }
                     
             }
@@ -142,7 +139,7 @@ namespace ArenaGenerators {
                                 i = -1;
                             }
                             //if you're about to hit a cliff, try to move around it
-                            else if(arena.GetCell(new Coord(i, y + offset)) >= 58)
+                            else if(arena.GetCell(new Coord(i, y + offset)) >= 12)
                             {
                                 if(offset == 0)
                                 {
@@ -197,7 +194,7 @@ namespace ArenaGenerators {
                                     int startingJ = offset - 1;
                                     for(int j = startingJ; j >= 0; j--)
                                     {
-                                        if (arena.GetCell(new Coord(i, y + j)) < 58 && arena.GetCell(new Coord(i, y + j)) != 2)
+                                        if (arena.GetCell(new Coord(i, y + j)) < 12 && arena.GetCell(new Coord(i, y + j)) != 2)
                                         {
                                             if(j == startingJ)
                                             {
@@ -321,6 +318,7 @@ namespace ArenaGenerators {
 
 	        }
         }
+
 
     }
 }

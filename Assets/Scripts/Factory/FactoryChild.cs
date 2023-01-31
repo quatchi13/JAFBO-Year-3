@@ -8,6 +8,7 @@ using TMPro;
 
 public class FactoryChild : FactoryParent
 {
+    
     public GameObject boundaries; //0
     public GameObject ground;     //1
     public GameObject hRail;      //2
@@ -20,18 +21,19 @@ public class FactoryChild : FactoryParent
     public GameObject tree;       //9
     public GameObject cactus;     //10
     public GameObject barrel;     //11
-    public GameObject b1Cliff;    //58
-    public GameObject b2Cliff;    //59-62
-    public GameObject b6Cliff;    //63
-    public GameObject f1Cliff;    //64
-    public GameObject f2Cliff;    //65
-    public GameObject f3Cliff;    //66
-    public GameObject f4Cliff;    //67
-    public GameObject f5Cliff;    //68
-    public GameObject f6Cliff;    //69
+    public GameObject b1Cliff;    //12
+    public GameObject b2Cliff;    //13
+    public GameObject b6Cliff;    //14
+    public GameObject f1Cliff;    //15
+    public GameObject f2Cliff;    //16
+    public GameObject f3Cliff;    //17
+    public GameObject f4Cliff;    //18
+    public GameObject f5Cliff;    //19
+    public GameObject f6Cliff;    //20
     public GameObject rock;
     public GameObject water;
-    List<FactoryParent> tiles;
+    public List<FactoryParent> tiles;
+    public List<GameObject> tileGOs;
 
     public override string Name { get { return "FactoryChild"; } }
 
@@ -52,7 +54,35 @@ public class FactoryChild : FactoryParent
         {
             var tempType = Activator.CreateInstance(type) as FactoryParent;
             tiles.Add(tempType);
+            Debug.Log(tiles.Last().Name);
         }
+
+        tileGOs = new List<GameObject>
+        {
+            boundaries,
+            ground,
+            hRail,
+            vRail,
+            swRail,
+            neRail,
+            nwRail,
+            seRail,
+            goldmine,
+            tree,
+            cactus,
+            barrel,
+            b1Cliff,
+            b2Cliff,
+            b6Cliff,
+            f1Cliff,
+            f2Cliff,
+            f3Cliff,
+            f4Cliff,
+            f5Cliff,
+            f6Cliff,
+            rock,
+            water
+        };
     }
 
 

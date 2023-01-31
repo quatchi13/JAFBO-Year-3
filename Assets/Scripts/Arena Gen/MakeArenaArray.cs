@@ -34,6 +34,8 @@ public class MakeArenaArray : MonoBehaviour
         invoker = new Invoker();
         arena = new ArenaData();
         arenaStateContext = new ArenaGenerator();
+
+        
     }
 
     // Update is called once per frame
