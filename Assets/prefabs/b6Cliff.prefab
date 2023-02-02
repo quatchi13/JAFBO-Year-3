@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6725269596698678586}
   - component: {fileID: -337518762288672132}
   - component: {fileID: 713822156478530501}
-  - component: {fileID: 8165943416683230040}
+  - component: {fileID: 5658799869369204045}
   m_Layer: 0
   m_Name: b6Cliff
   m_TagString: Untagged
@@ -63,8 +63,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &8165943416683230040
-SphereCollider:
+--- !u!65 &5658799869369204045
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -74,8 +74,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Center: {x: 0, y: 0.55, z: 0}
 --- !u!1001 &3403892529211860321
 PrefabInstance:
   m_ObjectHideFlags: 0

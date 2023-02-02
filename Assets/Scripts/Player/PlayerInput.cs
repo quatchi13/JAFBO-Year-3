@@ -4,76 +4,86 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
+    [SerializeField]
     private bool canMove = true;
-    public GameObject enemyPrefab;
+    [SerializeField]
+    private bool myTurn = true;
 
+    //wow!
+
+    //attacking target
+    private GameObject currentTarget;
+
+    //movement variables
     private bool moveUp, moveDown, moveLeft, moveRight, canInteract = false;
-
     private float elevation = 0f;
     private float[] nextEls = new float[]{ 0f, 0f, 0f, 0f };
     
 
-    void Start() 
-    {
-        
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-
-        if(canMove)
+        if (myTurn)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow) && moveRight)
+            if (canMove)
             {
-                if (IsAppropriateElevation(nextEls[3]))
+
+                if (Input.GetKeyDown(KeyCode.RightArrow) && moveRight)
                 {
-                    ResetValidMoves();
-                    transform.eulerAngles = new Vector3(0,0,0);
-                    transform.position = transform.position + new Vector3(1, 0, 0);
-                    elevation = nextEls[3];
-                }
+                    if (IsAppropriateElevation(nextEls[3]))
+                    {
+                        ResetValidMoves();
+                        transform.eulerAngles = new Vector3(0,0,0);
+                        transform.position = transform.position + new Vector3(1, 0, 0);
+                        elevation = nextEls[3];
+                    }
                 
                 
-            }
-
-            if (Input.GetKeyDown(KeyCode.DownArrow) && moveDown)
-            {
-                if (IsAppropriateElevation(nextEls[1]))
-                {
-                    ResetValidMoves();
-                    transform.eulerAngles = new Vector3(0, 90, 0);
-                    transform.position = transform.position + new Vector3(0, 0, -1);
-                    elevation = nextEls[1];
                 }
-            }
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow) && moveLeft)
-            {
-                if (IsAppropriateElevation(nextEls[2]))
+                if (Input.GetKeyDown(KeyCode.DownArrow) && moveDown)
                 {
-                    ResetValidMoves();
-                    transform.eulerAngles = new Vector3(0, 180, 0);
-                    transform.position = transform.position + new Vector3(-1, 0, 0);
-                    elevation = nextEls[2];
+                    if (IsAppropriateElevation(nextEls[1]))
+                    {
+                        ResetValidMoves();
+                        transform.eulerAngles = new Vector3(0, 90, 0);
+                        transform.position = transform.position + new Vector3(0, 0, -1);
+                        elevation = nextEls[1];
+                    }
                 }
-            }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) && moveUp)
-            {
-                if (IsAppropriateElevation(nextEls[0]))
+                if (Input.GetKeyDown(KeyCode.LeftArrow) && moveLeft)
                 {
-                    ResetValidMoves();
-                    transform.eulerAngles = new Vector3(0, 270, 0);
-                    transform.position = transform.position + new Vector3(0, 0, 1);
-                    elevation = nextEls[0];
+                    if (IsAppropriateElevation(nextEls[2]))
+                    {
+                        ResetValidMoves();
+                        transform.eulerAngles = new Vector3(0, 180, 0);
+                        transform.position = transform.position + new Vector3(-1, 0, 0);
+                        elevation = nextEls[2];
+                    }
                 }
+
+                if (Input.GetKeyDown(KeyCode.UpArrow) && moveUp)
+                {
+                    if (IsAppropriateElevation(nextEls[0]))
+                    {
+                        ResetValidMoves();
+                        transform.eulerAngles = new Vector3(0, 270, 0);
+                        transform.position = transform.position + new Vector3(0, 0, 1);
+                        elevation = nextEls[0];
+                    }
+                }
+
+                
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && canInteract)
+            if (canInteract)
             {
-                Debug.Log ("Interaction");
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Debug.Log("AND IT'S FLORENCE WITH THE STEEL CHAIR!!!!");
+                }
             }
         }
         
@@ -126,7 +136,7 @@ public class PlayerInput : MonoBehaviour
 
     public void SetInteractState(bool state)
     {
-        canInteract = true;
+        canInteract = state;
     }
 
 
@@ -160,6 +170,7 @@ public class PlayerInput : MonoBehaviour
     {
         float diff = (next_elevation - elevation);
         if (diff < 0) diff *= -1;
+        Debug.Log(diff);
 
         if (diff > 0.5f)
         {
@@ -168,4 +179,5 @@ public class PlayerInput : MonoBehaviour
 
         return true;
     }
+
 }
