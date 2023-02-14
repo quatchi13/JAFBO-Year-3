@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayerWrapper;
+
 
 
 public class PlayerInput : MonoBehaviour
@@ -32,32 +34,27 @@ public class PlayerInput : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.RightArrow) && moveRight)
             {
                 ResetValidMoves();
-                transform.eulerAngles = new Vector3(0,0,0);
-                transform.position = transform.position + new Vector3(1, 0, 0);
-                
+                PlayerUpdater.UpdatePlayer(gameObject, transform.position + new Vector3(1,0,0), new Vector3 (0,0,0));
             }
 
             if (Input.GetKeyDown(KeyCode.DownArrow) && moveDown)
             {
                 ResetValidMoves();
-                transform.eulerAngles = new Vector3(0, 90, 0);
-                transform.position = transform.position + new Vector3(0, 0, -1);
+                PlayerUpdater.UpdatePlayer(gameObject, transform.position + new Vector3(0,0,-1), new Vector3 (0,90,0));
                 
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow) && moveLeft)
             {
                 ResetValidMoves();
-                transform.eulerAngles = new Vector3(0, 180, 0);
-                transform.position = transform.position + new Vector3(-1, 0, 0);
+                PlayerUpdater.UpdatePlayer(gameObject, transform.position + new Vector3(-1,0,0), new Vector3 (0,180,0));
                 
             }
 
             if (Input.GetKeyDown(KeyCode.UpArrow) && moveUp)
             {
                 ResetValidMoves();
-                transform.eulerAngles = new Vector3(0, 270, 0);
-                transform.position = transform.position + new Vector3(0, 0, 1);
+                PlayerUpdater.UpdatePlayer(gameObject, transform.position + new Vector3(0,0,1), new Vector3 (0,270,0));
                 
             }
 
@@ -137,6 +134,7 @@ public class PlayerInput : MonoBehaviour
     public void ChangeTurn()
     {
         myTurn = !myTurn;
+        //update player values
     }
 
     public void Attack()
