@@ -428,10 +428,10 @@ MonoBehaviour:
   el0:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442130559}
+      - m_Target: {fileID: 1876353461}
         m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
         m_MethodName: SetDownElevation
-        m_Mode: 0
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -443,7 +443,7 @@ MonoBehaviour:
   onScanEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442130559}
+      - m_Target: {fileID: 1876353461}
         m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
         m_MethodName: SetCanMoveInDir
         m_Mode: 3
@@ -518,10 +518,10 @@ MonoBehaviour:
   el0:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442130559}
+      - m_Target: {fileID: 1876353461}
         m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
         m_MethodName: SetUpElevation
-        m_Mode: 0
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -533,7 +533,7 @@ MonoBehaviour:
   onScanEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442130559}
+      - m_Target: {fileID: 1876353461}
         m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
         m_MethodName: SetCanMoveInDir
         m_Mode: 3
@@ -892,6 +892,10 @@ PrefabInstance:
       value: Player One
       objectReference: {fileID: 0}
     - target: {fileID: 4735873287248963525, guid: 86983a4c084ab6242aebf87de801ec4c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4735873287248963525, guid: 86983a4c084ab6242aebf87de801ec4c, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
@@ -925,16 +929,28 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.52
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.52
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.52
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.9871609
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.4039992
+      value: 0.88
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -25.999315
+      value: -28
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -963,6 +979,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
       propertyPath: m_Name
@@ -1000,7 +1020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9af106ab78766544935b66caeacf9ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1442130557}
+  target: {fileID: 1876353459}
 --- !u!4 &1109933309
 Transform:
   m_ObjectHideFlags: 0
@@ -1235,6 +1255,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2080772713109823425, guid: 57c79e1a229b2aa44afd0ff0c20d28c9, type: 3}
+--- !u!95 &1442130560
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442130552}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1c52dd763e9e7234b87c18a5503ba642, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1449164417
 GameObject:
   m_ObjectHideFlags: 0
@@ -1578,10 +1618,10 @@ MonoBehaviour:
   el0:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442130559}
+      - m_Target: {fileID: 1876353461}
         m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
         m_MethodName: SetLeftElevation
-        m_Mode: 0
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1593,7 +1633,7 @@ MonoBehaviour:
   onScanEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442130559}
+      - m_Target: {fileID: 1876353461}
         m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
         m_MethodName: SetCanMoveInDir
         m_Mode: 3
@@ -1708,6 +1748,79 @@ MonoBehaviour:
     - row: 000000000000000000000000000000000000000000
     - row: 000000000000000000000000000000000000000000
     - row: 000000000000000000000000000000000000000000
+--- !u!1 &1876353458 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
+  m_PrefabInstance: {fileID: 1102384062}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1876353459 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3bbfcc41e3e741e45806187f319b18b7, type: 3}
+  m_PrefabInstance: {fileID: 1102384062}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1876353460
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876353458}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1c52dd763e9e7234b87c18a5503ba642, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1876353461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876353458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e451f42bc37fb24c9ff37ccea99e648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 2080772713109823425, guid: 57c79e1a229b2aa44afd0ff0c20d28c9, type: 3}
+--- !u!54 &1876353462
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876353458}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!136 &1876353463
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876353458}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2083311533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1856,10 +1969,10 @@ MonoBehaviour:
   el0:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442130559}
+      - m_Target: {fileID: 1876353461}
         m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
         m_MethodName: SetRightElevation
-        m_Mode: 0
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1871,7 +1984,7 @@ MonoBehaviour:
   onScanEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442130559}
+      - m_Target: {fileID: 1876353461}
         m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
         m_MethodName: SetCanMoveInDir
         m_Mode: 3

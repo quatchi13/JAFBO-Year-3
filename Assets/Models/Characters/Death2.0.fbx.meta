@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 3374748389425109202
-    second: rig|rigAction
+    second: Idle
   - first:
       74: 6826016186866143462
     second: Pants.001|Pants.001Action
@@ -42,11 +42,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: rig|rigAction
+      name: Idle
       takeName: rig|rigAction
       internalID: 0
       firstFrame: 0
-      lastFrame: 214
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
