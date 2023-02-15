@@ -6,8 +6,13 @@ using UnityEngine.EventSystems;
 
 public class characterSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
+   //WHo am I : ()
+    public int character;
+    public GameObject antenna;
+
     public Sprite on;
     public Sprite off;
+   
 
     public GameObject begin;
     public Vector3 beginLocation;
@@ -31,6 +36,7 @@ public void OnPointerExit(PointerEventData eventData)
     public void OnPointerDown(PointerEventData evemtData){
         beginTime = true;
         begin.transform.position = beginLocation;
+        antenna.GetComponent<dontDestroyOnLoad>().character = character;
 
    }
 
