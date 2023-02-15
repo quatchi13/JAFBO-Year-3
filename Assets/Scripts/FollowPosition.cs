@@ -6,8 +6,9 @@ public class FollowPosition : MonoBehaviour
 {
     [SerializeField]
     private Transform target;
+    [SerializeField] private float yOffset;
     void Update()
     {
-        gameObject.transform.position = target.position;
+        gameObject.transform.position = new Vector3(target.position.x, target.position.y + yOffset, target.position.z);
     }
 }
