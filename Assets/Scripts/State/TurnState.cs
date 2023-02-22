@@ -16,7 +16,7 @@ namespace StatePattern
 
         public GameAction()
         {
-            tState = new MoveState();
+            tState = null;
         }
 
         public void OnTileClick()
@@ -32,21 +32,21 @@ namespace StatePattern
         public void OnTileClick()
         {
             GameObject playerRef = ObjectReferencer.instance.GetPlayer();
-            //switch (playerRef.GetComponent<PlayerInput>().lookDir)
-            //{
-            //    case 0:
-            //        playerRef.transform.position = playerRef.transform.position + new Vector3(1, 0, 0);
-            //        break;
-            //    case 1:
-            //        playerRef.transform.position = playerRef.transform.position + new Vector3(0, 0, -1);
-            //        break;
-            //    case 2:
-            //        playerRef.transform.position = playerRef.transform.position + new Vector3(-1, 0, 0);
-            //        break;
-            //    case 3:
-            //        playerRef.transform.position = playerRef.transform.position + new Vector3(0, 0, 1);
-            //        break;
-            //}
+            switch (playerRef.GetComponent<PlayerInput>().lookDir)
+            {
+                case 0:
+                    playerRef.transform.position = playerRef.transform.position + new Vector3(1, 0, 0);
+                    break;
+                case 1:
+                    playerRef.transform.position = playerRef.transform.position + new Vector3(0, 0, -1);
+                    break;
+                case 2:
+                    playerRef.transform.position = playerRef.transform.position + new Vector3(-1, 0, 0);
+                    break;
+                case 3:
+                    playerRef.transform.position = playerRef.transform.position + new Vector3(0, 0, 1);
+                    break;
+            }
 
             ActiveSelections.instance.ClearSelection();
         }

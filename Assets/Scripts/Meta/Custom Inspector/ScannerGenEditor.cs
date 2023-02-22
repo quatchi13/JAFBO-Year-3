@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 
@@ -22,4 +21,3 @@ public class ScannerGenEditor : Editor
         }
     }
 }
-#endif
