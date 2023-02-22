@@ -25,7 +25,7 @@ public class TurnActionManager : MonoBehaviour
     {
         if(turnActionContext.tState is not MoveState)
         {
-            player.ActivateMoveMode();
+            //player.ActivateMoveMode();
             turnActionContext.tState = new MoveState();
         }
     }
@@ -34,7 +34,7 @@ public class TurnActionManager : MonoBehaviour
     {
         if (turnActionContext.tState is not AttackState)
         {
-            player.ActivateAttackMode();
+            //player.ActivateAttackMode();
             turnActionContext.tState = new AttackState();
         }
     }
