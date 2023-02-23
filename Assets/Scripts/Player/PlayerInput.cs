@@ -91,6 +91,8 @@ public class PlayerInput : MonoBehaviour
             
     }
 
+    
+
     public void SetCanMoveState(bool state)
     {
         canMove = state;
@@ -101,61 +103,27 @@ public class PlayerInput : MonoBehaviour
         return canMove;
     }
 
-    public void ActivateMoveMode()
+    public void SetCanMoveInDir(int direction) 
     {
-        ActiveSelections.instance.ClearSelection();
-                for(int i = 0; i < scanners.Count; i++)
-                {
-                    scanners[i].SetActive(false);
-                }
-
-                scanners[0].SetActive(true);
-    }
-
-    public void ActivateAttackMode()
-    {
-        ActiveSelections.instance.ClearSelection();
-        
-                for(int i = 0; i < scanners.Count; i++)
-                {
-                    scanners[i].SetActive(false);
-                }
-
-                scanners[1].SetActive(true);
-            canMove = false;
-    }
-
-    public void PerformAction()
-    {
-        
-        if (canMove)
-            {
-                switch (lookDir)
-                {
-                    case 0:
-                        transform.position = transform.position + new Vector3(1, 0, 0);
-                        break;
-                    case 1:
-                        transform.position = transform.position + new Vector3(0, 0, -1);
-                        break;
-                    case 2:
-                        transform.position = transform.position + new Vector3(-1, 0, 0);
-                        break;
-                    case 3:
-                        transform.position = transform.position + new Vector3(0, 0, 1);
-                        break;
-                }
-                canMove = false;
-            }
-        else
+        switch (direction)
         {
-            for(int i = 0; i < ActiveSelections.instance.GetSelection().Count; i++)
-            {
-                Destroy(ActiveSelections.instance.GetSelection()[i]);
-            }
+            case 0:
+                moveUp = true;
+                break;
+
+            case 1:
+                moveDown = true;
+                break;
+
+            case 2:
+                moveLeft = true;
+                break;
+
+            case 3:
+                moveRight = true;
+                break;
+
         }
-        
-        ActiveSelections.instance.ClearSelection();
     }
 
     public void ResetValidMoves()
