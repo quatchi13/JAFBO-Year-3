@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2513753233399848417}
   - component: {fileID: -8826761302980054564}
+  - component: {fileID: 4915376946869522521}
   - component: {fileID: 8191359258757225268}
-  - component: {fileID: 7126625586556817714}
   m_Layer: 0
   m_Name: b2Cliff
   m_TagString: Untagged
@@ -47,6 +47,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7cb716a857b3244099e252d4a300809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &4915376946869522521
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145211619387814035}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &8191359258757225268
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -63,19 +76,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &7126625586556817714
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 145211619387814035}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
-  m_Center: {x: 0, y: 0.4726448, z: 0}
 --- !u!1001 &7237570659595535478
 PrefabInstance:
   m_ObjectHideFlags: 0
