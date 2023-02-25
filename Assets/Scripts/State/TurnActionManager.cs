@@ -7,7 +7,7 @@ public class TurnActionManager : MonoBehaviour
 {
     private GameAction turnActionContext;
     [SerializeField]
-    private PlayerInput player;
+    //private PlayerInput player;
 
     // Start is called before the first frame update
     void Start()

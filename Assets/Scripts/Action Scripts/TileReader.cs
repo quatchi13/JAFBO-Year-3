@@ -13,7 +13,7 @@ public class TileReader : MonoBehaviour
         if (other.CompareTag("Ground"))
         {
             ActiveSelections.instance.AddSelectable(currentTile);
-            transform.parent.gameObject.GetComponent<PlayerInput>().SetCanMoveState(true);
+           // transform.parent.gameObject.GetComponent<PlayerInput>().SetCanMoveState(true);
         }
     }
 }
