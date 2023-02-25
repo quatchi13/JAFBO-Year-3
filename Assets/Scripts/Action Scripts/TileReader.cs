@@ -35,7 +35,7 @@ public class TileReader : MonoBehaviour
     {
         if(other.GetComponent<ArenaTileProperties>() != null)
         {
-            Debug.Log("TARGET: " + other.GetComponent<ArenaTileProperties>().properties.tileIDNum);
+            //Debug.Log("TARGET: " + other.GetComponent<ArenaTileProperties>().properties.tileIDNum);
 
             if (scanMode == "Single")
             {
@@ -54,7 +54,7 @@ public class TileReader : MonoBehaviour
         }
         if (scanMode == "Atk")
         {
-            Debug.Log("Detected: " + other.tag);
+            //Debug.Log("Detected: " + other.tag);
             if (other.CompareTag(scanTarget))
             {
                 sendTarget.Invoke(other.gameObject);

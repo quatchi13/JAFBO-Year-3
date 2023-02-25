@@ -9,7 +9,10 @@ using JAFnetwork;
 using System;
 
 
-
+/// <summary>
+/// if any of you bitches touch this script or PlayerComm.cs, i will kill you. not literally, but i will be fucking pissed. don't do it.
+/// i didn't even want to push this version at all. fuck this
+/// </summary>
 
 
 public class PC_Manager : MonoBehaviour
@@ -58,30 +61,36 @@ public class PC_Manager : MonoBehaviour
             {
 
                 //Attempt a connection
-                Debug.Log("Hacking into the mainframe...");
+                Debug.Log("Connecting to server...");
                 clientSock.Connect(remoteEP);
-                Debug.Log("Successfully breached the mainframe at IP: " + clientSock.RemoteEndPoint.ToString());
+                Debug.Log("Successfully connected to server at IP: " + clientSock.RemoteEndPoint.ToString());
             }
             catch (SocketException e)
             {
-                Debug.Log("YOU FUCKED UP!!! " + e.ToString());
+                Debug.Log("something goofed: " + e.ToString());
             }
         }
         catch (SocketException e)
         {
-            Debug.Log("YOU FUCKED UP!!! " + e.ToString());
+            Debug.Log("something goofed: " + e.ToString());
         }
     }
 
     void Start()
     {
-        StartClient();
+        Debug.Log("Network connections disabled. No attempt made");
+        
+        //StartClient();
+
         NetworkParser.SetPCOrder(PCList[0], PCList[1]);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        {
+/*
         if (!quitCommandReceived)
         {
             byte[] buff = new byte[1024];
@@ -145,6 +154,9 @@ public class PC_Manager : MonoBehaviour
             }
             
         }
+        */
+        }
+        
     }
 
 

@@ -166,7 +166,6 @@ public class PlayerInput : MonoBehaviour
     {
         float diff = (next_elevation - elevation);
         if (diff < 0) diff *= -1;
-        Debug.Log(diff);
 
         if (diff > 0.5f)
         {

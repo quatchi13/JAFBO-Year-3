@@ -45,7 +45,6 @@ namespace ArenaGenerators {
             }
 
             int randIt = RNG.GenRand(4, 9);
-            UnityEngine.Debug.Log(randIt);
             for (int i = 0; i < randIt; i++)
             {
                 //bool placed = false;
@@ -53,7 +52,6 @@ namespace ArenaGenerators {
                 //{
                 cliffStart.x = RNG.GenRand(2, arena.width - 9);
                 cliffStart.y = RNG.GenRand(2, arena.height - 6);
-                UnityEngine.Debug.Log(cliffStart.x + ", " + cliffStart.y);
                 if (/*cCount == 0*/placedCliffs.Count == 0)
                 {
                     cliffFormation.worldOrigin = cliffStart;
@@ -64,11 +62,9 @@ namespace ArenaGenerators {
                 }
                 else
                 {
-                    UnityEngine.Debug.Log("placed cliffs: " + placedCliffs.Count);
                     for (int j = 0; j < placedCliffs.Count; j++)
                     {
                         int xDist = BasicBuilderFunctions.CalculateStride(cliffStart, placedCliffs[j], true);
-                        UnityEngine.Debug.Log("x stride: " + xDist);
                         if (xDist < 0)
                         {
                             xDist *= -1;
@@ -85,7 +81,6 @@ namespace ArenaGenerators {
                             if (yDist < 4)
                             {
                                 j = placedCliffs.Count;
-                                UnityEngine.Debug.Log("failed");
                             }
                         }
 

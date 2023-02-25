@@ -33,7 +33,6 @@ namespace JAFprocedural
             if (isXStride)
             {
                 stride = end.x - start.x;
-                UnityEngine.Debug.Log(end.x + " - " + start.x + " = " + stride);
             }
             else
             {
@@ -52,8 +51,6 @@ namespace JAFprocedural
 
 
             stride += (add);
-
-            UnityEngine.Debug.Log("STRIDE: " + stride);
 
             return stride;
         }

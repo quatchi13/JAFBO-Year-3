@@ -45,7 +45,7 @@ namespace JAFnetwork
 
         public void Execute()
         {
-            Debug.Log("WOAH");
+            //Debug.Log("WOAH");
             NetworkParser.playerCharacters[indexMover].transform.eulerAngles = new Vector3(eulerX, eulerY, eulerZ);
             NetworkParser.playerCharacters[indexMover].transform.position += new Vector3(posX, posY, posZ);
         }
