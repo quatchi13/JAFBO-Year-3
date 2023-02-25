@@ -6,6 +6,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using JAFnetwork;
+using System;
 
 
 
@@ -83,14 +84,16 @@ public class PC_Manager : MonoBehaviour
     {
         if (!quitCommandReceived)
         {
-            byte[] buffer = new byte[1024];
+            byte[] buff = new byte[1024];
             int receivedBytes = 0;
             //string receivedMessage;
 
             if (HasStuffToRead(clientSock))
             {
-                receivedBytes = clientSock.Receive(buffer);
-                NetworkParser.ProcessUnparsedByteBuffer(buffer);
+                receivedBytes = clientSock.Receive(buff);
+                byte[] recBuff = new byte[receivedBytes];
+                Buffer.BlockCopy(buff, 0, recBuff, 0, receivedBytes);
+                NetworkParser.ParseCommandBlock(recBuff);
                 looping = true;
 
                 Debug.Log("CRAZY");
@@ -113,7 +116,7 @@ public class PC_Manager : MonoBehaviour
                 {
                     NetworkParser.SendGameplayQueueToBuffer();
 
-                    clientSock.SendTo(NetworkParser.outBuffer, remoteEP);
+                    clientSock.Send(NetworkParser.outBuffer);
                 }
             }
 
@@ -123,7 +126,7 @@ public class PC_Manager : MonoBehaviour
                 if (NetworkParser.networkGameplayCommands.Count > 0)
                 {
 
-                    NetworkParser.networkGameplayCommands.Peek().Inverse();
+                    //NetworkParser.networkGameplayCommands.Peek().Inverse();
                     NetworkParser.networkGameplayCommands.Dequeue();
 
                     timeOut += Time.deltaTime;

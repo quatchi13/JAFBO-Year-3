@@ -19,6 +19,12 @@ namespace JAFprocedural
 
 
     public static class RNG {
+
+        public static void SetSeed(int s)
+        {
+            UnityEngine.Random.InitState(s);
+        }
+
         public static int GenRand(int min, int range)
         {
             return UnityEngine.Random.Range(min, (min + range) - 1);
