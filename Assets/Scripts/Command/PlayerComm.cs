@@ -11,127 +11,7 @@ using System.Runtime.InteropServices;
 namespace JAFnetwork
 {
     
-    public interface NetCommand
-    {
-        void Execute();
-        void Inverse();
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 26)]
-    public class MoveChar : NetCommand
-    {
-        [FieldOffset(0)]  short indexMover;
-
-        [FieldOffset(2)]  float posX;
-        [FieldOffset(6)] float posY;
-        [FieldOffset(10)] float posZ;
-
-        [FieldOffset(14)] float eulerX;
-        [FieldOffset(18)] float eulerY;
-        [FieldOffset(22)] float eulerZ;
-
-        public void Setup(int ind, Vector3 pos, Vector3 euler)
-        {
-            indexMover = (short)ind;
-
-            posX = pos.x;
-            posY = pos.y;
-            posZ = pos.z;
-
-            eulerX = euler.x;
-            eulerY = euler.y;
-            eulerZ = euler.z;
-        }
-
-        public void Execute()
-        {
-            //Debug.Log("WOAH");
-            NetworkParser.playerCharacters[indexMover].transform.eulerAngles = new Vector3(eulerX, eulerY, eulerZ);
-            NetworkParser.playerCharacters[indexMover].transform.position += new Vector3(posX, posY, posZ);
-        }
-
-        public void Inverse()
-        {
-            Debug.Log("SICK");
-            NetworkParser.playerCharacters[1].transform.eulerAngles = new Vector3(-eulerX, -eulerY, -eulerZ);
-            NetworkParser.playerCharacters[1].transform.position = NetworkParser.playerCharacters[1].transform.position + new Vector3(-posX, -posY, -posZ);
-        }
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 16)]
-    public class BasicAttackChar : NetCommand
-    {
-        [FieldOffset(0)]  short indexAttacker;
-        [FieldOffset(2)]  short indexReceiver;
-
-        [FieldOffset(4)]  float eulerX;
-        [FieldOffset(8)] float eulerY;
-        [FieldOffset(12)] float eulerZ;
-
-        public void Setup(int iA, int iR, Vector3 rot)
-        {
-            indexAttacker = (short)iA;
-            indexReceiver = (short)iR;
-
-            eulerX = rot.x;
-            eulerY = rot.y;
-            eulerZ = rot.z;
-        }
-
-        public void Execute()
-        {
-            NetworkParser.playerCharacters[indexAttacker].transform.eulerAngles = new Vector3(eulerX, eulerY, eulerZ);
-            //player.GetComponent<Animator>().SetBool("Attack", true);
-            NetworkParser.playerCharacters[indexReceiver].GetComponent<HealthSystem>().Damage(NetworkParser.playerCharacters[indexAttacker].GetComponent<Attacking>().currentDamage);
-            Debug.Log("slap");
-        }
-
-        public void Inverse() { }
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 6)]
-    public class ChangeStatChar : NetCommand
-    {
-        [FieldOffset(0)]short indexTarget;
-        [FieldOffset(2)]short indexStat;
-        [FieldOffset(4)]short addValue;
-
-        public void Setup(int targIn, int statIn, int val)
-        {
-            indexTarget = (short)targIn;
-            indexStat   = (short)statIn;
-            addValue    = (short)val;
-        }
-
-        public void Execute()
-        {
-            //yeah
-        }
-
-        public void Inverse() { }
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8)]
-    public class ChangeFlagChar : NetCommand
-    {
-        [FieldOffset(0)] bool  flagValue;
-        [FieldOffset(4)] short indexChar;
-        [FieldOffset(6)] short indexFlag;
-
-        public void Setup(int charInd, int flagInd, bool fV)
-        {
-            indexChar = (short)charInd;
-            indexFlag = (short)flagInd;
-            flagValue = fV;
-        }
-
-        public void Execute()
-        {
-            //do ya thing
-        }
-
-        public void Inverse() { }
-    }
+   
 
     [StructLayout(LayoutKind.Sequential, Size = 652)]
     public class NetInstructBlock
@@ -255,30 +135,90 @@ namespace JAFnetwork
 
         
 
+
+        public static byte[] CommandToByteBlock(NetCommand netCom)
+        {
+            int obSize = Marshal.SizeOf(netCom);
+            Debug.Log("size of this object: " + obSize.ToString());
+            byte[] byteBlock = new byte[obSize + 2];
+            TheWorldsMostUnnecessaryStructure str = new TheWorldsMostUnnecessaryStructure();
+            str.Set(netCom.ComIndex());
+            Buffer.BlockCopy(str.ToBytes(), 0, byteBlock, 0, 2);
+
+            IntPtr memPoint = Marshal.AllocHGlobal(obSize);
+            Marshal.StructureToPtr(netCom, memPoint, false);
+            Marshal.Copy(memPoint, byteBlock, 2, obSize);
+            Marshal.FreeHGlobal(memPoint);
+
+            return byteBlock;
+        }
+
         
         public static void SendGameplayQueueToBuffer()
         {
-            outBuffer = new byte[654];
-            Buffer.BlockCopy(BitConverter.GetBytes((short)0), 0, outBuffer, 0, 2);
-            NetInstructBlock nob = new NetInstructBlock();
-            nob.Init();
-            for(; localGameplayCommands.Count > 0; nob.AddToList(localGameplayCommands.Peek()), localGameplayCommands.Dequeue()) { }
-            Buffer.BlockCopy(nob.ConvertToBytes(), 0, outBuffer, 2, 652); 
+            //byte[] tempBuffer = new byte[1024];
+            TheWorldsMostUnnecessaryStructure str = new TheWorldsMostUnnecessaryStructure();
+            str.Set(1);
+            Debug.Log(str.val.ToString());
+            Array.Copy(str.ToBytes(), 0, outBuffer, 0, 2);
+            TheWorldsMostUnnecessaryStructure y = new TheWorldsMostUnnecessaryStructure();
+            y.Set((short)localGameplayCommands.Count);
+            Debug.Log("queue size: " + y.val.ToString());
+            Buffer.BlockCopy(y.ToBytes(), 0, outBuffer, 2, 2);
+            int offset = 4;
+            byte[] tBuff = new byte[1];
+            for (; localGameplayCommands.Count > 0;
+                tBuff = CommandToByteBlock(localGameplayCommands.Dequeue()),
+                Array.Copy(tBuff, 0, outBuffer, offset, tBuff.Length), 
+                offset += tBuff.Length,
+                Debug.Log(localGameplayCommands.Count.ToString())) { }
+
         }
 
         public static void ProcessGameplayCommandBlock(byte[] buff)
         {
+            byte[] comBuff;
+
+
             Debug.Log("I was activated!");
-            NetInstructBlock nob = new NetInstructBlock();
+            Stack<NetCommand> tempComList = new Stack<NetCommand> { };
 
-            int oSize = buff.Length;
+            int offset = 0;
+            byte[] queueSize = new byte[2];
+            Array.Copy(buff, offset, queueSize, 0, 2);
+            offset += 2;
+            TheWorldsMostUnnecessaryStructure qCount = NetComBuilders.BytesToShortStuff(queueSize);
+            for (; tempComList.Count < qCount.val;)
+            {
+                byte[] cT = new byte[2];
+                Array.Copy(buff, offset, cT, 0, 2);
+                offset += 2;
+                TheWorldsMostUnnecessaryStructure curType = NetComBuilders.BytesToShortStuff(cT);
+                comBuff = new byte[Marshal.SizeOf(gameplayCommandTypes[curType.val])];
+                Array.Copy(buff, offset, comBuff, 0, comBuff.Length);
 
-            IntPtr memAlloc = Marshal.AllocHGlobal(oSize);
-            Marshal.Copy(buff, 0, memAlloc, oSize);
-            nob = Marshal.PtrToStructure<NetInstructBlock>(memAlloc);
-            Marshal.FreeHGlobal(memAlloc);
+                switch (curType.val)
+                {
+                    case (0):
+                        Debug.Log("Queueing up some movement");
+                        tempComList.Push(NetComBuilders.BytesToNetCom(comBuff, new MoveChar()));
+                        networkGameplayCommands.Enqueue(tempComList.Peek());
+                        //tempComList.Peek().Inverse();
+                        break;
+                    case (1):
+                        Debug.Log("Queueing up some attacking");
+                        tempComList.Push(NetComBuilders.BytesToNetCom(comBuff, new BasicAttackChar()));
+                        networkGameplayCommands.Enqueue(tempComList.Peek());
+                        break;
+                    default:
+                        break;
 
-            nob.CopyActiveToQueue(networkGameplayCommands);
+                }
+                offset += comBuff.Length;
+                //networkGameplayCommands.Enqueue(tempComList.Peek());
+                
+
+            }
         }
 
         public static void TempProcessor(byte[] buff)
@@ -291,27 +231,24 @@ namespace JAFnetwork
             int receivedByteCount = rawBytes.Length;
             Debug.Log("Received Bytes: " + receivedByteCount.ToString());
             int offset = 0;
-            short sBuff;
+            byte[] sBuff = new byte[2];
             byte[] comBlock;
 
-            short blockType = BitConverter.ToInt16(rawBytes, 0);
+            Array.Copy(rawBytes, offset, sBuff, 0, 2);
+            TheWorldsMostUnnecessaryStructure str = NetComBuilders.BytesToShortStuff(sBuff);
 
-            for (; offset < (receivedByteCount - 1);)
+            comBlock = new byte[receivedByteCount - 2];
+           
+            Debug.Log("comblock size: " + comBlock.Length.ToString());
+            Array.Copy(rawBytes, 2, comBlock, 0, comBlock.Length);
+            if (str.val == 1)
             {
-                sBuff = BitConverter.ToInt16(rawBytes, offset);
-                comBlock = new byte[652];
-                offset += 2;
-                Debug.Log("comblock size: " + comBlock.Length.ToString());
-                Buffer.BlockCopy(rawBytes, offset, comBlock, 0, comBlock.Length);
-                if (comBlock.Length == 652)
-                {
-                    ProcessGameplayCommandBlock(comBlock);
-                }
-                else
-                {
-                    TempProcessor(comBlock);
-                }
-                offset += comBlock.Length;
+                ProcessGameplayCommandBlock(comBlock);
+            }
+            else
+            {
+                Console.WriteLine("BRUH");
+                TempProcessor(comBlock);
             }
         }
     }

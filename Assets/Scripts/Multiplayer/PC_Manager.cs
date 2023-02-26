@@ -80,7 +80,7 @@ public class PC_Manager : MonoBehaviour
     {
         Debug.Log("Network connections disabled. No attempt made");
         
-        //StartClient();
+        StartClient();
 
         NetworkParser.SetPCOrder(PCList[0], PCList[1]);
         
@@ -90,73 +90,74 @@ public class PC_Manager : MonoBehaviour
     void Update()
     {
         {
-/*
-        if (!quitCommandReceived)
-        {
-            byte[] buff = new byte[1024];
-            int receivedBytes = 0;
-            //string receivedMessage;
-
-            if (HasStuffToRead(clientSock))
-            {
-                receivedBytes = clientSock.Receive(buff);
-                byte[] recBuff = new byte[receivedBytes];
-                Buffer.BlockCopy(buff, 0, recBuff, 0, receivedBytes);
-                NetworkParser.ParseCommandBlock(recBuff);
-                looping = true;
-
-                Debug.Log("CRAZY");
-                Debug.Log("Queue size: " + NetworkParser.networkGameplayCommands.Count);
-                //if (receivedMessage != "end_9669")
-                //{
-                //    Debug.Log("Message from server: " + receivedMessage);
-                //}
-                //else
-                //{
-                //    Debug.Log("QUIT request accepted by server. Closing connection...");
-                //    quitCommandReceived = true;
-                //    KillClient();
-                //}
-            }
 
             if (!quitCommandReceived)
             {
-                if (Input.GetKeyDown(KeyCode.Tab) && CanSend(clientSock))
-                {
-                    NetworkParser.SendGameplayQueueToBuffer();
+                byte[] buff = new byte[1024];
+                int receivedBytes = 0;
+                //string receivedMessage;
 
-                    clientSock.Send(NetworkParser.outBuffer);
+                if (HasStuffToRead(clientSock))
+                {
+                    receivedBytes = clientSock.Receive(buff);
+                    byte[] recBuff = new byte[receivedBytes];
+                    Buffer.BlockCopy(buff, 0, recBuff, 0, receivedBytes);
+                    NetworkParser.ParseCommandBlock(recBuff);
+                    looping = true;
+
+                    Debug.Log("CRAZY");
+                    Debug.Log("Queue size: " + NetworkParser.networkGameplayCommands.Count);
+                    //if (receivedMessage != "end_9669")
+                    //{
+                    //    Debug.Log("Message from server: " + receivedMessage);
+                    //}
+                    //else
+                    //{
+                    //    Debug.Log("QUIT request accepted by server. Closing connection...");
+                    //    quitCommandReceived = true;
+                    //    KillClient();
+                    //}
                 }
-            }
 
-
-
-            if (looping){
-                if (NetworkParser.networkGameplayCommands.Count > 0)
+                if (!quitCommandReceived)
                 {
-
-                    //NetworkParser.networkGameplayCommands.Peek().Inverse();
-                    NetworkParser.networkGameplayCommands.Dequeue();
-
-                    timeOut += Time.deltaTime;
-                    if (timeOut >= 2f)
+                    if (Input.GetKeyDown(KeyCode.Tab) && CanSend(clientSock))
                     {
-                        //NetworkParser.networkGameplayCommands.Peek().Execute();
-                        //NetworkParser.networkGameplayCommands.Dequeue();
+                        NetworkParser.SendGameplayQueueToBuffer();
+
+                        clientSock.Send(NetworkParser.outBuffer);
                     }
-                    timeOut = 0;
                 }
-                else
+
+
+
+                if (looping)
                 {
-                    looping = false;
-                    timeOut = 0;
+                    if (NetworkParser.networkGameplayCommands.Count > 0)
+                    {
+
+                        NetworkParser.networkGameplayCommands.Peek().Inverse();
+                        NetworkParser.networkGameplayCommands.Dequeue();
+
+                        timeOut += Time.deltaTime;
+                        if (timeOut >= 2f)
+                        {
+                            //NetworkParser.networkGameplayCommands.Peek().Execute();
+                            //NetworkParser.networkGameplayCommands.Dequeue();
+                        }
+                        timeOut = 0;
+                    }
+                    else
+                    {
+                        looping = false;
+                        timeOut = 0;
+                    }
                 }
+
             }
-            
+
         }
-        */
-        }
-        
+
     }
 
 
