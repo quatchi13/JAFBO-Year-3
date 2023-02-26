@@ -12,6 +12,8 @@ public class PlayerInput : MonoBehaviour
     private float elevation = 0f;
     private float[] nextEls = new float[]{ 0f, 0f, 0f, 0f };
     
+    [SerializeField]
+    private GameObject[] MoveButtons;
 
     void Start() 
     {
@@ -22,58 +24,56 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if(canMove)
+        if(canMove && ActionPointsManager.instance.actions > 0)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow) && moveRight)
+            if (moveRight)
             {
                 if (IsAppropriateElevation(nextEls[3]))
                 {
-                    ResetValidMoves();
-                    transform.eulerAngles = new Vector3(0,0,0);
-                    transform.position = transform.position + new Vector3(1, 0, 0);
-                    elevation = nextEls[3];
+                    MoveButtons[3].SetActive(true);
+                    //MoveRight();
                 }
                 
                 
             }
 
-            if (Input.GetKeyDown(KeyCode.DownArrow) && moveDown)
+            if (moveDown)
             {
                 if (IsAppropriateElevation(nextEls[1]))
                 {
-                    ResetValidMoves();
-                    transform.eulerAngles = new Vector3(0, 90, 0);
-                    transform.position = transform.position + new Vector3(0, 0, -1);
-                    elevation = nextEls[1];
+                    MoveButtons[1].SetActive(true);
+                    //MoveDown();
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow) && moveLeft)
+            if (moveLeft)
             {
                 if (IsAppropriateElevation(nextEls[2]))
                 {
-                    ResetValidMoves();
-                    transform.eulerAngles = new Vector3(0, 180, 0);
-                    transform.position = transform.position + new Vector3(-1, 0, 0);
-                    elevation = nextEls[2];
+                    MoveButtons[2].SetActive(true);
+                   //MoveLeft();
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) && moveUp)
+            if (moveUp)
             {
                 if (IsAppropriateElevation(nextEls[0]))
                 {
-                    ResetValidMoves();
-                    transform.eulerAngles = new Vector3(0, 270, 0);
-                    transform.position = transform.position + new Vector3(0, 0, 1);
-                    elevation = nextEls[0];
+                    MoveButtons[0].SetActive(true);
+                    //MoveUp();
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && canInteract)
             {
                 Debug.Log ("Interaction");
+            }
+        }
+        else
+        {
+            for(int i = 0; i<MoveButtons.Length; i++)
+            {
+                MoveButtons[i].SetActive(false);
             }
         }
         
@@ -122,6 +122,10 @@ public class PlayerInput : MonoBehaviour
         moveLeft = false;
         moveRight = false;
         moveUp = false;
+        for(int i=0; i < MoveButtons.Length; i++)
+        {
+            MoveButtons[i].SetActive(false);
+        }
     }
 
     public void SetInteractState(bool state)
@@ -167,5 +171,38 @@ public class PlayerInput : MonoBehaviour
         }
 
         return true;
+    }
+
+
+    public void MoveRight()
+    {
+        ResetValidMoves();
+        transform.eulerAngles = new Vector3(0,0,0);
+        transform.position = transform.position + new Vector3(1, 0, 0);
+        elevation = nextEls[3];
+    }
+
+    public void MoveDown()
+    {
+        ResetValidMoves();
+                    transform.eulerAngles = new Vector3(0, 90, 0);
+                    transform.position = transform.position + new Vector3(0, 0, -1);
+                    elevation = nextEls[1];
+    }
+
+    public void MoveLeft()
+    {
+        ResetValidMoves();
+                    transform.eulerAngles = new Vector3(0, 180, 0);
+                    transform.position = transform.position + new Vector3(-1, 0, 0);
+                    elevation = nextEls[2];
+    }
+
+    public void MoveUp()
+    {
+        ResetValidMoves();
+                    transform.eulerAngles = new Vector3(0, 270, 0);
+                    transform.position = transform.position + new Vector3(0, 0, 1);
+                    elevation = nextEls[0];
     }
 }
