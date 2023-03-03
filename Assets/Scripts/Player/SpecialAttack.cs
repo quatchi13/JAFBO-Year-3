@@ -24,6 +24,6 @@ public class SpecialAttack : MonoBehaviour
 
     public void Special()
     {
-        remotePlayer.GetComponent<HealthManager>().AlterHealth(-damage);
+        remotePlayer.GetComponent<StatHolder>().AlterHealth(-damage);
     }
 }

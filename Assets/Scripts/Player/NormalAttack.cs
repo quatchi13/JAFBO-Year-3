@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using JAFnetwork;
 
 public class NormalAttack : MonoBehaviour
 {
     public GameObject remotePlayer;
 
     public GameObject attackButton;
-
-    public int damage = 2;
 
     void Update()
     {
@@ -24,6 +23,11 @@ public class NormalAttack : MonoBehaviour
 
     public void Attack()
     {
-        remotePlayer.GetComponent<HealthManager>().AlterHealth(-damage);
+
+        BasicAttackChar attackChar = new BasicAttackChar();
+        attackChar.Setup(NetworkParser.GetPCIndex(gameObject), NetworkParser.GetPCIndex(remotePlayer), new Vector3 (0,0,0));
+        attackChar.Execute();
+        NetworkParser.localGameplayCommands.Enqueue(attackChar);
+
     }
 }

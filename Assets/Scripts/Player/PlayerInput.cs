@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using JAFnetwork;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -177,32 +178,40 @@ public class PlayerInput : MonoBehaviour
     public void MoveRight()
     {
         ResetValidMoves();
-        transform.eulerAngles = new Vector3(0,0,0);
-        transform.position = transform.position + new Vector3(1, 0, 0);
+        MoveChar moveRight = new MoveChar();
+        moveRight.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(1, 0, 0), new Vector3(0, 0, 0));
+        moveRight.Execute();
+        NetworkParser.localGameplayCommands.Enqueue(moveRight);
         elevation = nextEls[3];
     }
 
     public void MoveDown()
     {
         ResetValidMoves();
-                    transform.eulerAngles = new Vector3(0, 90, 0);
-                    transform.position = transform.position + new Vector3(0, 0, -1);
-                    elevation = nextEls[1];
+        MoveChar moveDown = new MoveChar();
+        moveDown.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, -1), new Vector3(0, 90, 0));
+        moveDown.Execute();
+        NetworkParser.localGameplayCommands.Enqueue(moveDown);
+        elevation = nextEls[1];
     }
 
     public void MoveLeft()
     {
         ResetValidMoves();
-                    transform.eulerAngles = new Vector3(0, 180, 0);
-                    transform.position = transform.position + new Vector3(-1, 0, 0);
-                    elevation = nextEls[2];
+        MoveChar moveLeft = new MoveChar();
+        moveLeft.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(-1, 0, 0), new Vector3(0, 180, 0));
+        moveLeft.Execute();
+        NetworkParser.localGameplayCommands.Enqueue(moveLeft);
+        elevation = nextEls[2];
     }
 
     public void MoveUp()
     {
         ResetValidMoves();
-                    transform.eulerAngles = new Vector3(0, 270, 0);
-                    transform.position = transform.position + new Vector3(0, 0, 1);
-                    elevation = nextEls[0];
+        MoveChar moveUp = new MoveChar();
+        moveUp.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, 1), new Vector3(0, 270, 0));
+        moveUp.Execute();
+        NetworkParser.localGameplayCommands.Enqueue(moveUp);
+        elevation = nextEls[0];
     }
 }

@@ -21,4 +21,9 @@ public class ActionPointsManager : MonoBehaviour
     {
         actions += difference;
     }
+
+    public void StartTurn()
+    {
+        actions = 10;
+    }
 }
