@@ -83,14 +83,14 @@ namespace JAFnetwork
         {
             NetworkParser.playerCharacters[indexAttacker].transform.eulerAngles = new Vector3(eulerX, eulerY, eulerZ);
             //player.GetComponent<Animator>().SetBool("Attack", true);
-            NetworkParser.playerCharacters[indexReceiver].GetComponent<StatHolder>().AlterHealth(NetworkParser.playerCharacters[indexAttacker].GetComponent<StatHolder>().damage);
+            NetworkParser.playerCharacters[indexReceiver].GetComponent<StatHolder>().InflictDamage(NetworkParser.playerCharacters[indexAttacker].GetComponent<StatHolder>().damage);
             Debug.Log("slap");
         }
 
         public void Inverse() {
             NetworkParser.playerCharacters[1].transform.eulerAngles = new Vector3(-eulerX, -eulerY, -eulerZ);
             //player.GetComponent<Animator>().SetBool("Attack", true);
-            NetworkParser.playerCharacters[0].GetComponent<StatHolder>().AlterHealth(-NetworkParser.playerCharacters[1].GetComponent<StatHolder>().damage);
+            NetworkParser.playerCharacters[0].GetComponent<StatHolder>().InflictDamage(NetworkParser.playerCharacters[1].GetComponent<StatHolder>().damage);
             Debug.Log("slap");
         }
 

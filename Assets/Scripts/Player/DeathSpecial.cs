@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpecialAttack : MonoBehaviour
+public class DeathSpecial : MonoBehaviour
 {
-    public GameObject remotePlayer;
-
     public GameObject specialButton;
 
-    public int damage = 5;
+    public GameObject remotePlayer;
 
     private void Update() 
     {
@@ -24,6 +22,6 @@ public class SpecialAttack : MonoBehaviour
 
     public void Special()
     {
-        remotePlayer.GetComponent<StatHolder>().AlterHealth(-damage);
+        remotePlayer.GetComponent<StatHolder>().SetMarkedState(true);
     }
 }
