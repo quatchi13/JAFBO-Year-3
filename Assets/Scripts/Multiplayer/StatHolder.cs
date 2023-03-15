@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class StatHolder : MonoBehaviour
 {
+    private Animator animator;
+
+    void Awake() 
+    {
+        animator = GetComponent<Animator>();
+        
+    }
+
     public int health = 10;
     public int damage = 2;
 
@@ -23,6 +31,8 @@ public class StatHolder : MonoBehaviour
             tempHealth /= 4;
         }
         health -= tempHealth;
+        //get hurt lmao
+        animator.Play("Hurt");
         
     }
 
