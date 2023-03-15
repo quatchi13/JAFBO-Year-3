@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PlayerWrapper;
+using JAFnetwork;
 
 public class Attacking : MonoBehaviour
 {
@@ -37,38 +38,47 @@ public class Attacking : MonoBehaviour
         {
 
         
-        if(canAttack)
-        {
-            if (Input.GetKeyDown(KeyCode.D) && attackRight)
+            if(canAttack)
             {
-                ResetValidMoves();
-                PlayerUpdater.AttackPlayer(gameObject, currentTargets[3], new Vector3 (0,0,0), currentDamage);
-            }
+                if (Input.GetKeyDown(KeyCode.D) && attackRight)
+                {
+                        //ResetValidMoves();
+                    BasicAttackChar atk = new BasicAttackChar();
+                    atk.Setup(NetworkParser.GetPCIndex(gameObject), NetworkParser.GetPCIndex(currentTargets[3]), new Vector3(0, 0, 0));
+                    atk.Execute();
+                    NetworkParser.localGameplayCommands.Enqueue(atk);
+                }
 
-            if (Input.GetKeyDown(KeyCode.S) && attackDown)
-            {
-                ResetValidMoves();
-                PlayerUpdater.AttackPlayer(gameObject, currentTargets[1], new Vector3 (0,90,0), currentDamage);
-    
-                
-            }
+                if (Input.GetKeyDown(KeyCode.S) && attackDown)
+                {
+                    BasicAttackChar atk = new BasicAttackChar();
+                    atk.Setup(NetworkParser.GetPCIndex(gameObject), NetworkParser.GetPCIndex(currentTargets[1]), new Vector3(0, 90, 0));
 
-            if (Input.GetKeyDown(KeyCode.A) && attackLeft)
-            {
-                ResetValidMoves();
-                PlayerUpdater.AttackPlayer(gameObject, currentTargets[2], new Vector3 (0,180,0), currentDamage);
+                    atk.Execute();
+                    NetworkParser.localGameplayCommands.Enqueue(atk);
+
+                }
+
+                if (Input.GetKeyDown(KeyCode.A) && attackLeft)
+                {
+                    BasicAttackChar atk = new BasicAttackChar();
+                    atk.Setup(NetworkParser.GetPCIndex(gameObject), NetworkParser.GetPCIndex(currentTargets[2]), new Vector3(0, 180, 0));
+
+                    atk.Execute();
+                    NetworkParser.localGameplayCommands.Enqueue(atk);
           
                 
-            }
+                }
 
-            if (Input.GetKeyDown(KeyCode.W) && attackUp)
-            {
-                ResetValidMoves();
-                PlayerUpdater.AttackPlayer(gameObject, currentTargets[0], new Vector3 (0,270,0), currentDamage);
-                
-                
-            }
-        }   
+                if (Input.GetKeyDown(KeyCode.W) && attackUp)
+                {
+                    BasicAttackChar atk = new BasicAttackChar();
+                    atk.Setup(NetworkParser.GetPCIndex(gameObject), NetworkParser.GetPCIndex(currentTargets[0]), new Vector3(0, 270, 0));
+
+                    atk.Execute();
+                    NetworkParser.localGameplayCommands.Enqueue(atk);
+                }
+            }   
         }
     }
 

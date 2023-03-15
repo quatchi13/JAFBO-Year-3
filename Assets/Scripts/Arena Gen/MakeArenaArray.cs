@@ -136,7 +136,7 @@ public class MakeArenaArray : MonoBehaviour
 
 
 
-    protected void SetToWestern()
+    public void SetToWestern()
     {
         if (arenaStateContext.agState is not WesternState)
         {
@@ -144,7 +144,7 @@ public class MakeArenaArray : MonoBehaviour
         }
     }
 
-    protected void SetToDefault()
+    public void SetToDefault()
     {
         if (arenaStateContext.agState is not DefaultState)
         {
