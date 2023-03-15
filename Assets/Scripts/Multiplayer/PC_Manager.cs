@@ -10,15 +10,16 @@ using System;
 
 
 /// <summary>
-/// if any of you bitches touch this script or PlayerComm.cs, i will kill you. not literally, but i will be fucking pissed. don't do it.
-/// i didn't even want to push this version at all. fuck this
+/// This needs to be placed on some sort of game manager
+/// we will likely have some of this stuff (the socket) carry over from setup
 /// </summary>
 
 
 public class PC_Manager : MonoBehaviour
 {
-    public List<GameObject> MasterList = new List<GameObject> { };
-    public GameObject[] PCList = new GameObject[2];
+    public static List<GameObject> MasterList = new List<GameObject> { };
+    public static GameObject[] PCList = new GameObject[2];
+    public GameObject ArenaManagerRef;
 
     private Socket client;
     // Start is called before the first frame update
@@ -28,7 +29,7 @@ public class PC_Manager : MonoBehaviour
     private static Socket clientSock;
     public static bool quitCommandReceived = false;
     public static float delay = 2f;
-    public static float timeOut = 0f;
+    public float timeOut = 0.8f;
 
     public bool looping = false;
 
@@ -78,19 +79,20 @@ public class PC_Manager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Network connections disabled. No attempt made");
-        
+        //comment this out if you are not testing networking
         StartClient();
-
+        //don't uncomment this tho
         NetworkParser.SetPCOrder(PCList[0], PCList[1]);
+        NetworkParser.aGenRef = ArenaManagerRef;
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        //comment everything in these {}'s if you aren't using networking
         {
-
+            //i need to clean this up X(
             if (!quitCommandReceived)
             {
                 byte[] buff = new byte[1024];
@@ -107,16 +109,7 @@ public class PC_Manager : MonoBehaviour
 
                     Debug.Log("CRAZY");
                     Debug.Log("Queue size: " + NetworkParser.networkGameplayCommands.Count);
-                    //if (receivedMessage != "end_9669")
-                    //{
-                    //    Debug.Log("Message from server: " + receivedMessage);
-                    //}
-                    //else
-                    //{
-                    //    Debug.Log("QUIT request accepted by server. Closing connection...");
-                    //    quitCommandReceived = true;
-                    //    KillClient();
-                    //}
+                    
                 }
 
                 if (!quitCommandReceived)
@@ -129,6 +122,10 @@ public class PC_Manager : MonoBehaviour
                     }
                 }
 
+                if(NetworkParser.serverCommandQueue.Count > 0)
+                {
+                    NetworkParser.serverCommandQueue.Dequeue().Execute();
+                }
 
 
                 if (looping)
@@ -136,21 +133,19 @@ public class PC_Manager : MonoBehaviour
                     if (NetworkParser.networkGameplayCommands.Count > 0)
                     {
 
-                        NetworkParser.networkGameplayCommands.Peek().Inverse();
-                        NetworkParser.networkGameplayCommands.Dequeue();
-
                         timeOut += Time.deltaTime;
-                        if (timeOut >= 2f)
+                        if (timeOut >= 0.8f)
                         {
-                            //NetworkParser.networkGameplayCommands.Peek().Execute();
-                            //NetworkParser.networkGameplayCommands.Dequeue();
+                            NetworkParser.networkGameplayCommands.Peek().Inverse();
+                            NetworkParser.networkGameplayCommands.Dequeue();
+                            timeOut = 0;
                         }
-                        timeOut = 0;
+                        
                     }
                     else
                     {
                         looping = false;
-                        timeOut = 0;
+                        timeOut = 0.8f;
                     }
                 }
 
@@ -164,7 +159,7 @@ public class PC_Manager : MonoBehaviour
 
 
 
-    public void ReorderPlayerCharacters(List<int> order)
+    public static void ReorderPlayerCharacters(List<int> order)
     {
         for(int i = 0; i < order.Count; i++)
         {
