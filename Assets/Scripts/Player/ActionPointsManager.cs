@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class ActionPointsManager : MonoBehaviour
 {
-    public static ActionPointsManager instance;
 
     public int actions=10;
     private void Start() 
     {
-        if(!instance)
-        {
-            instance = this;
-        }    
+        
     }
 
-   
 
     public void AlterActionNumber(int difference)
     {
@@ -24,6 +19,6 @@ public class ActionPointsManager : MonoBehaviour
 
     public void StartTurn()
     {
-        actions = 10;
+        actions = gameObject.GetComponent<StatHolder>().stats[2];
     }
 }

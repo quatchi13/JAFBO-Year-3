@@ -13,6 +13,7 @@ public class networkSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public GameObject florence;
     public GameObject death;
     public GameObject otherNetwork;
+    public GameObject ant;
     public Vector3 florenceLocation;
     public Vector3 deathLocation;
     public Vector3 offScreen;
@@ -37,5 +38,7 @@ public void OnPointerExit(PointerEventData eventData)
 
         florence.transform.position = florenceLocation;
         death.transform.position = deathLocation;
+
+        ant.GetComponent<Lobby>().StartClient();
    }
 }

@@ -6,13 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class begin : MonoBehaviour, IPointerDownHandler
 {
-
+    public GameObject ant;
     // Update is called once per frame
     void Update()
     {
         
     }
-     public void OnPointerDown(PointerEventData evemtData){
-        SceneManager.LoadScene("Game"); 
-   }
+     
+    public void OnPointerDown(PointerEventData evemtData){
+        ant.GetComponent<Lobby>().SendCharacterSelection();
+    }
 }

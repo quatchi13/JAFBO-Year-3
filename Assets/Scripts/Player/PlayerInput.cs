@@ -6,7 +6,6 @@ using JAFnetwork;
 public class PlayerInput : MonoBehaviour
 {
     private bool canMove = true;
-    
 
     private bool moveUp, moveDown, moveLeft, moveRight, canInteract = false;
 
@@ -16,20 +15,17 @@ public class PlayerInput : MonoBehaviour
     [SerializeField]
     private GameObject[] MoveButtons;
 
-    private Animator animator;
-
-    void Awake() 
+    void Start() 
     {
-        animator = GetComponent<Animator>();
+        
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(canMove && ActionPointsManager.instance.actions > 0)
+        if(canMove && gameObject.GetComponent<ActionPointsManager>().actions > 0)
         {
-
             if (moveRight)
             {
                 if (IsAppropriateElevation(nextEls[3]))
@@ -180,8 +176,6 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveRight()
     {
-         //move anim
-        animator.Play("Walk");
         ResetValidMoves();
         MoveChar moveRight = new MoveChar();
         moveRight.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(1, 0, 0), new Vector3(0, 0, 0));
@@ -192,8 +186,6 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveDown()
     {
-        //move anim
-        animator.Play("Walk");
         ResetValidMoves();
         MoveChar moveDown = new MoveChar();
         moveDown.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, -1), new Vector3(0, 90, 0));
@@ -204,8 +196,6 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveLeft()
     {
-         //move anim
-        animator.Play("Walk");
         ResetValidMoves();
         MoveChar moveLeft = new MoveChar();
         moveLeft.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(-1, 0, 0), new Vector3(0, 180, 0));
@@ -216,8 +206,6 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveUp()
     {
-        //move anim
-        animator.Play("Walk");
         ResetValidMoves();
         MoveChar moveUp = new MoveChar();
         moveUp.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, 1), new Vector3(0, 270, 0));

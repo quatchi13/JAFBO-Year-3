@@ -1324,6 +1324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de56e449c31b664fbf0f1cfa0385fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ant: {fileID: 887816443}
 --- !u!1001 &382544495
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3016,6 +3017,7 @@ GameObject:
   m_Component:
   - component: {fileID: 887816445}
   - component: {fileID: 887816444}
+  - component: {fileID: 887816446}
   m_Layer: 0
   m_Name: Antenna
   m_TagString: Untagged
@@ -3036,6 +3038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: 0
+  lob: {fileID: 887816446}
 --- !u!4 &887816445
 Transform:
   m_ObjectHideFlags: 0
@@ -3051,6 +3054,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 62
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &887816446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887816443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1708fe081cfc0114b8be1e20b2fdd91e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isConnected: 0
+  looping: 0
+  timeOut: 0.8
 --- !u!4 &933216747 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8728488484750205619, guid: 0035c3da17ae3174cbf4cc3aef46126f, type: 3}
@@ -5752,6 +5770,7 @@ MonoBehaviour:
   florence: {fileID: 189906395}
   death: {fileID: 1485806686}
   otherNetwork: {fileID: 2095689220}
+  ant: {fileID: 887816443}
   florenceLocation: {x: 960, y: 1080, z: 0}
   deathLocation: {x: 2880, y: 1080, z: 0}
   offScreen: {x: 0, y: -2300, z: 0}
@@ -6873,6 +6892,7 @@ MonoBehaviour:
   florence: {fileID: 189906395}
   death: {fileID: 1485806686}
   otherNetwork: {fileID: 1780487587}
+  ant: {fileID: 887816443}
   florenceLocation: {x: 960, y: 1080, z: 0}
   deathLocation: {x: 2880, y: 1080, z: 0}
   offScreen: {x: 0, y: -2300, z: 0}

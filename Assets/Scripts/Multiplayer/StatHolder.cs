@@ -4,48 +4,51 @@ using UnityEngine;
 
 public class StatHolder : MonoBehaviour
 {
-    private Animator animator;
 
-    void Awake() 
+
+    //health,damage,speed
+    public int[] stats = new int[3] { 1, 1, 1 };
+
+    //cloaked,marked
+    public bool[] statuses = new bool[2]{false, false};
+
+
+    public void InitStats(int health, int damage, int speed,bool cloaked,bool marked)
     {
-        animator = GetComponent<Animator>();
-        
+        stats[0] = health;
+        stats[1] = damage;
+        stats[2] = speed;
+        statuses[0] = cloaked;
+        statuses[1] = marked;
+
+
     }
-
-    public int health = 10;
-    public int damage = 2;
-
-    public bool cloaked = false;
-
-    public bool marked = false;
 
     public void InflictDamage(int value)
     {
         int tempHealth = value;
-        if(marked == true)
+        if(statuses[1] == true)
         {
             tempHealth *= 2;
         }
-        if (cloaked == true)
+        if (statuses[0] == true)
         {
             tempHealth /= 4;
         }
-        health -= tempHealth;
-        //get hurt lmao
-        animator.Play("Hurt");
+        stats[0] -= tempHealth;
         
     }
 
     public void Heal(int value)
     {
-        health += value;
+        stats[0] += value;
     }
 
     void Update()
     {
-        if(health < 0)
+        if(stats[0] < 0)
         {
-            health = 0;
+            stats[0] = 0;
             Debug.Log("Dead");
         }
     }
@@ -53,11 +56,11 @@ public class StatHolder : MonoBehaviour
 
     public void SetCloakedState(bool status)
     {
-        cloaked = status;
+        statuses[0] = status;
     }
 
     public void SetMarkedState(bool status)
     {
-        marked = status;
+        statuses[1] = status;
     }
 }

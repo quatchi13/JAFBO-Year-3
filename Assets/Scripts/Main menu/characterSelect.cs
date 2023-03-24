@@ -37,7 +37,8 @@ public void OnPointerExit(PointerEventData eventData)
         beginTime = true;
         begin.transform.position = beginLocation;
         antenna.GetComponent<dontDestroyOnLoad>().character = character;
+        
 
-   }
+    }
 
 }

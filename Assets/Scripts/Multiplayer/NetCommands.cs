@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using JAFprocedural;
 /// <summary>
 /// we don't need to attach this anywhere, it's backend code
 /// in a non-dummy visualizer experience, inverse should be applied to the original gameobjects
@@ -83,14 +84,14 @@ namespace JAFnetwork
         {
             NetworkParser.playerCharacters[indexAttacker].transform.eulerAngles = new Vector3(eulerX, eulerY, eulerZ);
             //player.GetComponent<Animator>().SetBool("Attack", true);
-            NetworkParser.playerCharacters[indexReceiver].GetComponent<StatHolder>().InflictDamage(NetworkParser.playerCharacters[indexAttacker].GetComponent<StatHolder>().damage);
+            NetworkParser.playerCharacters[indexReceiver].GetComponent<StatHolder>().InflictDamage(NetworkParser.playerCharacters[indexAttacker].GetComponent<StatHolder>().stats[1]);
             Debug.Log("slap");
         }
 
         public void Inverse() {
             NetworkParser.playerCharacters[1].transform.eulerAngles = new Vector3(-eulerX, -eulerY, -eulerZ);
             //player.GetComponent<Animator>().SetBool("Attack", true);
-            NetworkParser.playerCharacters[0].GetComponent<StatHolder>().InflictDamage(NetworkParser.playerCharacters[1].GetComponent<StatHolder>().damage);
+            NetworkParser.playerCharacters[0].GetComponent<StatHolder>().InflictDamage(NetworkParser.playerCharacters[1].GetComponent<StatHolder>().stats[1]);
             Debug.Log("slap");
         }
 
@@ -145,6 +146,119 @@ namespace JAFnetwork
         public short ComIndex() { return 3; }
     }
 
+    public interface ServerCommand
+    {
+        void Execute();
+        short ComIndex();
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8)]
+    public class ArenaSetupCommand : ServerCommand
+    {
+        [FieldOffset(0)] public int rngSeed;
+        [FieldOffset(4)] public short arenaType;
+        [FieldOffset(6)] public short playerLocRotation;
+        public void Execute()
+        {
+            RNG.SetSeed(rngSeed);
+            switch (arenaType)
+            {
+                case (1):
+                    NetworkParser.aGenRef.GetComponent<MakeArenaArray>().SetToWestern();
+                    break;
+                default:
+                    NetworkParser.aGenRef.GetComponent<MakeArenaArray>().SetToDefault();
+                    break;
+            }
+
+            NetworkParser.aGenRef.GetComponent<MakeArenaArray>().GenerateNewTerrain();
+
+            //if we have multiple players we will do a thing trademark where we determine where 
+            //all of the players actually get positioned on the map
+        }
+
+        public short ComIndex()
+        {
+            return 0;
+        }
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8)]
+    public class CharacterOrderCommand : ServerCommand
+    {
+        [FieldOffset(0)] short ind1;
+        [FieldOffset(2)] short char1;
+        [FieldOffset(4)] short ind2;
+        [FieldOffset(6)] short char2;
+
+        public void Setup(short a = 0, short b = 0, short c = 1, short d = 1)
+        {
+            ind1 = a;
+            ind2 = b;
+            char1 = c;
+            char2 = d;
+        }
+
+        public void Execute()
+        {
+            NetworkParser.playerCharacters[0] = PC_Manager.PCList[ind1];
+            NetworkParser.playerCharacters[1] = PC_Manager.PCList[ind2];
+        }
+
+        public short ComIndex()
+        {
+            return 1;
+        }
+
+
+    }
+
+
+    [StructLayout(LayoutKind.Explicit, Size = 2)]
+    public class ReadyCommand : ServerCommand
+    {
+        [FieldOffset(0)] public short selectedCharacter;
+
+        public void Execute()
+        {
+            //cope
+        }
+
+        public short ComIndex()
+        {
+            return 2;
+        }
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 2)]
+    public class StartTurnCommand : ServerCommand
+    {
+        public void Execute()
+        {
+            //seethe?
+        }
+
+        public short ComIndex()
+        {
+            return 3;
+        }
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 2)]
+    public class StartGameCommand : ServerCommand
+    {
+        public void Execute()
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        }
+
+        public short ComIndex()
+        {
+            return 4;
+        }
+    }
+
+
 
     [StructLayout(LayoutKind.Explicit, Size = 2)]
     public class TheWorldsMostUnnecessaryStructure
@@ -173,6 +287,25 @@ namespace JAFnetwork
 
     public static class NetComBuilders
     {
+
+        public static byte[] ServComToByteBlock(ServerCommand s)
+        {
+            int comSize = Marshal.SizeOf(s);
+            byte[] byteBlock = new byte[comSize + 2];
+
+            TheWorldsMostUnnecessaryStructure ind = new TheWorldsMostUnnecessaryStructure();
+            ind.Set(s.ComIndex());
+            byte[] iBytes = ind.ToBytes();
+            Buffer.BlockCopy(iBytes, 0, byteBlock, 0, 2);
+
+            IntPtr memPoint = Marshal.AllocHGlobal(comSize);
+            Marshal.StructureToPtr(s, memPoint, false);
+            Marshal.Copy(memPoint, byteBlock, 2, comSize);
+            Marshal.FreeHGlobal(memPoint);
+
+            return byteBlock;
+        }
+
         public static NetCommand BytesToNetCom(byte[] bytes, NetCommand nCom)
         {
             int obSize = Marshal.SizeOf(nCom);
@@ -182,6 +315,17 @@ namespace JAFnetwork
             Marshal.FreeHGlobal(memPointer);
 
             return nCom;
+        }
+
+        public static ServerCommand BytesToServerCom(byte[] bytes, ServerCommand sCom)
+        {
+            int obSize = Marshal.SizeOf(sCom);
+            IntPtr memPointer = Marshal.AllocHGlobal(obSize);
+            Marshal.Copy(bytes, 0, memPointer, obSize);
+            Marshal.PtrToStructure(memPointer, sCom);
+            Marshal.FreeHGlobal(memPointer);
+
+            return sCom;
         }
 
         public static TheWorldsMostUnnecessaryStructure BytesToShortStuff(byte[] bytes)

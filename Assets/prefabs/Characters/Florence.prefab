@@ -2542,7 +2542,7 @@ Transform:
   - {fileID: 6780751426553187315}
   - {fileID: 1524607244375296683}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!54 &1906471611792117589
 Rigidbody:
@@ -2619,10 +2619,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40bc1dc19febc6144bc72949eb1434a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  damage: 2
-  cloaked: 0
-  marked: 0
+  stats: 960000003200000005000000
+  statuses: 0000
 --- !u!114 &1906471611792117593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2649,6 +2647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e451f42bc37fb24c9ff37ccea99e648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 0}
   MoveButtons:
   - {fileID: 0}
   - {fileID: 0}
