@@ -20,8 +20,10 @@ namespace JAFnetwork
 
         public static Queue<NetCommand> localGameplayCommands = new Queue<NetCommand>();
         public static Queue<NetCommand> networkGameplayCommands = new Queue<NetCommand>();
+        public static Queue<ServerCommand> serverCommandQueue = new Queue<ServerCommand>();
 
         public static GameObject[] playerCharacters = new GameObject[2];
+        public static GameObject aGenRef = new GameObject();
         public static void SetPCOrder(GameObject g1, GameObject g2)
         {
             playerCharacters[0] = g1;
@@ -29,20 +31,25 @@ namespace JAFnetwork
         }
         public static short GetPCIndex(GameObject pc)
         {
-            return((pc == playerCharacters[0]) ? (short)0:(short)1);
+            return ((pc == playerCharacters[0]) ? (short)0 : (short)1);
         }
 
-        
 
-        private static NetCommand[] gameplayCommandTypes = new NetCommand[] { 
-            new MoveChar(), 
-            new BasicAttackChar(), 
-            new ChangeStatChar(), 
-            new ChangeFlagChar() 
+
+
+        private static NetCommand[] gameplayCommandTypes = new NetCommand[] {
+            new MoveChar(),
+            new BasicAttackChar(),
+            new ChangeStatChar(),
+            new ChangeFlagChar()
         };
-        
+        private static ServerCommand[] serverCommandTypes = new ServerCommand[]
+        {
+            new ArenaSetupCommand(), new CharacterOrderCommand(), new ReadyCommand(), new StartTurnCommand(), new StartGameCommand()
+        };
 
-        
+
+
 
 
         public static byte[] CommandToByteBlock(NetCommand netCom)
@@ -62,7 +69,7 @@ namespace JAFnetwork
             return byteBlock;
         }
 
-        
+
         public static void SendGameplayQueueToBuffer()
         {
             TheWorldsMostUnnecessaryStructure str = new TheWorldsMostUnnecessaryStructure();
@@ -76,7 +83,7 @@ namespace JAFnetwork
             byte[] tBuff = new byte[1];
             for (; localGameplayCommands.Count > 0;
                 tBuff = CommandToByteBlock(localGameplayCommands.Dequeue()),
-                Array.Copy(tBuff, 0, outBuffer, offset, tBuff.Length), 
+                Array.Copy(tBuff, 0, outBuffer, offset, tBuff.Length),
                 offset += tBuff.Length) { }
 
         }
@@ -121,14 +128,64 @@ namespace JAFnetwork
                 }
                 offset += comBuff.Length;
                 //networkGameplayCommands.Enqueue(tempComList.Peek());
-                
+
 
             }
         }
 
-        public static void TempProcessor(byte[] buff)
+        public static void ProcessServerCommandBlock(byte[] buff)
         {
+            byte[] comBuff;
 
+
+            Stack<ServerCommand> tempComList = new Stack<ServerCommand> { };
+
+            int offset = 0;
+            byte[] queueSize = new byte[2];
+            Array.Copy(buff, offset, queueSize, 0, 2);
+            offset += 2;
+            TheWorldsMostUnnecessaryStructure qCount = NetComBuilders.BytesToShortStuff(queueSize);
+            Debug.Log("Commands received from the server: " + qCount.val.ToString());
+            for (; tempComList.Count < qCount.val;)
+            {
+                byte[] cT = new byte[2];
+                Array.Copy(buff, offset, cT, 0, 2);
+                offset += 2;
+                TheWorldsMostUnnecessaryStructure curType = NetComBuilders.BytesToShortStuff(cT);
+                Debug.Log("Server command type: " + curType.val.ToString());
+                comBuff = new byte[Marshal.SizeOf(serverCommandTypes[curType.val])];
+                if (comBuff.Length == 0) comBuff = new byte[2];
+                Array.Copy(buff, offset, comBuff, 0, comBuff.Length);
+
+                switch (curType.val)
+                {
+                    case (0):
+                        Debug.Log("Server command: Make arena");
+                        tempComList.Push(NetComBuilders.BytesToServerCom(comBuff, new ArenaSetupCommand()));
+                        serverCommandQueue.Enqueue(tempComList.Peek());
+                        //tempComList.Peek().Inverse();
+                        break;
+                    case (1):
+                        Debug.Log("Server command: Setup characters");
+                        tempComList.Push(NetComBuilders.BytesToServerCom(comBuff, new CharacterOrderCommand()));
+                        serverCommandQueue.Enqueue(tempComList.Peek());
+                        break;
+                    case (3):
+                        Debug.Log("Server command: Start");
+                        tempComList.Push(NetComBuilders.BytesToServerCom(comBuff, new StartTurnCommand()));
+                        serverCommandQueue.Enqueue(tempComList.Peek());
+                        break;
+                    case (4):
+                        Debug.Log("Server command: Init game");
+                        tempComList.Push(NetComBuilders.BytesToServerCom(comBuff, new StartGameCommand()));
+                        serverCommandQueue.Enqueue(tempComList.Peek());
+                        break;
+                    default:
+                        break;
+
+                }
+                offset += comBuff.Length;
+            }
         }
 
         public static void ParseCommandBlock(byte[] rawBytes)
@@ -141,19 +198,24 @@ namespace JAFnetwork
 
             Array.Copy(rawBytes, offset, sBuff, 0, 2);
             TheWorldsMostUnnecessaryStructure str = NetComBuilders.BytesToShortStuff(sBuff);
+            Debug.Log(str.val.ToString());
 
             comBlock = new byte[receivedByteCount - 2];
-           
+
             Debug.Log("comblock size: " + comBlock.Length.ToString());
             Array.Copy(rawBytes, 2, comBlock, 0, comBlock.Length);
             if (str.val == 1)
             {
                 ProcessGameplayCommandBlock(comBlock);
             }
+            else if (str.val == 3)
+            {
+                Debug.Log("server commands");
+                ProcessServerCommandBlock(comBlock);
+            }
             else
             {
                 Console.WriteLine("BRUH");
-                TempProcessor(comBlock);
             }
         }
     }

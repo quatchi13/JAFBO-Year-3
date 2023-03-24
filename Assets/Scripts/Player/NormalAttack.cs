@@ -11,7 +11,7 @@ public class NormalAttack : MonoBehaviour
 
     void Update()
     {
-        if(Vector3.Distance(transform.position, remotePlayer.transform.position) == 1.0f && ActionPointsManager.instance.actions > 1)
+        if(Vector3.Distance(transform.position, remotePlayer.transform.position) == 1.0f && gameObject.GetComponent<ActionPointsManager>().actions > 1)
         {
             attackButton.SetActive(true);
         }

@@ -25,7 +25,7 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(canMove && ActionPointsManager.instance.actions > 0)
+        if(canMove && gameObject.GetComponent<ActionPointsManager>().actions > 0)
         {
             if (moveRight)
             {

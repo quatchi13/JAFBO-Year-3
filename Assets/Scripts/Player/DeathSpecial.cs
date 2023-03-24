@@ -10,7 +10,7 @@ public class DeathSpecial : MonoBehaviour
 
     private void Update() 
     {
-        if(ActionPointsManager.instance.actions > 4)
+        if(gameObject.GetComponent<ActionPointsManager>().actions > 4)
         {
             specialButton.SetActive(true);
         }    

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlorenceSpecials : MonoBehaviour
+public class LifeSpecial : MonoBehaviour
 {
     public GameObject specialButton;
 
@@ -20,6 +20,6 @@ public class FlorenceSpecials : MonoBehaviour
 
     public void Special()
     {
-        gameObject.GetComponent<StatHolder>().SetCloakedState(true);
+        gameObject.GetComponent<StatHolder>().Heal(32);
     }
 }
