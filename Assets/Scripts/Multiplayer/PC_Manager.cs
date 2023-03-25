@@ -19,7 +19,7 @@ public class PC_Manager : MonoBehaviour
 {
     //reference to the arena manager
     public GameObject ArenaManagerRef;
-    
+
     //player and remote player game objects
     public List<GameObject> MasterList = new List<GameObject> { };
 
@@ -36,9 +36,17 @@ public class PC_Manager : MonoBehaviour
 
     void Start()
     {
-        SetupStaticlist(MasterList, PCList);
-        SetupStaticlist(localPlayerPrefabs, staticLocalPrefabs);
-        SetupStaticlist(remotePlayerPrefabs, staticRemotePrefabs);
+        MasterList[0] = (GameObject.FindWithTag("Player"));
+        MasterList[1] = (GameObject.FindWithTag("OtherPlayer"));
+
+        PCList = new GameObject[MasterList.Count];
+        for (int i = 0; i < PCList.Length; PCList[i] = MasterList[i], i++) ;
+
+        staticLocalPrefabs = new GameObject[localPlayerPrefabs.Count];
+        for (int i = 0; i < staticLocalPrefabs.Length; staticLocalPrefabs[i] = localPlayerPrefabs[i], i++) ;
+
+        staticRemotePrefabs = new GameObject[remotePlayerPrefabs.Count];
+        for (int i = 0; i < staticRemotePrefabs.Length; staticRemotePrefabs[i] = remotePlayerPrefabs[i], i++) ;
 
         NetworkParser.SetPCOrder(PCList[0], PCList[1]);
         NetworkParser.aGenRef = ArenaManagerRef;
@@ -47,25 +55,14 @@ public class PC_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
 
     }
 
-    private void SetupStaticlist(List<GameObject> list, GameObject[] array)
-    {
-        int arraySize = list.Count;
-
-        if (arraySize < 0)
-        {
-            array = new GameObject[arraySize];
-            for (int i = 0; i < arraySize; array[i] = list[i], i++) { }
-        }
-
-    }
 
     public void ReorderPlayerCharacters(List<int> order)
     {
-        for(int i = 0; i < order.Count; i++)
+        for (int i = 0; i < order.Count; i++)
         {
             PCList[i] = MasterList[order[i]];
         }

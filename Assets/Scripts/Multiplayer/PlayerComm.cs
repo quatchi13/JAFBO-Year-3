@@ -218,5 +218,16 @@ namespace JAFnetwork
                 Console.WriteLine("BRUH");
             }
         }
+
+        public static void SetLocalCharacter(GameObject replace, short index)
+        {
+            playerCharacters[GetPCIndex(replace)] = GameObject.Instantiate(PC_Manager.staticLocalPrefabs[index], replace.transform);
+
+        }
+
+        public static void SetRemoteCharacter(GameObject replace, short index)
+        {
+            playerCharacters[GetPCIndex(replace)] = GameObject.Instantiate(PC_Manager.staticRemotePrefabs[index], replace.transform);
+        }
     }
 }

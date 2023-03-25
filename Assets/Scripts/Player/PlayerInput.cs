@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using JAFnetwork;
 
 public class PlayerInput : MonoBehaviour
@@ -11,14 +12,32 @@ public class PlayerInput : MonoBehaviour
 
     private float elevation = 0f;
     private float[] nextEls = new float[]{ 0f, 0f, 0f, 0f };
-    
-    [SerializeField]
-    private GameObject[] MoveButtons;
 
-    void Start() 
+    public List<GameObject> MoveButtons;
+    public GameObject upButton;
+    public GameObject downButton;
+    public GameObject leftButton;
+    public GameObject rightButton;
+
+    void Start()
     {
-        
-        
+        //Set each of the buttons to a reference of the Ui button that already exists. We need to do this because it is a prefab being instantiated and cant store references. Therefore Awake
+        upButton = GameObject.Find("MoveUp");
+        downButton = GameObject.Find("MoveDown");
+        leftButton = GameObject.Find("MoveLeft");
+        rightButton = GameObject.Find("MoveRight");
+
+
+        //In list cause easier to reference all the buttons at once
+        MoveButtons[0] = upButton;
+        MoveButtons[1] = downButton;
+        MoveButtons[2] = leftButton;
+        MoveButtons[3] = rightButton;
+
+        upButton.GetComponent<Button>().onClick.AddListener(MoveUp);
+        downButton.GetComponent<Button>().onClick.AddListener(MoveDown);
+        leftButton.GetComponent<Button>().onClick.AddListener(MoveLeft);
+        rightButton.GetComponent<Button>().onClick.AddListener(MoveRight);
     }
 
     // Update is called once per frame
@@ -71,7 +90,7 @@ public class PlayerInput : MonoBehaviour
         }
         else
         {
-            for(int i = 0; i<MoveButtons.Length; i++)
+            for(int i = 0; i<MoveButtons.Count; i++)
             {
                 MoveButtons[i].SetActive(false);
             }
@@ -122,7 +141,7 @@ public class PlayerInput : MonoBehaviour
         moveLeft = false;
         moveRight = false;
         moveUp = false;
-        for(int i=0; i < MoveButtons.Length; i++)
+        for(int i=0; i < MoveButtons.Count; i++)
         {
             MoveButtons[i].SetActive(false);
         }
@@ -176,17 +195,19 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveRight()
     {
-        ResetValidMoves();
+
+       // ResetValidMoves();
         MoveChar moveRight = new MoveChar();
         moveRight.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(1, 0, 0), new Vector3(0, 0, 0));
         moveRight.Execute();
         NetworkParser.localGameplayCommands.Enqueue(moveRight);
         elevation = nextEls[3];
+        Debug.Log("Move right ");
     }
 
     public void MoveDown()
     {
-        ResetValidMoves();
+        //ResetValidMoves();
         MoveChar moveDown = new MoveChar();
         moveDown.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, -1), new Vector3(0, 90, 0));
         moveDown.Execute();
@@ -196,7 +217,7 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveLeft()
     {
-        ResetValidMoves();
+        //ResetValidMoves();
         MoveChar moveLeft = new MoveChar();
         moveLeft.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(-1, 0, 0), new Vector3(0, 180, 0));
         moveLeft.Execute();
@@ -206,7 +227,7 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveUp()
     {
-        ResetValidMoves();
+        //ResetValidMoves();
         MoveChar moveUp = new MoveChar();
         moveUp.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, 1), new Vector3(0, 270, 0));
         moveUp.Execute();

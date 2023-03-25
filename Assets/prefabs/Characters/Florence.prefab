@@ -2516,9 +2516,10 @@ GameObject:
   - component: {fileID: 1906471611792117598}
   - component: {fileID: 1906471611792117593}
   - component: {fileID: 1906471611792117592}
+  - component: {fileID: -6387866354129915575}
   m_Layer: 0
   m_Name: Florence
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2647,12 +2648,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e451f42bc37fb24c9ff37ccea99e648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 0}
   MoveButtons:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  upButton: {fileID: 0}
+  downButton: {fileID: 0}
+  leftButton: {fileID: 0}
+  rightButton: {fileID: 0}
+--- !u!114 &-6387866354129915575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636016153040835222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f9f0642b7198774389a99f7a19da42f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions: 10
 --- !u!1 &1736684658954280707
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,35 +10,42 @@ public class networkSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public Sprite off;
     public Camera camera;
 
-    public GameObject florence;
-    public GameObject death;
-    public GameObject otherNetwork;
+    public GameObject florenceCard;
+    public GameObject florenceModel;
+    public GameObject swapButton;
+
     public GameObject ant;
-    public Vector3 florenceLocation;
-    public Vector3 deathLocation;
+
+    public GameObject otherNetwork;
+    public Vector3 florenceCardLocation;
+    public Vector3 florenceModelLocation;
+    public Vector3 swapLocation;
     public Vector3 offScreen;
 
 
-public void OnPointerEnter(PointerEventData eventData)
-   {
-         gameObject.GetComponent<Image>().sprite = on;
-   }
 
-     
-public void OnPointerExit(PointerEventData eventData)
-   {
-      gameObject.GetComponent<Image>().sprite = off;
-   }
-   
-     public void OnPointerDown(PointerEventData evemtData){
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        gameObject.GetComponent<Image>().sprite = on;
+    }
+
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        gameObject.GetComponent<Image>().sprite = off;
+    }
+
+    public void OnPointerDown(PointerEventData evemtData)
+    {
 
         camera.GetComponent<cameraMover>().select();
         transform.position = offScreen;
         otherNetwork.transform.position = offScreen;
+        florenceCard.transform.position = florenceCardLocation;
+        florenceModel.transform.position = florenceModelLocation;
+        swapButton.transform.position = swapLocation;
 
-        florence.transform.position = florenceLocation;
-        death.transform.position = deathLocation;
 
         ant.GetComponent<Lobby>().StartClient();
-   }
+    }
 }
