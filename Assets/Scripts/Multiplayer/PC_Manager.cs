@@ -36,9 +36,14 @@ public class PC_Manager : MonoBehaviour
 
     void Start()
     {
-        SetupStaticlist(MasterList, PCList);
-        SetupStaticlist(localPlayerPrefabs, staticLocalPrefabs);
-        SetupStaticlist(remotePlayerPrefabs, staticRemotePrefabs);
+        PCList = new GameObject[MasterList.Count];
+        for (int i = 0; i < PCList.Length; PCList[i] = MasterList[i], i++) ;
+
+        staticLocalPrefabs = new GameObject[localPlayerPrefabs.Count];
+        for (int i = 0; i < staticLocalPrefabs.Length; staticLocalPrefabs[i] = localPlayerPrefabs[i], i++) ;
+
+        staticRemotePrefabs = new GameObject[remotePlayerPrefabs.Count];
+        for (int i = 0; i < staticRemotePrefabs.Length; staticRemotePrefabs[i] = remotePlayerPrefabs[i], i++) ;
 
         NetworkParser.SetPCOrder(PCList[0], PCList[1]);
         NetworkParser.aGenRef = ArenaManagerRef;
@@ -51,17 +56,6 @@ public class PC_Manager : MonoBehaviour
 
     }
 
-    private void SetupStaticlist(List<GameObject> list, GameObject[] array)
-    {
-        int arraySize = list.Count;
-
-        if (arraySize < 0)
-        {
-            array = new GameObject[arraySize];
-            for (int i = 0; i < arraySize; array[i] = list[i], i++) { }
-        }
-
-    }
 
     public void ReorderPlayerCharacters(List<int> order)
     {
