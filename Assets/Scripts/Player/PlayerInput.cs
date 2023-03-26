@@ -38,6 +38,11 @@ public class PlayerInput : MonoBehaviour
         downButton.GetComponent<Button>().onClick.AddListener(MoveDown);
         leftButton.GetComponent<Button>().onClick.AddListener(MoveLeft);
         rightButton.GetComponent<Button>().onClick.AddListener(MoveRight);
+
+        upButton.SetActive(false);
+        downButton.SetActive(false);
+        leftButton.SetActive(false);
+        rightButton.SetActive(false);
     }
 
     // Update is called once per frame
@@ -196,7 +201,7 @@ public class PlayerInput : MonoBehaviour
     public void MoveRight()
     {
 
-       // ResetValidMoves();
+        ResetValidMoves();
         MoveChar moveRight = new MoveChar();
         moveRight.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(1, 0, 0), new Vector3(0, 0, 0));
         moveRight.Execute();
@@ -207,7 +212,7 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveDown()
     {
-        //ResetValidMoves();
+        ResetValidMoves();
         MoveChar moveDown = new MoveChar();
         moveDown.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, -1), new Vector3(0, 90, 0));
         moveDown.Execute();
@@ -217,7 +222,7 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveLeft()
     {
-        //ResetValidMoves();
+        ResetValidMoves();
         MoveChar moveLeft = new MoveChar();
         moveLeft.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(-1, 0, 0), new Vector3(0, 180, 0));
         moveLeft.Execute();
@@ -227,7 +232,7 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveUp()
     {
-        //ResetValidMoves();
+        ResetValidMoves();
         MoveChar moveUp = new MoveChar();
         moveUp.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, 1), new Vector3(0, 270, 0));
         moveUp.Execute();
