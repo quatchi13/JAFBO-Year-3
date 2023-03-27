@@ -19,6 +19,12 @@ public class PlayerInput : MonoBehaviour
     public GameObject leftButton;
     public GameObject rightButton;
 
+    public GameObject buttonParent;
+
+    public GameObject endTurnButton;
+
+    public bool isMyTurn;
+
     void Start()
     {
         //Set each of the buttons to a reference of the Ui button that already exists. We need to do this because it is a prefab being instantiated and cant store references. Therefore Awake
@@ -26,6 +32,8 @@ public class PlayerInput : MonoBehaviour
         downButton = GameObject.Find("MoveDown");
         leftButton = GameObject.Find("MoveLeft");
         rightButton = GameObject.Find("MoveRight");
+        buttonParent = GameObject.Find("MoveButtons");
+        endTurnButton = GameObject.Find("EndTurn");
 
 
         //In list cause easier to reference all the buttons at once
@@ -39,15 +47,23 @@ public class PlayerInput : MonoBehaviour
         leftButton.GetComponent<Button>().onClick.AddListener(MoveLeft);
         rightButton.GetComponent<Button>().onClick.AddListener(MoveRight);
 
+        endTurnButton.GetComponent<Button>().onClick.AddListener(EndTurn);
+
         upButton.SetActive(false);
         downButton.SetActive(false);
         leftButton.SetActive(false);
         rightButton.SetActive(false);
+
+        isMyTurn = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+       if(isMyTurn)
+       {
+        buttonParent.SetActive(true);
+       
         if(canMove && gameObject.GetComponent<ActionPointsManager>().actions > 0)
         {
             if (moveRight)
@@ -101,8 +117,13 @@ public class PlayerInput : MonoBehaviour
             }
         }
         
-
-            
+        
+        
+       }
+       else
+       {
+            buttonParent.SetActive(false);
+       }   
     }
 
     
@@ -150,6 +171,32 @@ public class PlayerInput : MonoBehaviour
         {
             MoveButtons[i].SetActive(false);
         }
+    }
+
+    public void DisableButtons()
+    {
+        for(int i=0; i < MoveButtons.Count; i++)
+        {
+            MoveButtons[i].SetActive(false);
+        }
+        
+    }
+
+    public void EndTurn()
+    {
+        DisableButtons();
+        isMyTurn = false;
+        if(SockFunctions.CanSend(Lobby.clientSock))
+        {
+            NetworkParser.SendGameplayQueueToBuffer();
+            Lobby.clientSock.Send(NetworkParser.outBuffer);
+        }
+        
+    }
+
+    public void StartTurn()
+    {
+        isMyTurn = true;
     }
 
     public void SetInteractState(bool state)
