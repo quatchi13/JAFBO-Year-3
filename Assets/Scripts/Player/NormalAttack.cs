@@ -45,5 +45,12 @@ public class NormalAttack : MonoBehaviour
         attackChar.Execute();
         NetworkParser.localGameplayCommands.Enqueue(attackChar);
 
+        if(remotePlayer.GetComponent<StatHolder>().stats[0] <= 0)
+        {
+            MarkPlayerAsEliminated ripRemote = new MarkPlayerAsEliminated();
+            ripRemote.Setup(NetworkParser.GetPCIndex(remotePlayer));
+            NetworkParser.SendServerCommand(ripRemote);
+        }
+
     }
 }

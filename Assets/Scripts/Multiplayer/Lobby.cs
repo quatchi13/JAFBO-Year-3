@@ -18,7 +18,7 @@ public class Lobby : MonoBehaviour
     public static bool disabled = false;
 
     public bool looping = false;
-    public float timeOut = 0.8f;
+    private float timeOut = 0.8f;
     public void StartClient()
     {
         try
@@ -71,7 +71,7 @@ public class Lobby : MonoBehaviour
                 Debug.Log("Message Received");
 
                 looping = true;
-
+                Follow.isShowingOther = true;
             }
 
 
@@ -81,31 +81,25 @@ public class Lobby : MonoBehaviour
             }
 
 
-            if (Input.GetKeyDown(KeyCode.Tab) && SockFunctions.CanSend(clientSock))
-            {
-                NetworkParser.SendGameplayQueueToBuffer();
-
-                clientSock.Send(NetworkParser.outBuffer);
-
-            }
-
             if (looping)
             {
                 if (NetworkParser.networkGameplayCommands.Count > 0)
                 {
 
                     timeOut += Time.deltaTime;
+                    Debug.Log(timeOut.ToString("0.00"));
                     if (timeOut >= 0.8f)
                     {
-                        NetworkParser.networkGameplayCommands.Peek().Execute();
-                        NetworkParser.networkGameplayCommands.Dequeue();
+                        NetworkParser.networkGameplayCommands.Dequeue().Inverse();
+                        timeOut = 0;
                     }
-                    timeOut = 0;
+                    
                 }
                 else
                 {
                     looping = false;
-                    timeOut = 0;
+                    timeOut = 0.8f;
+                    Follow.isShowingOther = false;
                 }
             }
         }

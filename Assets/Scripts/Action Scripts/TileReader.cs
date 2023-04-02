@@ -36,11 +36,8 @@ public class TileReader : MonoBehaviour
             {
                 if (other.GetComponent<ArenaTileProperties>().properties.is_walkable == true)
                 {
-                    
                     onScanEvent.Invoke();
-
                     el0.Invoke(other.GetComponent<ArenaTileProperties>().properties.elevation);
-                    
                 }
             }
             else if (scanMode == "Inverse")

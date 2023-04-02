@@ -7,7 +7,7 @@ public class FollowPosition : MonoBehaviour
 {
     [SerializeField]
     private Transform target;
-
+    public static Vector3 rot = Vector3.zero;
 
     void Start()
     {
@@ -17,5 +17,11 @@ public class FollowPosition : MonoBehaviour
     void Update()
     {
         gameObject.transform.position = target.position;
+        gameObject.transform.eulerAngles = rot;
+    }
+    public static void SetRot()
+    {
+        Debug.Log("Flipped the triggers");
+        rot = new Vector3(180, 0, 180);
     }
 }

@@ -13055,6 +13055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   specialButton: {fileID: 0}
   remotePlayer: {fileID: 0}
+  isActive: 0
 --- !u!114 &6031540337333931858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13095,6 +13096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e451f42bc37fb24c9ff37ccea99e648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visibleElevation: 0
   MoveButtons:
   - {fileID: 0}
   - {fileID: 0}
@@ -13104,6 +13106,9 @@ MonoBehaviour:
   downButton: {fileID: 0}
   leftButton: {fileID: 0}
   rightButton: {fileID: 0}
+  buttonParent: {fileID: 0}
+  endTurnButton: {fileID: 0}
+  isMyTurn: 0
 --- !u!114 &-6529197660357839364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13116,7 +13121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9f0642b7198774389a99f7a19da42f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: 10
+  actions: 0
 --- !u!1 &8003165566270216172
 GameObject:
   m_ObjectHideFlags: 0

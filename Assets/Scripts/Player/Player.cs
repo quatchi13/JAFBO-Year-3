@@ -12,11 +12,10 @@ public class Player : MonoBehaviour
 
     //create more children for individual characters (should only have attributes with getter setters!)
 
-
-    public GameObject make;
+    public GameObject[] chars = new GameObject[3];
 
     void Awake() {
-
-    Instantiate(make, new Vector3(1f,0.75f,-25f), Quaternion.identity);
+        Vector3 startPos = (GameObject_Manager.localPlayerIndex == 1) ? new Vector3(28f, 0.75f, -4f) : new Vector3(1f, 0.75f, -25f);
+        Instantiate(chars[GameObject_Manager.selectedCharacters[0]], startPos, Quaternion.identity);
     }
 }

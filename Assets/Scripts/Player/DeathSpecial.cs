@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using JAFnetwork;
 
 public class DeathSpecial : MonoBehaviour
@@ -9,17 +10,24 @@ public class DeathSpecial : MonoBehaviour
 
     public GameObject remotePlayer;
 
+    public bool isActive = false;
+
+    public int cooldown;
+    private int upTime = 2;
+
     void Start()
     {
         //Set each of the buttons to a reference of the Ui button that already exists. We need to do this because it is a prefab being instantiated and cant store references. Therefore Awake
-        remotePlayer = NetworkParser.playerCharacters[1];
+        int remInd = (GameObject_Manager.localPlayerIndex == 0) ? 1 : 0;
+        remotePlayer = NetworkParser.playerCharacters[remInd];
 
         specialButton = GameObject.Find("SpecialAttackButton");
+        specialButton.GetComponent<Button>().onClick.AddListener(Special);
     }
 
     private void Update() 
     {
-        if(gameObject.GetComponent<ActionPointsManager>().actions > 4)
+        if(gameObject.GetComponent<ActionPointsManager>().actions > 4 && cooldown <1)
         {
             specialButton.SetActive(true);
         }    
@@ -31,6 +39,11 @@ public class DeathSpecial : MonoBehaviour
 
     public void Special()
     {
-        remotePlayer.GetComponent<StatHolder>().SetMarkedState(true);
+        cooldown = upTime;
+        ChangeFlagChar flagCom = new ChangeFlagChar();
+        flagCom.Setup(NetworkParser.GetPCIndex(remotePlayer), 1, true);
+        flagCom.Execute();
+        NetworkParser.localGameplayCommands.Enqueue(flagCom);
+        isActive = true;
     }
 }

@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using JAFnetwork;
 
 public class FlorenceSpecials : MonoBehaviour
 {
     public GameObject specialButton;
+
+    public bool isActive = false;
+    
+    public int cooldown;
+    private int upTime = 2;
 
     void Awake()
     {
@@ -13,9 +20,14 @@ public class FlorenceSpecials : MonoBehaviour
         specialButton = GameObject.Find("SpecialAttackButton");
     }
 
+    private void Start()
+    {
+        specialButton.GetComponent<Button>().onClick.AddListener(Special);
+    }
+
     private void Update() 
     {
-        if(gameObject.GetComponent<ActionPointsManager>().actions > 4)
+        if(gameObject.GetComponent<ActionPointsManager>().actions > 4 && cooldown < 1)
         {
             specialButton.SetActive(true);
         }    
@@ -27,6 +39,11 @@ public class FlorenceSpecials : MonoBehaviour
 
     public void Special()
     {
-        gameObject.GetComponent<StatHolder>().SetCloakedState(true);
+        cooldown = upTime;
+        Debug.Log("cloaked");
+        ChangeFlagChar flagCommand = new ChangeFlagChar();
+        flagCommand.Setup(GameObject_Manager.localPlayerIndex, 0, true);
+        flagCommand.Execute();
+        NetworkParser.localGameplayCommands.Enqueue(flagCommand);
     }
 }

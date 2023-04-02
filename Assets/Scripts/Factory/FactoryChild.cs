@@ -54,7 +54,7 @@ public class FactoryChild : FactoryParent
         {
             var tempType = Activator.CreateInstance(type) as FactoryParent;
             tiles.Add(tempType);
-            Debug.Log(tiles.Last().Name);
+            //Debug.Log(tiles.Last().Name);
         }
 
         tileGOs = new List<GameObject>

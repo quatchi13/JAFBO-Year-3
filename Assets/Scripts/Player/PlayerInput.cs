@@ -10,7 +10,8 @@ public class PlayerInput : MonoBehaviour
 
     private bool moveUp, moveDown, moveLeft, moveRight, canInteract = false;
 
-    private float elevation = 0f;
+    public static float elevation = 0f;
+    public float visibleElevation = 0f;
     private float[] nextEls = new float[]{ 0f, 0f, 0f, 0f };
 
     public List<GameObject> MoveButtons;
@@ -23,7 +24,11 @@ public class PlayerInput : MonoBehaviour
 
     public GameObject endTurnButton;
 
+    private int cloakedCount;
+    private int markedCount;
+
     public bool isMyTurn;
+    private bool flipped = false;
 
     void Start()
     {
@@ -42,10 +47,27 @@ public class PlayerInput : MonoBehaviour
         MoveButtons[2] = leftButton;
         MoveButtons[3] = rightButton;
 
-        upButton.GetComponent<Button>().onClick.AddListener(MoveUp);
-        downButton.GetComponent<Button>().onClick.AddListener(MoveDown);
-        leftButton.GetComponent<Button>().onClick.AddListener(MoveLeft);
-        rightButton.GetComponent<Button>().onClick.AddListener(MoveRight);
+
+        if (Follow.isP2)
+        {
+            //FollowPosition.SetRot();
+            flipped = true;
+
+            upButton.GetComponent<Button>().onClick.AddListener(MoveDown);
+            downButton.GetComponent<Button>().onClick.AddListener(MoveUp);
+            leftButton.GetComponent<Button>().onClick.AddListener(MoveRight);
+            rightButton.GetComponent<Button>().onClick.AddListener(MoveLeft);
+        }
+        else
+        {
+            upButton.GetComponent<Button>().onClick.AddListener(MoveUp);
+            downButton.GetComponent<Button>().onClick.AddListener(MoveDown);
+            leftButton.GetComponent<Button>().onClick.AddListener(MoveLeft);
+            rightButton.GetComponent<Button>().onClick.AddListener(MoveRight);
+        }
+
+
+
 
         endTurnButton.GetComponent<Button>().onClick.AddListener(EndTurn);
 
@@ -60,70 +82,53 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(isMyTurn)
-       {
-        buttonParent.SetActive(true);
-       
-        if(canMove && gameObject.GetComponent<ActionPointsManager>().actions > 0)
+        if(isMyTurn)
         {
-            if (moveRight)
+            buttonParent.SetActive(true);
+            visibleElevation = elevation;
+       
+            if(canMove && gameObject.GetComponent<ActionPointsManager>().actions > 0)
             {
-                if (IsAppropriateElevation(nextEls[3]))
+                if (moveRight && IsAppropriateElevation(nextEls[/**/3])) 
                 {
-                    MoveButtons[3].SetActive(true);
-                    //MoveRight();
+                    MoveButtons[(flipped)?2:3].SetActive(true);
                 }
-                
-                
-            }
 
-            if (moveDown)
-            {
-                if (IsAppropriateElevation(nextEls[1]))
+                if (moveDown && IsAppropriateElevation(nextEls[/**/1]))
                 {
-                    MoveButtons[1].SetActive(true);
-                    //MoveDown();
+                    MoveButtons[(flipped) ? 0 : 1].SetActive(true);
                 }
-            }
 
-            if (moveLeft)
-            {
-                if (IsAppropriateElevation(nextEls[2]))
+                if (moveLeft && IsAppropriateElevation(nextEls[/**/2]))
                 {
-                    MoveButtons[2].SetActive(true);
-                   //MoveLeft();
+                    MoveButtons[(flipped) ? 3 : 2].SetActive(true);
                 }
-            }
 
-            if (moveUp)
-            {
-                if (IsAppropriateElevation(nextEls[0]))
+                if (moveUp && IsAppropriateElevation(nextEls[/**/0]))
                 {
-                    MoveButtons[0].SetActive(true);
-                    //MoveUp();
+                    MoveButtons[(flipped) ? 1 : 0].SetActive(true);
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space) && canInteract)
+                {
+                    Debug.Log ("Interaction");
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.Space) && canInteract)
+            else
             {
-                Debug.Log ("Interaction");
+                for(int i = 0; i<MoveButtons.Count; i++)
+                {
+                    MoveButtons[i].SetActive(false);
+                }
             }
+        
+        
+        
         }
         else
         {
-            for(int i = 0; i<MoveButtons.Count; i++)
-            {
-                MoveButtons[i].SetActive(false);
-            }
-        }
-        
-        
-        
-       }
-       else
-       {
             buttonParent.SetActive(false);
-       }   
+        }   
     }
 
     
@@ -173,6 +178,11 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    public void ResetElevations()
+    {
+        for (int i = 0; i < 4; nextEls[i] = 2, i++) ;
+    }
+
     public void DisableButtons()
     {
         for(int i=0; i < MoveButtons.Count; i++)
@@ -184,12 +194,53 @@ public class PlayerInput : MonoBehaviour
 
     public void EndTurn()
     {
+        GetComponent<ActionPointsManager>().AlterActionNumber(-100);
         DisableButtons();
         isMyTurn = false;
         if(SockFunctions.CanSend(Lobby.clientSock))
         {
             NetworkParser.SendGameplayQueueToBuffer();
             Lobby.clientSock.Send(NetworkParser.outBuffer);
+            NetworkParser.outBuffer = new byte[1024];
+            Debug.Log("sent");
+        }
+        if(gameObject.GetComponent<FlorenceSpecials>() != null)
+        {
+            gameObject.GetComponent<FlorenceSpecials>().cooldown--;
+        } 
+        else if(gameObject.GetComponent<DeathSpecial>() != null)
+        {
+            gameObject.GetComponent<DeathSpecial>().cooldown--;
+        }
+        else if(gameObject.GetComponent<LifeSpecial>() != null)
+        {
+            gameObject.GetComponent<LifeSpecial>().cooldown--;
+        }  
+
+        if(gameObject.GetComponent<StatHolder>().statuses[0])
+        {
+            if(cloakedCount > 0)
+            {
+                gameObject.GetComponent<StatHolder>().statuses[0] = false;
+                cloakedCount = 0;
+            }
+            else
+            {
+                cloakedCount++;
+            }
+        }
+
+        if(gameObject.GetComponent<StatHolder>().statuses[1])
+        {
+            if(markedCount > 0)
+            {
+                gameObject.GetComponent<StatHolder>().statuses[1] = false;
+                markedCount = 0;
+            }
+            else
+            {
+                markedCount++;
+            }
         }
         
     }
@@ -231,7 +282,7 @@ public class PlayerInput : MonoBehaviour
         nextEls[3] = e;
     }
 
-    private bool IsAppropriateElevation(float next_elevation)
+    public static bool IsAppropriateElevation(float next_elevation)
     {
         float diff = (next_elevation - elevation);
         if (diff < 0) diff *= -1;
@@ -250,40 +301,59 @@ public class PlayerInput : MonoBehaviour
 
         ResetValidMoves();
         MoveChar moveRight = new MoveChar();
-        moveRight.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(1, 0, 0), new Vector3(0, 0, 0));
+        moveRight.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(1, 0, 0), new Vector3(0, 90, 0));
+
+        int ind = (flipped)?2:3;
+        elevation = nextEls[3];
+        Debug.Log("Player Elevation: " + elevation.ToString());
+        //ResetElevations();
+
         moveRight.Execute();
         NetworkParser.localGameplayCommands.Enqueue(moveRight);
-        elevation = nextEls[3];
-        Debug.Log("Move right ");
     }
 
     public void MoveDown()
     {
         ResetValidMoves();
         MoveChar moveDown = new MoveChar();
-        moveDown.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, -1), new Vector3(0, 90, 0));
+        moveDown.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, -1), new Vector3(0, 180, 0));
+
+        int ind = (flipped)?0:1;
+        elevation = nextEls[ind];
+        Debug.Log("Player Elevation: " + elevation.ToString());
+        //ResetElevations();
+
         moveDown.Execute();
         NetworkParser.localGameplayCommands.Enqueue(moveDown);
-        elevation = nextEls[1];
     }
 
     public void MoveLeft()
     {
         ResetValidMoves();
         MoveChar moveLeft = new MoveChar();
-        moveLeft.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(-1, 0, 0), new Vector3(0, 180, 0));
+        moveLeft.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(-1, 0, 0), new Vector3(0, 270, 0));
+
+        int ind = (flipped)?3:2;
+        elevation = nextEls[ind];
+        Debug.Log("Player Elevation: " + elevation.ToString());
+        //ResetElevations();
+
         moveLeft.Execute();
         NetworkParser.localGameplayCommands.Enqueue(moveLeft);
-        elevation = nextEls[2];
     }
 
     public void MoveUp()
     {
         ResetValidMoves();
         MoveChar moveUp = new MoveChar();
-        moveUp.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, 1), new Vector3(0, 270, 0));
+        moveUp.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, 1), new Vector3(0, 0, 0));
+        
+        int ind = (flipped)?1:0;
+        elevation = nextEls[ind];
+        Debug.Log("Player Elevation: " + elevation.ToString());
+        //ResetElevations();
+        
         moveUp.Execute();
         NetworkParser.localGameplayCommands.Enqueue(moveUp);
-        elevation = nextEls[0];
     }
 }

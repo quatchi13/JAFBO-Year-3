@@ -834,6 +834,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   specialButton: {fileID: 0}
+  isActive: 0
+  cooldown: 0
 --- !u!114 &2945833305021577876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -846,7 +848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40bc1dc19febc6144bc72949eb1434a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: 010000000100000001000000
+  stats: 7d0000004600000003000000
   statuses: 0000
 --- !u!114 &8238835587029255582
 MonoBehaviour:
@@ -860,6 +862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e451f42bc37fb24c9ff37ccea99e648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visibleElevation: 0
   MoveButtons:
   - {fileID: 0}
   - {fileID: 0}
@@ -869,6 +872,9 @@ MonoBehaviour:
   downButton: {fileID: 0}
   leftButton: {fileID: 0}
   rightButton: {fileID: 0}
+  buttonParent: {fileID: 0}
+  endTurnButton: {fileID: 0}
+  isMyTurn: 0
 --- !u!114 &748543470615789648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -881,7 +887,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9f0642b7198774389a99f7a19da42f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: 10
+  actionsText: {fileID: 0}
+  healthText: {fileID: 0}
+  actions: 0
 --- !u!114 &5990112574150380905
 MonoBehaviour:
   m_ObjectHideFlags: 0

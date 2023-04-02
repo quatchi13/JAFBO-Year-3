@@ -41,50 +41,55 @@ namespace JAFnetwork
             new MoveChar(),
             new BasicAttackChar(),
             new ChangeStatChar(),
-            new ChangeFlagChar()
+            new ChangeFlagChar(), 
+            new EliminateChar()
         };
         private static ServerCommand[] serverCommandTypes = new ServerCommand[]
         {
-            new ArenaSetupCommand(), new CharacterOrderCommand(), new ReadyCommand(), new StartTurnCommand(), new StartGameCommand()
+            new ArenaSetupCommand(),//received
+            new CharSelectionsAndPlayerIndex(),//received
+            new ReadyCommand(),//sent
+            new StartTurnCommand(),//received
+            new StartGameCommand(),//received
+            new SetCharacterOrder(),//received
+            new MarkPlayerAsEliminated()//sent
         };
 
 
 
 
 
-        public static byte[] CommandToByteBlock(NetCommand netCom)
+        
+        public static void SendServerCommand(ServerCommand sCom)
         {
-            int obSize = Marshal.SizeOf(netCom);
-            Debug.Log("size of this object: " + obSize.ToString());
-            byte[] byteBlock = new byte[obSize + 2];
-            TheWorldsMostUnnecessaryStructure str = new TheWorldsMostUnnecessaryStructure();
-            str.Set(netCom.ComIndex());
-            Buffer.BlockCopy(str.ToBytes(), 0, byteBlock, 0, 2);
+            byte[] commandBlock = NetComBuilders.ServComToByteBlock(sCom);
+            byte[] outBlock = new byte[2 + commandBlock.Length];
+            Buffer.BlockCopy(commandBlock, 0, outBlock, 2, commandBlock.Length);
+            TheWorldsMostUnnecessaryStructure ind = new TheWorldsMostUnnecessaryStructure();
+            ind.Set(2);
+            byte[] indBytes = ind.ToBytes();
+            Buffer.BlockCopy(indBytes, 0, outBlock, 0, 2);
 
-            IntPtr memPoint = Marshal.AllocHGlobal(obSize);
-            Marshal.StructureToPtr(netCom, memPoint, false);
-            Marshal.Copy(memPoint, byteBlock, 2, obSize);
-            Marshal.FreeHGlobal(memPoint);
-
-            return byteBlock;
+            if (SockFunctions.CanSend(Lobby.clientSock)) Lobby.clientSock.Send(outBlock);
         }
-
 
         public static void SendGameplayQueueToBuffer()
         {
             TheWorldsMostUnnecessaryStructure str = new TheWorldsMostUnnecessaryStructure();
             str.Set(1);
-            Debug.Log(str.val.ToString());
-            Array.Copy(str.ToBytes(), 0, outBuffer, 0, 2);
+            byte[] tempOBuff = new byte[1024];
+            Array.Copy(str.ToBytes(), 0, tempOBuff, 0, 2);
             TheWorldsMostUnnecessaryStructure y = new TheWorldsMostUnnecessaryStructure();
             y.Set((short)localGameplayCommands.Count);
-            Buffer.BlockCopy(y.ToBytes(), 0, outBuffer, 2, 2);
+            Buffer.BlockCopy(y.ToBytes(), 0, tempOBuff, 2, 2);
             int offset = 4;
             byte[] tBuff = new byte[1];
             for (; localGameplayCommands.Count > 0;
-                tBuff = CommandToByteBlock(localGameplayCommands.Dequeue()),
-                Array.Copy(tBuff, 0, outBuffer, offset, tBuff.Length),
+                tBuff = NetComBuilders.CommandToByteBlock(localGameplayCommands.Dequeue()),
+                Buffer.BlockCopy(tBuff, 0, tempOBuff, offset, tBuff.Length),
                 offset += tBuff.Length) { }
+            outBuffer = new byte[offset];
+            Buffer.BlockCopy(tempOBuff, 0, outBuffer, 0, offset);
 
         }
 
@@ -115,11 +120,25 @@ namespace JAFnetwork
                         Debug.Log("Queueing up some movement");
                         tempComList.Push(NetComBuilders.BytesToNetCom(comBuff, new MoveChar()));
                         networkGameplayCommands.Enqueue(tempComList.Peek());
-                        //tempComList.Peek().Inverse();
                         break;
                     case (1):
                         Debug.Log("Queueing up some attacking");
                         tempComList.Push(NetComBuilders.BytesToNetCom(comBuff, new BasicAttackChar()));
+                        networkGameplayCommands.Enqueue(tempComList.Peek());
+                        break;
+                    case (2):
+                        Debug.Log("Queueing up a stat change");
+                        tempComList.Push(NetComBuilders.BytesToNetCom(comBuff, new ChangeStatChar()));
+                        networkGameplayCommands.Enqueue(tempComList.Peek());
+                        break;
+                    case (3):
+                        Debug.Log("Queueing up a flag change");
+                        tempComList.Push(NetComBuilders.BytesToNetCom(comBuff, new ChangeFlagChar()));
+                        networkGameplayCommands.Enqueue(tempComList.Peek());
+                        break;
+                    case (4):
+                        Debug.Log("Queueing up a CHARACTER ELIMINATION :O");
+                        tempComList.Push(NetComBuilders.BytesToNetCom(comBuff, new EliminateChar()));
                         networkGameplayCommands.Enqueue(tempComList.Peek());
                         break;
                     default:
@@ -129,8 +148,8 @@ namespace JAFnetwork
                 offset += comBuff.Length;
                 //networkGameplayCommands.Enqueue(tempComList.Peek());
 
-
             }
+            Debug.Log("finished parsing external gameplay commands");
         }
 
         public static void ProcessServerCommandBlock(byte[] buff)
@@ -154,6 +173,7 @@ namespace JAFnetwork
                 TheWorldsMostUnnecessaryStructure curType = NetComBuilders.BytesToShortStuff(cT);
                 Debug.Log("Server command type: " + curType.val.ToString());
                 comBuff = new byte[Marshal.SizeOf(serverCommandTypes[curType.val])];
+                Debug.Log("Command size: " + comBuff.Length);
                 if (comBuff.Length == 0) comBuff = new byte[2];
                 Array.Copy(buff, offset, comBuff, 0, comBuff.Length);
 
@@ -163,11 +183,10 @@ namespace JAFnetwork
                         Debug.Log("Server command: Make arena");
                         tempComList.Push(NetComBuilders.BytesToServerCom(comBuff, new ArenaSetupCommand()));
                         serverCommandQueue.Enqueue(tempComList.Peek());
-                        //tempComList.Peek().Inverse();
                         break;
                     case (1):
-                        Debug.Log("Server command: Setup characters");
-                        tempComList.Push(NetComBuilders.BytesToServerCom(comBuff, new CharacterOrderCommand()));
+                        Debug.Log("Server command: Receive selected Characters");
+                        tempComList.Push(NetComBuilders.BytesToServerCom(comBuff, new CharSelectionsAndPlayerIndex()));
                         serverCommandQueue.Enqueue(tempComList.Peek());
                         break;
                     case (3):
@@ -176,8 +195,13 @@ namespace JAFnetwork
                         serverCommandQueue.Enqueue(tempComList.Peek());
                         break;
                     case (4):
-                        Debug.Log("Server command: Init game");
+                        Debug.Log("Server command: Load Main Scene");
                         tempComList.Push(NetComBuilders.BytesToServerCom(comBuff, new StartGameCommand()));
+                        serverCommandQueue.Enqueue(tempComList.Peek());
+                        break;
+                    case (5):
+                        Debug.Log("Server command: Reorder characters");
+                        tempComList.Push(NetComBuilders.BytesToServerCom(comBuff, new SetCharacterOrder()));
                         serverCommandQueue.Enqueue(tempComList.Peek());
                         break;
                     default:
@@ -186,6 +210,7 @@ namespace JAFnetwork
                 }
                 offset += comBuff.Length;
             }
+            Debug.Log("finished parsing server commands");
         }
 
         public static void ParseCommandBlock(byte[] rawBytes)
@@ -221,13 +246,20 @@ namespace JAFnetwork
 
         public static void SetLocalCharacter(GameObject replace, short index)
         {
-            playerCharacters[GetPCIndex(replace)] = GameObject.Instantiate(PC_Manager.staticLocalPrefabs[index], replace.transform);
+            playerCharacters[GetPCIndex(replace)] = GameObject.Instantiate(GameObject_Manager.staticLocalPrefabs[index], replace.transform);
 
         }
 
         public static void SetRemoteCharacter(GameObject replace, short index)
         {
-            playerCharacters[GetPCIndex(replace)] = GameObject.Instantiate(PC_Manager.staticRemotePrefabs[index], replace.transform);
+            playerCharacters[GetPCIndex(replace)] = GameObject.Instantiate(GameObject_Manager.staticRemotePrefabs[index], replace.transform);
+        }
+
+
+        public static void SetCharacter(GameObject replace, short index)
+        {
+            GameObject template = (GetPCIndex(replace) == GameObject_Manager.localPlayerIndex) ? GameObject_Manager.staticLocalPrefabs[index] : GameObject_Manager.staticRemotePrefabs[index];
+            playerCharacters[GetPCIndex(replace)] = GameObject.Instantiate(template, replace.transform.position, Quaternion.identity);
         }
     }
 }

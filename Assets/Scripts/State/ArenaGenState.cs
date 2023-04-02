@@ -59,10 +59,10 @@ namespace StatePattern {
                         currentTile.GetComponent<ArenaTileProperties>().properties = (new BasicDestructableTile(ArenaTileType.BARREL));
                     }else if(thisBitch < 15)
                     {
-                        currentTile.GetComponent<ArenaTileProperties>().properties = (new BasicIndestructableTile(ArenaTileType.CLIFF_BACK, thisBitch - 12, true, false, 0.5f));
+                        currentTile.GetComponent<ArenaTileProperties>().properties = (new BasicIndestructableTile(ArenaTileType.CLIFF_BACK, thisBitch - 12, false, false, 0.5f));
                     }else if(thisBitch < 21)
                     {
-                        currentTile.GetComponent<ArenaTileProperties>().properties = (new BasicIndestructableTile(ArenaTileType.CLIFF_FRONT, thisBitch - 15, true, false, 1f));
+                        currentTile.GetComponent<ArenaTileProperties>().properties = (new BasicIndestructableTile(ArenaTileType.CLIFF_FRONT, thisBitch - 15, false, false, 1f));
                     }
                     else
                     {

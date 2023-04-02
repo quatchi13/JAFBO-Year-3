@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using JAFnetwork;
 
 public class LifeSpecial : MonoBehaviour
 {
     public GameObject specialButton;
+    public bool isActive = false;
+
+    public int cooldown;
+    private int upTime = 2;
 
     void Awake()
     {
@@ -13,9 +19,14 @@ public class LifeSpecial : MonoBehaviour
         specialButton = GameObject.Find("SpecialAttackButton");
     }
 
+    private void Start()
+    {
+        specialButton.GetComponent<Button>().onClick.AddListener(Special);
+    }
+
     private void Update() 
     {
-        if(gameObject.GetComponent<ActionPointsManager>().actions > 4)
+        if(gameObject.GetComponent<ActionPointsManager>().actions > 4 && cooldown < 1)
         {
             specialButton.SetActive(true);
         }    
@@ -27,6 +38,11 @@ public class LifeSpecial : MonoBehaviour
 
     public void Special()
     {
-        gameObject.GetComponent<StatHolder>().Heal(32);
+        cooldown = upTime;
+        ChangeStatChar statCom = new ChangeStatChar();
+        statCom.Setup(GameObject_Manager.localPlayerIndex, 0, 32);
+        statCom.Execute();
+        NetworkParser.localGameplayCommands.Enqueue(statCom);
+        isActive = true;
     }
 }

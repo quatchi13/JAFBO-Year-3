@@ -64,11 +64,11 @@ namespace ArenaGenerators {
                 }
                 else
                 {
-                    UnityEngine.Debug.Log("placed cliffs: " + placedCliffs.Count);
+                    
                     for (int j = 0; j < placedCliffs.Count; j++)
                     {
                         int xDist = BasicBuilderFunctions.CalculateStride(cliffStart, placedCliffs[j], true);
-                        UnityEngine.Debug.Log("x stride: " + xDist);
+                       
                         if (xDist < 0)
                         {
                             xDist *= -1;
@@ -85,7 +85,6 @@ namespace ArenaGenerators {
                             if (yDist < 4)
                             {
                                 j = placedCliffs.Count;
-                                UnityEngine.Debug.Log("failed");
                             }
                         }
 
