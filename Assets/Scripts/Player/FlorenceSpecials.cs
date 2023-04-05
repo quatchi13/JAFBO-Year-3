@@ -13,6 +13,8 @@ public class FlorenceSpecials : MonoBehaviour
     public int cooldown;
     private int upTime = 2;
 
+    private Animator anim;
+
     void Awake()
     {
         //Set each of the buttons to a reference of the Ui button that already exists. We need to do this because it is a prefab being instantiated and cant store references. Therefore Awake
@@ -23,6 +25,7 @@ public class FlorenceSpecials : MonoBehaviour
     private void Start()
     {
         specialButton.GetComponent<Button>().onClick.AddListener(Special);
+        anim = GetComponent<Animator>();
     }
 
     private void Update() 
@@ -39,6 +42,10 @@ public class FlorenceSpecials : MonoBehaviour
 
     public void Special()
     {
+        anim.Play("Layer 1.Special 1", 0, 0);
+        anim.Play("Layer 2.Special 1 1", 0, 0);
+        anim.Play("Layer 3.Special 1 2", 0, 0);
+        anim.Play("Layer 4.Special 1 3", 0, 0);
         cooldown = upTime;
         Debug.Log("cloaked");
         ChangeFlagChar flagCommand = new ChangeFlagChar();

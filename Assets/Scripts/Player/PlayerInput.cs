@@ -24,6 +24,8 @@ public class PlayerInput : MonoBehaviour
 
     public GameObject endTurnButton;
 
+    private Animator anim;
+
     private int cloakedCount;
     private int markedCount;
 
@@ -39,7 +41,7 @@ public class PlayerInput : MonoBehaviour
         rightButton = GameObject.Find("MoveRight");
         buttonParent = GameObject.Find("MoveButtons");
         endTurnButton = GameObject.Find("EndTurn");
-
+        anim = GetComponent<Animator>();
 
         //In list cause easier to reference all the buttons at once
         MoveButtons[0] = upButton;
@@ -298,6 +300,10 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveRight()
     {
+        anim.Play("Layer 1.Walk", 0, 0);
+        anim.Play("Layer 2.Walk 1", 0, 0);
+        anim.Play("Layer 3.Walk 2", 0, 0);
+        anim.Play("Layer 4.Walk 3", 0, 0);
 
         ResetValidMoves();
         MoveChar moveRight = new MoveChar();
@@ -314,6 +320,11 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveDown()
     {
+        anim.Play("Layer 1.Walk", 0, 0);
+        anim.Play("Layer 2.Walk 1", 0, 0);
+        anim.Play("Layer 3.Walk 2", 0, 0);
+        anim.Play("Layer 4.Walk 3", 0, 0);
+
         ResetValidMoves();
         MoveChar moveDown = new MoveChar();
         moveDown.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, -1), new Vector3(0, 180, 0));
@@ -329,6 +340,11 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveLeft()
     {
+        anim.Play("Layer 1.Walk", 0, 0);
+        anim.Play("Layer 2.Walk 1", 0, 0);
+        anim.Play("Layer 3.Walk 2", 0, 0);
+        anim.Play("Layer 4.Walk 3", 0, 0);
+
         ResetValidMoves();
         MoveChar moveLeft = new MoveChar();
         moveLeft.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(-1, 0, 0), new Vector3(0, 270, 0));
@@ -344,6 +360,11 @@ public class PlayerInput : MonoBehaviour
 
     public void MoveUp()
     {
+        anim.Play("Layer 1.Walk", 0, 0);
+        anim.Play("Layer 2.Walk 1", 0, 0);
+        anim.Play("Layer 3.Walk 2", 0, 0);
+        anim.Play("Layer 4.Walk 3", 0, 0);
+        
         ResetValidMoves();
         MoveChar moveUp = new MoveChar();
         moveUp.Setup(NetworkParser.GetPCIndex(gameObject), new Vector3(0, 0, 1), new Vector3(0, 0, 0));

@@ -12,6 +12,8 @@ public class LifeSpecial : MonoBehaviour
     public int cooldown;
     private int upTime = 2;
 
+    private Animator anim;
+
     void Awake()
     {
         //Set each of the buttons to a reference of the Ui button that already exists. We need to do this because it is a prefab being instantiated and cant store references. Therefore Awake
@@ -22,6 +24,7 @@ public class LifeSpecial : MonoBehaviour
     private void Start()
     {
         specialButton.GetComponent<Button>().onClick.AddListener(Special);
+        anim = GetComponent<Animator>();
     }
 
     private void Update() 
@@ -38,6 +41,10 @@ public class LifeSpecial : MonoBehaviour
 
     public void Special()
     {
+        anim.Play("Layer 1.Special 1", 0, 0);
+        anim.Play("Layer 2.Special 1 1", 0, 0);
+        anim.Play("Layer 3.Special 1 2", 0, 0);
+        anim.Play("Layer 4.Special 1 3", 0, 0);
         cooldown = upTime;
         ChangeStatChar statCom = new ChangeStatChar();
         statCom.Setup(GameObject_Manager.localPlayerIndex, 0, 32);

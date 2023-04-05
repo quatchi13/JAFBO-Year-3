@@ -10,6 +10,8 @@ public class NormalAttack : MonoBehaviour
 
     public GameObject attackButton;
 
+    private Animator anim;
+
     void Start()
     {
         //Set each of the buttons to a reference of the Ui button that already exists. We need to do this because it is a prefab being instantiated and cant store references. Therefore Awake
@@ -17,6 +19,8 @@ public class NormalAttack : MonoBehaviour
         remotePlayer = GameObject.FindWithTag("OtherPlayer");
 
         attackButton = GameObject.Find("AttackButton");
+
+        anim = GetComponent<Animator>();
 
         attackButton.GetComponent<Button>().onClick.AddListener(Attack);
         
@@ -39,6 +43,10 @@ public class NormalAttack : MonoBehaviour
     public void Attack()
     {
         Debug.Log("Smek");
+        anim.Play("Layer 1.Basic Attack", 0, 0);
+        anim.Play("Layer 2.Basic Attack 1", 0, 0);
+        anim.Play("Layer 3.Basic Attack 2", 0, 0);
+        anim.Play("Layer 4.Basic Attack 3", 0, 0);
         remotePlayer.GetComponent<StatHolder>().InflictDamage(gameObject.GetComponent<StatHolder>().stats[2]);
         BasicAttackChar attackChar = new BasicAttackChar();
         attackChar.Setup(NetworkParser.GetPCIndex(gameObject), NetworkParser.GetPCIndex(remotePlayer), new Vector3 (0,0,0));
