@@ -15,6 +15,8 @@ public class FlorenceSpecials : MonoBehaviour
 
     private Animator anim;
 
+     public GameObject sound;
+
     void Awake()
     {
         //Set each of the buttons to a reference of the Ui button that already exists. We need to do this because it is a prefab being instantiated and cant store references. Therefore Awake
@@ -26,6 +28,7 @@ public class FlorenceSpecials : MonoBehaviour
     {
         specialButton.GetComponent<Button>().onClick.AddListener(Special);
         anim = GetComponent<Animator>();
+        sound = GameObject.Find("SoundManager");
     }
 
     private void Update() 
@@ -52,5 +55,6 @@ public class FlorenceSpecials : MonoBehaviour
         flagCommand.Setup(GameObject_Manager.localPlayerIndex, 0, true);
         flagCommand.Execute();
         NetworkParser.localGameplayCommands.Enqueue(flagCommand);
+         sound.GetComponent<SoundManager>().FlorSound();  
     }
 }

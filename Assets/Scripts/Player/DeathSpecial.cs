@@ -17,6 +17,8 @@ public class DeathSpecial : MonoBehaviour
 
     private Animator anim;
 
+     public GameObject sound;
+
     void Start()
     {
         //Set each of the buttons to a reference of the Ui button that already exists. We need to do this because it is a prefab being instantiated and cant store references. Therefore Awake
@@ -27,6 +29,7 @@ public class DeathSpecial : MonoBehaviour
         specialButton.GetComponent<Button>().onClick.AddListener(Special);
 
         anim = GetComponent<Animator>();
+        sound = GameObject.Find("SoundManager");
     }
 
     private void Update() 
@@ -53,5 +56,6 @@ public class DeathSpecial : MonoBehaviour
         flagCom.Execute();
         NetworkParser.localGameplayCommands.Enqueue(flagCom);
         isActive = true;
+         sound.GetComponent<SoundManager>().DeathSound();  
     }
 }

@@ -14,6 +14,8 @@ public class PlayerInput : MonoBehaviour
     public float visibleElevation = 0f;
     private float[] nextEls = new float[]{ 0f, 0f, 0f, 0f };
 
+    public GameObject sound;
+
     public List<GameObject> MoveButtons;
     public GameObject upButton;
     public GameObject downButton;
@@ -79,6 +81,8 @@ public class PlayerInput : MonoBehaviour
         rightButton.SetActive(false);
 
         isMyTurn = true;
+
+        sound = GameObject.Find("SoundManager");
     }
 
     // Update is called once per frame
@@ -316,6 +320,8 @@ public class PlayerInput : MonoBehaviour
 
         moveRight.Execute();
         NetworkParser.localGameplayCommands.Enqueue(moveRight);
+
+        sound.GetComponent<SoundManager>().WalkSound();    
     }
 
     public void MoveDown()
@@ -336,6 +342,7 @@ public class PlayerInput : MonoBehaviour
 
         moveDown.Execute();
         NetworkParser.localGameplayCommands.Enqueue(moveDown);
+         sound.GetComponent<SoundManager>().WalkSound();  
     }
 
     public void MoveLeft()
@@ -356,6 +363,7 @@ public class PlayerInput : MonoBehaviour
 
         moveLeft.Execute();
         NetworkParser.localGameplayCommands.Enqueue(moveLeft);
+         sound.GetComponent<SoundManager>().WalkSound();  
     }
 
     public void MoveUp()
@@ -376,5 +384,6 @@ public class PlayerInput : MonoBehaviour
         
         moveUp.Execute();
         NetworkParser.localGameplayCommands.Enqueue(moveUp);
+         sound.GetComponent<SoundManager>().WalkSound();  
     }
 }

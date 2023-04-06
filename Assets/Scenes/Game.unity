@@ -3314,6 +3314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1480329542}
   - component: {fileID: 1480329541}
+  - component: {fileID: 1480329543}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -3432,6 +3433,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1480329543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480329540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71192ffd060c3dc4f8a06b15c1b5e742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walk: {fileID: 8300000, guid: 9f881f2b50f08ce468a2aedd05ee5aab, type: 3}
+  attack: {fileID: 8300000, guid: 2df932278d959b4419657e412a3aa738, type: 3}
+  death: {fileID: 8300000, guid: b67a95017d8417843bf020f4c3e29456, type: 3}
+  florence: {fileID: 8300000, guid: 14b9c619fbbf9a4428ed26b8c9fc840a, type: 3}
+  life: {fileID: 8300000, guid: 6730d6c5c613f21478cd66b51e8e8937, type: 3}
+  manager: {fileID: 1480329541}
 --- !u!1 &1483494267
 GameObject:
   m_ObjectHideFlags: 0

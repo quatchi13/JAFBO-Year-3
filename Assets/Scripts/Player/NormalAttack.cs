@@ -11,6 +11,7 @@ public class NormalAttack : MonoBehaviour
     public GameObject attackButton;
 
     private Animator anim;
+     public GameObject sound;
 
     void Start()
     {
@@ -25,6 +26,8 @@ public class NormalAttack : MonoBehaviour
         attackButton.GetComponent<Button>().onClick.AddListener(Attack);
         
         attackButton.SetActive(false);
+
+        sound = GameObject.Find("SoundManager");
     }
     
 
@@ -59,6 +62,7 @@ public class NormalAttack : MonoBehaviour
             ripRemote.Setup(NetworkParser.GetPCIndex(remotePlayer));
             NetworkParser.SendServerCommand(ripRemote);
         }
+         sound.GetComponent<SoundManager>().HitSound();  
 
     }
 }

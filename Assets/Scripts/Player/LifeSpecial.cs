@@ -13,6 +13,7 @@ public class LifeSpecial : MonoBehaviour
     private int upTime = 2;
 
     private Animator anim;
+     public GameObject sound;
 
     void Awake()
     {
@@ -25,6 +26,8 @@ public class LifeSpecial : MonoBehaviour
     {
         specialButton.GetComponent<Button>().onClick.AddListener(Special);
         anim = GetComponent<Animator>();
+
+        sound = GameObject.Find("SoundManager");
     }
 
     private void Update() 
@@ -51,5 +54,6 @@ public class LifeSpecial : MonoBehaviour
         statCom.Execute();
         NetworkParser.localGameplayCommands.Enqueue(statCom);
         isActive = true;
+         sound.GetComponent<SoundManager>().LifeSound();  
     }
 }
